@@ -1,10 +1,15 @@
 package com.example.demo;
 
+import com.linecorp.bot.client.LineMessagingServiceBuilder;
+import com.linecorp.bot.model.Multicast;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.jsoup.Jsoup;
@@ -16,8 +21,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
+import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -36,6 +43,28 @@ public class DemoApplication {
 		System.out.println("This will run immediately");
 		String result = (String) future.get();
 		System.out.println("Result is : " + result);
+		pushMessage("JANGKRIK KOWE YO!");
+	}
+
+	public static void pushMessage(String message){
+		TextMessage textMessage = new TextMessage(message);
+		PushMessage pushMessage = new PushMessage(
+				"<to>",
+				textMessage
+		);
+
+		Response<BotApiResponse> response =
+				null;
+		try {
+			response = LineMessagingServiceBuilder
+                    .create("<channel access token>")
+                    .build()
+                    .pushMessage(pushMessage)
+                    .execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(response.code() + " " + response.message());
 	}
 
 	public Document GetConnection() {
