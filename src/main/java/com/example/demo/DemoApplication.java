@@ -138,6 +138,7 @@ public class DemoApplication {
 			replyMsg = new TextMessage(GetDate());
 		} else if(msg.getMessage().getText().equals("deskripsi")){
 			replyMsg = new TextMessage(GetDescription());
+			System.out.println("Deskripsi : " + GetDescription());
 		} else if(msg.getMessage().getText().equals("judul")){
 			replyMsg = new TextMessage(GetTitle());
 		} else{
