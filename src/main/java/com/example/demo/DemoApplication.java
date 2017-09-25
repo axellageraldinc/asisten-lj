@@ -38,18 +38,20 @@ public class DemoApplication {
 		System.out.println("Hello from method main...");
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
-		System.out.println("About to run...");
-		Future future = testAsyncClass.sendResponse();
-		System.out.println("This will run immediately");
-		String result = (String) future.get();
-		System.out.println("Result is : " + result);
-		pushMessage("JANGKRIK KOWE YO!");
+		Future future = testAsyncClass.getUpdate();
+		String update = future.get().toString();
+		System.out.println("UPDATE : " + update);
+//		System.out.println("About to run...");
+//		Future future = testAsyncClass.sendResponse();
+//		System.out.println("This will run immediately");
+//		String result = (String) future.get();
+//		System.out.println("Result is : " + result);
 	}
 
-	public static void pushMessage(String message){
+	public void pushMessage(String userId, String message){
 		TextMessage textMessage = new TextMessage(message);
 		PushMessage pushMessage = new PushMessage(
-				"<to>",
+				userId,
 				textMessage
 		);
 
@@ -57,7 +59,7 @@ public class DemoApplication {
 				null;
 		try {
 			response = LineMessagingServiceBuilder
-                    .create("<channel access token>")
+                    .create("u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=")
                     .build()
                     .pushMessage(pushMessage)
                     .execute();

@@ -36,6 +36,7 @@ public class TestAsyncClass {
             if(firstTrIdAsync!=firstTrId){
                 newArticle = "PENGUMUMAN BARU!!!\n\n" + demo.GetTitle() + "\n" + demo.GetDate() + "\n" +
                         demo.GetCategory() + "\n" + demo.GetDescription();
+                firstTrId = demo.firstId();
             }
             Thread.sleep(5000);
         }
