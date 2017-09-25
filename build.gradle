@@ -25,6 +25,8 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
+	// jsoup HTML parser library @ https://jsoup.org/
+	compile 'org.jsoup:jsoup:1.10.3'
 	compile ('com.linecorp.bot:line-bot-spring-boot:1.10.0')
 	compile ('com.linecorp.bot:line-bot-servlet:1.10.0')
 	compile ('com.linecorp.bot:line-bot-model:1.10.0')
