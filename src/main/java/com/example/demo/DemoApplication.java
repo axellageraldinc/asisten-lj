@@ -57,7 +57,23 @@ public class DemoApplication {
 			Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
 			Elements indexBody = tableRow.select("td:eq(2)");
 			for (Element row:indexBody){
-				date = row.select("span.hidden-md.hidden-lg.visible-sm.visible-xs > br").text();
+				String[] body = row.text().split("");
+				String title = row.select("b").text(); //judul pengumuman
+				int titleSize = title.split("").length;
+				int CategoryDanTanggal = titleSize + 4; //4 adalah kategori tambah tanggal, 4 adalah jumlah kata
+				String description="";
+				while (CategoryDanTanggal < body.length){
+					description += body[CategoryDanTanggal] + "";
+					CategoryDanTanggal++;
+				}
+				//CategoryDanTanggal dimulai dari index ke-1 (yaitu suku kata tanggal)
+				CategoryDanTanggal=1;
+				//Kurang dari 4 karena indeks ke-4 sudah masuk description
+				while (CategoryDanTanggal < 4){
+					//suku kata ke-1 adalah tanggal, suku kata ke-2 adalah bulan, suku kata ke-3 adalah tahun, lalu stop looping
+					date += body[CategoryDanTanggal] + "";
+					CategoryDanTanggal++;
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
