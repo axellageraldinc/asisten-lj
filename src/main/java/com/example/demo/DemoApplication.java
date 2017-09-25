@@ -13,26 +13,33 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @SpringBootApplication
 @LineMessageHandler
 public class DemoApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
+		System.out.println("About to run...");
+		Future future = testAsyncClass.sendResponse();
+		System.out.println("This will run immediately");
+		Boolean result = (Boolean) future.get();
+		System.out.println("Result is : " + result);
+
 	}
 
 	public Document GetConnection() throws IOException {
 		Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
 		return doc;
 	}
-//	public Elements GetTable() throws IOException {
-//		Document doc = GetConnection();
-//		Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
-//		return tableRow;
-//	}
+
 	public Elements GetReadableBody() throws IOException {
 		Document doc = GetConnection();
 		Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
