@@ -28,14 +28,14 @@ public class DemoApplication {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
-//		System.out.println("Hello from method main...");
-//		ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-//		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
-//		System.out.println("About to run...");
-//		Future future = testAsyncClass.sendResponse();
-//		System.out.println("This will run immediately");
-//		Boolean result = (Boolean) future.get();
-//		System.out.println("Result is : " + result);
+		System.out.println("Hello from method main...");
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
+		System.out.println("About to run...");
+		Future future = testAsyncClass.sendResponse();
+		System.out.println("This will run immediately");
+		Boolean result = (Boolean) future.get();
+		System.out.println("Result is : " + result);
 
 	}
 

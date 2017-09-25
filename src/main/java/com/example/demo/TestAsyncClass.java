@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Future;
 
-@Service
 public class TestAsyncClass {
 
     @Async
