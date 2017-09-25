@@ -62,7 +62,7 @@ public class DemoApplication {
 
 	public Elements GetReadableBody() {
 		Document doc = GetConnection();
-		Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
+		Elements tableRow = doc.select("table.table-pad > tbody > tr#" + firstId());
 		Elements indexBody = tableRow.select("td:eq(2)");
 		return indexBody;
 	}

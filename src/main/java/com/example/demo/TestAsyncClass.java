@@ -14,23 +14,31 @@ import java.util.concurrent.Future;
 public class TestAsyncClass {
 
     DemoApplication demo = new DemoApplication();
-    Document doc = demo.GetConnection();
-    Elements tableRow = demo.getTableRow();
-    Element link = tableRow.select("tr").first();
-    String trId = link.attr("id");
+    String firstTrId = demo.firstId();
 
     @Async
-    public Future<Boolean> sendResponse() throws InterruptedException {
-        System.out.println("Sending....");
-        Thread.sleep(3000);
-        System.out.println("Sending response completed!");
-        return new AsyncResult<Boolean>(true);
+    public Future<String> sendResponse() throws InterruptedException {
+        String newArticle="";
+        newArticle = "PENGUMUMAN BARU!!!\n\n" + demo.GetTitle() + "\n" + demo.GetDate() + "\n" +
+                        demo.GetCategory() + "\n" + demo.GetDescription();
+            Thread.sleep(5000);
+        return new AsyncResult<>(newArticle);
     }
 
     @Async
-    public Future<List<String>> getUpdate(){
-        List<String> listArtikel = new ArrayList<>();
-
-        return new AsyncResult<>(listArtikel);
+    public Future<String> getUpdate() throws InterruptedException {
+        String newArticle="";
+        String firstTrIdAsync;
+        int x=0;
+        while (x!=1){
+            firstTrIdAsync = demo.firstId();
+            //Berarti ada update
+            if(firstTrIdAsync!=firstTrId){
+                newArticle = "PENGUMUMAN BARU!!!\n\n" + demo.GetTitle() + "\n" + demo.GetDate() + "\n" +
+                        demo.GetCategory() + "\n" + demo.GetDescription();
+            }
+            Thread.sleep(5000);
+        }
+        return new AsyncResult<>(newArticle);
     }
 }
