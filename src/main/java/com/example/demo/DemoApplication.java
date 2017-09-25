@@ -35,11 +35,11 @@ public class DemoApplication {
 		return title;
 	}
 
-	public String GetInformation(){
+	public String GetCategory(){
 		String category="";
 		try {
 			Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
-			Elements tableRow = doc.select("table.table-pad > tbody > tr#4478");
+			Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
 			Elements indexBody = tableRow.select("td:eq(2)");
 			for (Element row :indexBody){
 				category = row.select("span.label").text();
@@ -50,13 +50,30 @@ public class DemoApplication {
 		return category;
 	}
 
+	public String GetDate(){
+		String date="";
+		try {
+			Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
+			Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
+			Elements indexBody = tableRow.select("td:eq(2)");
+			for (Element row:indexBody){
+				date = row.select("span.hidden-md.hidden-lg.visible-sm.visible-xs > br").text();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
 	@EventMapping
 	public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> msg){
 		TextMessage replyMsg = null;
 		if (msg.getMessage().getText().equals("judul")){
 			replyMsg = new TextMessage(GetWebDtetiTitle());
 		} else if(msg.getMessage().getText().equals("category")){
-			replyMsg = new TextMessage(GetInformation());
+			replyMsg = new TextMessage(GetCategory());
+		} else if(msg.getMessage().getText().equals("date")){
+			replyMsg = new TextMessage(GetDate());
 		} else{
 			replyMsg = new TextMessage("kowe ngirim : " + msg.getMessage().getText());
 		}
