@@ -24,10 +24,26 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	public Document GetConnection() throws IOException {
+		Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
+		return doc;
+	}
+//	public Elements GetTable() throws IOException {
+//		Document doc = GetConnection();
+//		Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
+//		return tableRow;
+//	}
+	public Elements GetReadableBody() throws IOException {
+		Document doc = GetConnection();
+		Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
+		Elements indexBody = tableRow.select("td:eq(2)");
+		return indexBody;
+	}
+
 	public String GetWebDtetiTitle(){
 		String title="";
 		try {
-			Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
+			Document doc = GetConnection();
 			title = doc.title();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -38,9 +54,7 @@ public class DemoApplication {
 	public String GetCategory(){
 		String category="";
 		try {
-			Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
-			Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
-			Elements indexBody = tableRow.select("td:eq(2)");
+			Elements indexBody = GetReadableBody();
 			for (Element row :indexBody){
 				category = row.select("span.label").text();
 			}
@@ -53,9 +67,7 @@ public class DemoApplication {
 	public String GetDate(){
 		String date="";
 		try {
-			Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
-			Elements tableRow = doc.select("table.table-pad > tbody > tr#4470");
-			Elements indexBody = tableRow.select("td:eq(2)");
+			Elements indexBody = GetReadableBody();
 			for (Element row:indexBody){
 				String[] body = row.text().split(" ");
 				String title = row.select("b").text(); //judul pengumuman
@@ -71,7 +83,7 @@ public class DemoApplication {
 				//Kurang dari 4 karena indeks ke-4 sudah masuk description
 				while (CategoryDanTanggal < 4){
 					//suku kata ke-1 adalah tanggal, suku kata ke-2 adalah bulan, suku kata ke-3 adalah tahun, lalu stop looping
-					date += body[CategoryDanTanggal] + "";
+					date += body[CategoryDanTanggal] + " ";
 					CategoryDanTanggal++;
 				}
 			}
@@ -79,6 +91,26 @@ public class DemoApplication {
 			e.printStackTrace();
 		}
 		return date;
+	}
+
+	public String GetDescription(){
+		String description="";
+		try {
+			Elements indexBody = GetReadableBody();
+			for (Element row:indexBody){
+				String[] body = row.text().split(" ");
+				String title = row.select("b").text(); //judul pengumuman
+				int titleSize = title.split(" ").length;
+				int CategoryDanTanggal = titleSize + 4; //4 adalah kategori tambah tanggal, 4 adalah jumlah kata
+				while (CategoryDanTanggal < body.length){
+					description += body[CategoryDanTanggal] + " ";
+					CategoryDanTanggal++;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return description;
 	}
 
 	@EventMapping
@@ -90,6 +122,8 @@ public class DemoApplication {
 			replyMsg = new TextMessage(GetCategory());
 		} else if(msg.getMessage().getText().equals("date")){
 			replyMsg = new TextMessage(GetDate());
+		} else if(msg.getMessage().getText().equals("deskripsi")){
+			replyMsg = new TextMessage(GetDescription());
 		} else{
 			replyMsg = new TextMessage("kowe ngirim : " + msg.getMessage().getText());
 		}
