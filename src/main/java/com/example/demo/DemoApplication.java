@@ -113,10 +113,24 @@ public class DemoApplication {
 		return description;
 	}
 
+	public String GetTitle() {
+		String title="";
+		try {
+			Elements indexBody = GetReadableBody();
+			for (Element row:indexBody) {
+				String[] body = row.text().split(" ");
+				title = row.select("b").text(); //judul pengumuman
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return title;
+	}
+
 	@EventMapping
 	public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> msg){
 		TextMessage replyMsg = null;
-		if (msg.getMessage().getText().equals("judul")){
+		if (msg.getMessage().getText().equals("judul website")){
 			replyMsg = new TextMessage(GetWebDtetiTitle());
 		} else if(msg.getMessage().getText().equals("category")){
 			replyMsg = new TextMessage(GetCategory());
@@ -124,6 +138,8 @@ public class DemoApplication {
 			replyMsg = new TextMessage(GetDate());
 		} else if(msg.getMessage().getText().equals("deskripsi")){
 			replyMsg = new TextMessage(GetDescription());
+		} else if(msg.getMessage().getText().equals("judul")){
+			replyMsg = new TextMessage(GetTitle());
 		} else{
 			replyMsg = new TextMessage("kowe ngirim : " + msg.getMessage().getText());
 		}
