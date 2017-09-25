@@ -2,11 +2,11 @@ package com.example.demo;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Future;
 
-@Component
+@Service
 public class TestAsyncClass {
 
     @Async
