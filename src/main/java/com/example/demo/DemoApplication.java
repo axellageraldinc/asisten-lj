@@ -36,18 +36,18 @@ public class DemoApplication {
 	}
 
 	public String GetInformation(){
-		String body="";
+		String category="";
 		try {
 			Document doc = Jsoup.connect("http://sarjana.jteti.ugm.ac.id/akademik").get();
 			Elements tableRow = doc.select("table.table-pad > tbody > tr#4478");
 			Elements indexBody = tableRow.select("td:eq(2)");
 			for (Element row :indexBody){
-				body = String.valueOf(row.text().split(""));
+				category = row.select("span.label").text();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return body;
+		return category;
 	}
 
 	@EventMapping
@@ -55,7 +55,7 @@ public class DemoApplication {
 		TextMessage replyMsg = null;
 		if (msg.getMessage().getText().equals("judul")){
 			replyMsg = new TextMessage(GetWebDtetiTitle());
-		} else if(msg.getMessage().getText().equals("body")){
+		} else if(msg.getMessage().getText().equals("category")){
 			replyMsg = new TextMessage(GetInformation());
 		} else{
 			replyMsg = new TextMessage("kowe ngirim : " + msg.getMessage().getText());
