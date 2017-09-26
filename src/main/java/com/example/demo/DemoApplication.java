@@ -54,7 +54,7 @@ public class DemoApplication {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
 		FollowersDao.CreateTable();
-//		getUserId();
+		getUserId();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
 		Future future = testAsyncClass.getUpdate();
