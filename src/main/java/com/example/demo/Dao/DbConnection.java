@@ -11,7 +11,8 @@ public class DbConnection {
     public static Connection getConnection(){
         URI dbUri = null;
         try {
-            dbUri = new URI(System.getenv("DATABASE_URL"));
+//            dbUri = new URI(System.getenv("DATABASE_URL"));
+            dbUri = new URI("postgres://mwxpvstycpecyl:c7c7af5dc2616038129cfbb6fe27196110b407761b238a2ee1e24d33bdc0a3d5@ec2-54-225-88-191.compute-1.amazonaws.com:5432/d1i4t9jupnoehd");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
