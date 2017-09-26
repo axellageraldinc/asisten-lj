@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dao.FollowersDao;
+import com.example.demo.DemoApplication;
 import com.example.demo.model.Followers;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.event.FollowEvent;
@@ -26,6 +27,7 @@ public class NewFollowerController {
             System.out.println("Insert success!");
             System.out.println("User ID : " + userId);
             System.out.println("Name : " + followers.getName());
+            DemoApplication.getUserId();
         } else{
             System.out.println("Insert FAILED!");
         }

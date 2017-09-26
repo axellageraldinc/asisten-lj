@@ -34,6 +34,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -60,6 +61,7 @@ public class DemoApplication {
 		Future future = testAsyncClass.getUpdate();
 		String update = future.get().toString();
 		System.out.println("UPDATE : " + update);
+		MulticastEveryone("TEST LINE BOT 1 2 3");
 //		pushMessageKeAxell(update);
 
 //		System.out.println("About to run...");
@@ -73,6 +75,27 @@ public class DemoApplication {
 		List<Followers> followersList = FollowersDao.getFollowers();
 		for (Followers followers:followersList) {
 			System.out.println("user id : " + followers.getUser_id());
+		}
+	}
+
+	public static void MulticastEveryone(String message){
+		TextMessage textMessage = new TextMessage(message);
+		List<Followers> followersList = FollowersDao.getFollowers();
+		Set<String> setPenerima = new HashSet<>();
+		for (Followers followers:followersList) {
+			String user_id = followers.getUser_id();
+			setPenerima.add(user_id);
+		}
+		Multicast multicast = new Multicast(setPenerima, textMessage);
+		try {
+			Response<BotApiResponse> botApiResponse = LineMessagingServiceBuilder
+					.create(AccessToken)
+					.build()
+					.multicast(multicast)
+					.execute();
+			System.out.println("Response.code() " + " " + botApiResponse.message());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
