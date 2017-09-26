@@ -39,7 +39,7 @@ import java.util.concurrent.Future;
 @SpringBootApplication
 @LineMessageHandler
 @EnableAsync
-public class DemoApplication implements ChannelTokenSupplier {
+public class DemoApplication {
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -186,10 +186,5 @@ public class DemoApplication implements ChannelTokenSupplier {
 	@EventMapping
 	public StickerMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> sticker){
 		return new StickerMessage("1", "5");
-	}
-
-	@Override
-	public String get() {
-		return null;
 	}
 }
