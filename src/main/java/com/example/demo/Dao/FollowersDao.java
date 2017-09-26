@@ -5,6 +5,9 @@ import com.example.demo.model.Followers;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FollowersDao {
 
@@ -67,5 +70,35 @@ public class FollowersDao {
             DbConnection.CloseConnection(connection);
         }
         return status;
+    }
+
+    public static List<Followers> getFollowers(){
+        List<Followers> followersList = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = DbConnection.getConnection();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            ps = connection.prepareStatement(
+                    "SELECT " + user_id + " FROM " + table_name
+            );
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Followers followers = new Followers();
+                followers.setUser_id(rs.getString(user_id));
+                followersList.add(followers);
+            }
+        } catch (Exception ex){
+            System.out.println("FAILED get followers : " + ex.toString());
+        } finally {
+            DbConnection.CloseResultSet(rs);
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return followersList;
     }
 }

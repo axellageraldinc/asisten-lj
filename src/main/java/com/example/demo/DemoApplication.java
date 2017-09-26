@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Dao.FollowersDao;
+import com.example.demo.model.Followers;
 import com.linecorp.bot.client.ChannelTokenSupplier;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
@@ -33,6 +34,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -52,6 +54,7 @@ public class DemoApplication {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
 		FollowersDao.CreateTable();
+//		getUserId();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
 		Future future = testAsyncClass.getUpdate();
@@ -65,6 +68,14 @@ public class DemoApplication {
 //		String result = (String) future.get();
 //		System.out.println("Result is : " + result);
 	}
+
+	public static void getUserId(){
+		List<Followers> followersList = FollowersDao.getFollowers();
+		for (Followers followers:followersList) {
+			System.out.println("user id : " + followers.getUser_id());
+		}
+	}
+
 	public static void pushMessageKeAxell(String message){
 		String userId = "Ue16daaf9316ecaa47ecbc4ead0a1685b";
 		TextMessage textMessage = new TextMessage(message);
