@@ -14,28 +14,28 @@ import java.util.concurrent.Future;
 
 public class TestAsyncClass {
 
-    DemoApplication demo = new DemoApplication();
-    String firstTrId = demo.firstId();
+    GetInfoWebSarjana infoWebSarjana = new GetInfoWebSarjana();
+    String firstTrId = infoWebSarjana.firstId();
 
-    @Async
-    public Future<String> sendResponse() throws InterruptedException {
-        String newArticle="";
-        newArticle = "PENGUMUMAN BARU!!!\n\n" + demo.GetTitle() + "\n" + demo.GetDate() + "\n" +
-                        demo.GetCategory() + "\n" + demo.GetDescription();
-            Thread.sleep(5000);
-        return new AsyncResult<>(newArticle);
-    }
+//    @Async
+//    public Future<String> sendResponse() throws InterruptedException {
+//        String newArticle="";
+//        newArticle = "PENGUMUMAN BARU!!!\n\n" + infoWebSarjana.GetTitle() + "\n" + infoWebSarjana.GetDate() + "\n" +
+//                        infoWebSarjana.GetCategory() + "\n" + infoWebSarjana.GetDescription();
+//            Thread.sleep(5000);
+//        return new AsyncResult<>(newArticle);
+//    }
 
-    @Async
-    public Future<String> followEvent() throws InterruptedException{
-        String userId="";
-        int x=0;
-        while(x!=1){
-            FollowEvent followEvent = null;
-            userId = followEvent.getSource().getUserId();
-        }
-        return new AsyncResult<>(userId);
-    }
+//    @Async
+//    public Future<String> followEvent() throws InterruptedException{
+//        String userId="";
+//        int x=0;
+//        while(x!=1){
+//            FollowEvent followEvent = null;
+//            userId = followEvent.getSource().getUserId();
+//        }
+//        return new AsyncResult<>(userId);
+//    }
 
     @Async
     public Future<String> getUpdate() throws InterruptedException {
@@ -43,12 +43,12 @@ public class TestAsyncClass {
         String firstTrIdAsync;
         int x=0;
         while (x!=1){
-            firstTrIdAsync = demo.firstId();
+            firstTrIdAsync = infoWebSarjana.firstId();
             //Berarti ada update
             if(firstTrIdAsync!=firstTrId){
-                newArticle = "PENGUMUMAN BARU!!!\n\n" + demo.GetTitle() + "\n" + demo.GetDate() + "\n" +
-                        demo.GetCategory() + "\n" + demo.GetDescription();
-                firstTrId = demo.firstId();
+                newArticle = "PENGUMUMAN BARU!!!\n\n" + infoWebSarjana.GetTitle() + "\n" + infoWebSarjana.GetDate() + "\n" +
+                        infoWebSarjana.GetCategory() + "\n" + infoWebSarjana.GetDescription();
+                firstTrId = infoWebSarjana.firstId();
             }
             Thread.sleep(5000);
         }
