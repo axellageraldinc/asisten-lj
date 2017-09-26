@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.linecorp.bot.model.event.FollowEvent;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,6 +24,17 @@ public class TestAsyncClass {
                         demo.GetCategory() + "\n" + demo.GetDescription();
             Thread.sleep(5000);
         return new AsyncResult<>(newArticle);
+    }
+
+    @Async
+    public Future<String> followEvent() throws InterruptedException{
+        String userId="";
+        int x=0;
+        while(x!=1){
+            FollowEvent followEvent = null;
+            userId = followEvent.getSource().getUserId();
+        }
+        return new AsyncResult<>(userId);
     }
 
     @Async

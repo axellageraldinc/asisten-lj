@@ -1,21 +1,29 @@
 package com.example.demo;
 
+import com.linecorp.bot.client.ChannelTokenSupplier;
+import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.Multicast;
 import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.event.FollowEvent;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.linecorp.bot.spring.boot.LineBotAutoConfiguration;
+import com.linecorp.bot.spring.boot.LineBotProperties;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
+import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +39,10 @@ import java.util.concurrent.Future;
 @SpringBootApplication
 @LineMessageHandler
 @EnableAsync
-public class DemoApplication {
+public class DemoApplication implements ChannelTokenSupplier {
+
+	@Autowired
+	private LineMessagingClient lineMessagingClient;
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
@@ -48,25 +59,10 @@ public class DemoApplication {
 //		System.out.println("Result is : " + result);
 	}
 
-	public void pushMessage(String userId, String message){
-		TextMessage textMessage = new TextMessage(message);
-		PushMessage pushMessage = new PushMessage(
-				userId,
-				textMessage
-		);
-
-		Response<BotApiResponse> response =
-				null;
-		try {
-			response = LineMessagingServiceBuilder
-                    .create("u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=")
-                    .build()
-                    .pushMessage(pushMessage)
-                    .execute();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(response.code() + " " + response.message());
+	@EventMapping
+	public void testFollow(FollowEvent followEvent){
+		String userId = followEvent.getSource().getUserId();
+		System.out.println("new follower : " + userId);
 	}
 
 	public Document GetConnection() {
@@ -190,5 +186,10 @@ public class DemoApplication {
 	@EventMapping
 	public StickerMessage handleStickerMessageEvent(MessageEvent<StickerMessageContent> sticker){
 		return new StickerMessage("1", "5");
+	}
+
+	@Override
+	public String get() {
+		return null;
 	}
 }
