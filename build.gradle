@@ -31,5 +31,9 @@ dependencies {
 	compile ('com.linecorp.bot:line-bot-servlet:1.10.0')
 	compile ('com.linecorp.bot:line-bot-model:1.10.0')
 	compile ('com.linecorp.bot:line-bot-api-client:1.10.0')
+	// https://mvnrepository.com/artifact/postgresql/postgresql
+	compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+	// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+	compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.0.RC3'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
