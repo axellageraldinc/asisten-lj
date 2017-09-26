@@ -24,7 +24,7 @@ public class FollowersDao {
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS " +
+                    "CREATE TABLE IF NOT EXISTS " + table_name +
                             "(" +
                             id + " SERIAL PRIMARY KEY, " +
                             username + " TEXT NOT NULL, " +
