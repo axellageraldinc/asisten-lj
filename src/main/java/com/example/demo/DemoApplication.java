@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Dao.FollowersDao;
 import com.linecorp.bot.client.ChannelTokenSupplier;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
@@ -48,6 +49,7 @@ public class DemoApplication {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
+		FollowersDao.CreateTable();
 		System.out.println("Hello from method main...");
 		testPushMessage();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
