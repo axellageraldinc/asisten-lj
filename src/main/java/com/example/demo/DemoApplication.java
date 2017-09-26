@@ -42,11 +42,14 @@ import java.util.concurrent.Future;
 public class DemoApplication {
 
 	@Autowired
-	private LineMessagingClient lineMessagingClient;
+	private static LineMessagingClient lineMessagingClient;
+
+	private static String AccessToken = "u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=";
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
 		System.out.println("Hello from method main...");
+		testPushMessage();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
 		Future future = testAsyncClass.getUpdate();
@@ -159,6 +162,24 @@ public class DemoApplication {
             title = row.select("b").text(); //judul pengumuman
         }
 		return title;
+	}
+
+	public static void testPushMessage(){
+		String userId = "Ue16daaf9316ecaa47ecbc4ead0a1685b";
+		String msg = "IKI PUSH MESSAGE YO SU";
+		TextMessage textMessage = new TextMessage(msg);
+		PushMessage pushMessage = new PushMessage(userId, textMessage);
+		try {
+			Response<BotApiResponse> botApiResponse = LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .pushMessage(pushMessage)
+                    .execute();
+			System.out.println("Response.code() " + " " + botApiResponse.message());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//PushMessage pushMessage = new PushMessage("Ue16daaf9316ecaa47ecbc4ead0a1685b", "JANGKRIK KOWE YO");
 	}
 
 	@EventMapping
