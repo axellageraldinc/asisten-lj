@@ -45,9 +45,9 @@ public class TestAsyncClass {
         while (x!=1){
             firstTrIdAsync = infoWebSarjana.firstId();
             //Berarti ada update
-            if(firstTrIdAsync!=firstTrId){
-                newArticle = "PENGUMUMAN BARU!!!\n\n" + infoWebSarjana.GetTitle() + "\n" + infoWebSarjana.GetDate() + "\n" +
-                        infoWebSarjana.GetCategory() + "\n" + infoWebSarjana.GetDescription();
+            if(!firstTrIdAsync.equals(firstTrId)){
+                newArticle = "PENGUMUMAN BARU SU!!!\n\n" + infoWebSarjana.GetDate() + "\n" +
+                        infoWebSarjana.GetCategory() + infoWebSarjana.GetTitle() + "\n" + "\n" + infoWebSarjana.GetDescription();
                 firstTrId = infoWebSarjana.firstId();
                 DemoApplication.pushMessageKeAxell(newArticle);
             }
