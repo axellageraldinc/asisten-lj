@@ -2,6 +2,7 @@ package com.example.demo.Dao;
 
 import com.example.demo.model.Followers;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -14,7 +15,12 @@ public class FollowersDao {
 
     public static int CreateTable(){
         int status=0;
-        Connection connection = DbConnection.getConnection();
+        Connection connection = null;
+        try {
+            connection = DbConnection.getConnection();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = connection.prepareStatement(
@@ -36,7 +42,12 @@ public class FollowersDao {
 
     public static int Insert(Followers followers){
         int status=0;
-        Connection connection = DbConnection.getConnection();
+        Connection connection = null;
+        try {
+            connection = DbConnection.getConnection();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = connection.prepareStatement(
