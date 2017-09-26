@@ -56,7 +56,6 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 		FollowersDao.CreateTable();
 		getUserId();
-		MulticastEveryone("TEST LINE BOT 1 2 3");
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
 		Future future = testAsyncClass.getUpdate();
