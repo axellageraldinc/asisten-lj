@@ -49,7 +49,10 @@ public class TestAsyncClass {
                 newArticle = "PENGUMUMAN BARU!!!\n\n" + infoWebSarjana.GetTitle() + "\n" + infoWebSarjana.GetDate() + "\n" +
                         infoWebSarjana.GetCategory() + "\n" + infoWebSarjana.GetDescription();
                 firstTrId = infoWebSarjana.firstId();
+                DemoApplication.pushMessageKeAxell(newArticle);
             }
+            System.out.println("firstTrIdAsync : " + firstTrIdAsync);
+            System.out.println("firstTrId : " + firstTrId);
             Thread.sleep(5000);
         }
         return new AsyncResult<>(newArticle);

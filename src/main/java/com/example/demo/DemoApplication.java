@@ -57,7 +57,7 @@ public class DemoApplication {
 		Future future = testAsyncClass.getUpdate();
 		String update = future.get().toString();
 		System.out.println("UPDATE : " + update);
-		pushMessageKeAxell(update);
+//		pushMessageKeAxell(update);
 
 //		System.out.println("About to run...");
 //		Future future = testAsyncClass.sendResponse();
