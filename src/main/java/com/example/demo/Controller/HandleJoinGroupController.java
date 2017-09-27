@@ -64,7 +64,7 @@ public class HandleJoinGroupController {
                     "1. /TUGAS [spasi] [deskripsi TUGAS]\n" +
                     "2. /UJIAN [spasi] [deskripsi UJIAN]\n");
             messageList.add(msgCommand);
-        } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/TUGAS")){
+        } else if (msg.getMessage().getText().toUpperCase().substring(0,6).equals("/TUGAS")){
             messageList.clear();
             String deskripsi = msg.getMessage().getText().substring(7);
             System.out.println("deskripsi TUGAS : " + deskripsi);
