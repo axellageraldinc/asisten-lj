@@ -214,6 +214,7 @@ public class MainController {
         String data = event.getPostbackContent().getData();
         TextMessage textMessage = null;
         String id = getId(source);
+        System.out.println("Postback Event : " + data);
         if(data.equals("/ADD-TUGAS")){
             messageList.clear();
             textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
