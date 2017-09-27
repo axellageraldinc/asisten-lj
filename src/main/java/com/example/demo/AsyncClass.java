@@ -12,10 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-public class TestAsyncClass {
+public class AsyncClass {
 
     GetInfoWebSarjana infoWebSarjana = new GetInfoWebSarjana();
     String firstTrId = infoWebSarjana.firstId();
+
+    @Async
+    public Future<String> gameMulai(){
+        String pengumuman;
+        int x=0;
+        while(x!=10){
+            try {
+                Thread.sleep(1000);
+                x++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        pengumuman = "Game dimulai...";
+        return new AsyncResult<>(pengumuman);
+    }
 
 //    @Async
 //    public Future<String> sendResponse() throws InterruptedException {

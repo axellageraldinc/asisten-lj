@@ -27,7 +27,7 @@ public class DemoApplication {
 		MainDao.CreateType();
 //		getUserId();
 //		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-//		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
+//		AsyncClass testAsyncClass = context.getBean(AsyncClass.class);
 //		Future future = testAsyncClass.getUpdate();
 //		String update = future.get().toString();
 //		System.out.println("UPDATE : " + update);

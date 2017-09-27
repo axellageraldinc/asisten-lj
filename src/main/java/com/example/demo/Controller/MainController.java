@@ -1,5 +1,7 @@
 package com.example.demo.Controller;
 
+import com.example.demo.AppConfig;
+import com.example.demo.AsyncClass;
 import com.example.demo.Dao.MainDao;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -18,16 +20,25 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.profile.MembersIdsResponse;
+import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import retrofit2.Response;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @LineMessageHandler
 public class MainController {
+
+    int status_waiting_game=0;
+    List<String> playerList = new ArrayList<>();
+
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
@@ -72,7 +83,7 @@ public class MainController {
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
         String apakah = pesan.substring(0,6);
-        String siapakah = pesan.substring(0,8);
+        String game_siapakah = pesan.substring(0,14);
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -82,8 +93,10 @@ public class MainController {
             }
         } else if(apakah.equals("APAKAH")){
             command = "/APAKAH";
-        } else if(siapakah.equals("SIAPAKAH")){
-            command = "/SIAPAKAH";
+        } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
+            command = "/GAME-SIAPAKAH";
+        } else if(pesan.substring(0,5).equals("/JOIN")){
+            command = "/JOIN";
         }
         System.out.println("Command : " + command);
         Main main = new Main();
@@ -190,21 +203,61 @@ public class MainController {
                     messageList.add(textMessage);
                 }
                 KirimPesan(replyToken, messageList);
-                System.out.println(source);
                 break;
             }
-            case "/SIAPAKAH" : {
+            case "/GAME-SIAPAKAH" : {
                 String groupId = getId(source);
                 String type = getType(source);
-                List<String> memberList = GetMembers(type, groupId);
-                StringBuilder sb = new StringBuilder();
-                for (String members: memberList) {
-                    sb.append("Members ID : " + members + "\n");
+                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
+                KirimPesan(replyToken, textMessage);
+                AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		        AsyncClass asyncClass = context.getBean(AsyncClass.class);
+		        Future future = asyncClass.gameMulai();
+		        status_waiting_game=1;
+                String pengumuman = null;
+                try {
+                    pengumuman = future.get().toString();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
-                System.out.println("Members ID : " + String.valueOf(sb));
-                textMessage = new TextMessage(String.valueOf(sb));
-                messageList.add(textMessage);
-                KirimPesan(replyToken, messageList);
+                System.out.println("UPDATE : " + pengumuman);
+//                List<String> memberList = GetMembers(type, groupId);
+//                StringBuilder sb = new StringBuilder();
+//                for (String members: memberList) {
+//                    sb.append("Members ID : " + members + "\n");
+//                }
+//                System.out.println("Members ID : " + String.valueOf(sb));
+//                textMessage = new TextMessage(String.valueOf(sb));
+//                messageList.add(textMessage);
+//                KirimPesan(replyToken, messageList);
+                break;
+            }
+            case "/JOIN" : {
+                //memang game baru dibuat
+                if(status_waiting_game==1){
+                    String userId = source.getSenderId();
+                    String name = getName(userId);
+                    boolean status_add_list_player = playerList.add(name);
+                    if(status_add_list_player){
+                        textMessage = new TextMessage(name + " berhasil join!");
+                        messageList.add(textMessage);
+                        KirimPesan(replyToken, messageList);
+                        for (String player:playerList
+                             ) {
+                            System.out.println("LIST PLAYER : " + player);
+                        }
+                    }
+                }
+                //gak ada yang yang dibuat
+                else{
+                    textMessage = new TextMessage("Gak ada game yang jalan.\n" +
+                            "Ketik command /game-siapakah untuk mulai");
+                    messageList.add(textMessage);
+                    KirimPesan(replyToken, messageList);
+                }
+                break;
             }
         }
     }
@@ -356,5 +409,26 @@ public class MainController {
             e.printStackTrace();
         }
         return memberIds;
+    }
+
+    public String getName(String userId){
+        String name = "";
+        try {
+            Response<UserProfileResponse> response =
+                    LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .getProfile(userId)
+                    .execute();
+            if (response.isSuccessful()){
+                UserProfileResponse profileResponse = response.body();
+                name = profileResponse.getDisplayName();
+            } else{
+                System.out.println(response.code() + " " + response.message());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return name;
     }
 }
