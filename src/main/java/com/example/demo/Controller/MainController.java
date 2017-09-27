@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Dao.MainDao;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
@@ -17,11 +18,15 @@ import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.profile.MembersIdsResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import sun.plugin.util.UserProfile;
 
+import javax.xml.ws.Response;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -71,6 +76,7 @@ public class MainController {
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
         String apakah = pesan.substring(0,6);
+        String siapakah = pesan.substring(0,8);
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -80,6 +86,8 @@ public class MainController {
             }
         } else if(apakah.equals("APAKAH")){
             command = "/APAKAH";
+        } else if(siapakah.equals("SIAPAKAH")){
+            command = "/SIAPAKAH";
         }
         System.out.println("Command : " + command);
         Main main = new Main();
@@ -187,6 +195,19 @@ public class MainController {
                 }
                 KirimPesan(replyToken, messageList);
                 break;
+            }
+            case "/SIAPAKAH" : {
+                String groupId = getId(source);
+                String type = getType(source);
+                List<String> memberList = GetMembers(type, groupId);
+                StringBuilder sb = new StringBuilder();
+                for (String members: memberList) {
+                    sb.append("Members ID : " + members + "\n");
+                }
+                System.out.println("Members ID : " + String.valueOf(sb));
+                textMessage = new TextMessage(String.valueOf(sb));
+                messageList.add(textMessage);
+                KirimPesan(replyToken, messageList);
             }
         }
     }
@@ -299,13 +320,44 @@ public class MainController {
 
     public String getId(Source source){
         String id=null;
+        String type=null;
         if (source instanceof GroupSource) {
             id = ((GroupSource) source).getGroupId();
+            type="group";
         } else if (source instanceof RoomSource) {
             id = ((RoomSource) source).getRoomId();
+            type="room";
         } else{
             id = source.getUserId();
+            type="personal";
         }
         return id;
+    }
+
+    public String getType(Source source){
+        String type = null;
+        if (source instanceof GroupSource)
+            type="group";
+        else if(source instanceof RoomSource)
+            type="room";
+        else
+            type="personal";
+        return type;
+    }
+
+    public List<String> GetMembers(String type, String groupId){
+        List<String> memberIds = new ArrayList<>();
+        try {
+            retrofit2.Response<MembersIdsResponse> response = LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .getMembersIds(type, groupId, null)
+                    .execute();
+            MembersIdsResponse idsResponse = response.body();
+            memberIds = idsResponse.getMemberIds();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return memberIds;
     }
 }
