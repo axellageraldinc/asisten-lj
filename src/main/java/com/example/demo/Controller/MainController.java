@@ -153,7 +153,7 @@ public class MainController {
             messageList.add(textMessage);
             textMessage = new TextMessage("Perhatian!\n" +
                     "Kirim deskripsi tugas dengan format !tugas [spasi] [deskripsi]\n" +
-                    "Contoh : !tugas progdas bikin kalkulator deadline senin");
+                    "Contoh : /tugas progdas bikin kalkulator deadline senin");
             messageList.add(textMessage);
         } else if(data.equals("/SHOW-TUGAS")){
             List<Group> groupList = MainDao.GetAll(id, "tugas");
@@ -182,7 +182,7 @@ public class MainController {
         System.out.println("Pesan substring : " + pesan.substring(0,6).toUpperCase());
         PushMessage pushMessage;
         TextMessage textMessage;
-        if(pesan.substring(0,6).toUpperCase().equals("!TUGAS")){
+        if(pesan.substring(0,6).toUpperCase().equals("/TUGAS")){
             String desc = pesan.substring(7);
             group.setId("TUGAS-" + desc.substring(0,5));
             group.setDeskripsi(desc);
