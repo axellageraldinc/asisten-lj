@@ -160,7 +160,7 @@ public class MainController {
             }
         } else if(pesan.substring(0,6).equals("/TUGAS")){
             String desc = pesan.substring(7);
-            group.setId("TUGAS-" + desc.substring(0,5));
+            group.setId("TUGAS-" + desc.substring(0,7));
             group.setDeskripsi(desc);
             group.setTipe("tugas");
             int status_insert = MainDao.Insert(id, group);
