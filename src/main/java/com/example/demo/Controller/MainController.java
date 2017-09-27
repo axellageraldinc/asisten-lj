@@ -120,7 +120,8 @@ public class MainController {
                 main.setTipe("tugas");
                 int status_insert = MainDao.Insert(id, main);
                 if(status_insert==1){
-                    textMessage = new TextMessage("Tugas berhasil dicatat.");
+                    textMessage = new TextMessage("Tugas berhasil dicatat.\n" +
+                            "CIYEEEEEE tugasnya nambahhhhhh");
                     messageList.add(textMessage);
                 } else{
                     textMessage = new TextMessage("Oops! Ada kesalahan sistem, tugas gagal dicatat");
