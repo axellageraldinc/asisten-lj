@@ -103,6 +103,7 @@ public class HandleJoinGroupController {
             e.printStackTrace();
         }
         System.out.println(response.code() + " " + response.message());
+        messageList.clear();
     }
 
 }
