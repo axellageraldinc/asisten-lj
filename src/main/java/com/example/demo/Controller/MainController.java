@@ -137,6 +137,7 @@ public class MainController {
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String command = content.getText().toUpperCase();
+        System.out.println("Command : " + command);
         Group group = new Group();
         Source source = event.getSource();
         PushMessage pushMessage;
