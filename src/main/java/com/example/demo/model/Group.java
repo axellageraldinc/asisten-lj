@@ -1,14 +1,14 @@
 package com.example.demo.model;
 
 public class Group {
-    private int id;
+    private String id;
     private String deskripsi, tipe;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

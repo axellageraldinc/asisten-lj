@@ -42,35 +42,35 @@ public class GroupDao {
         }
     }
 
-    public static void CreateTableGroup(String groupId){
-        Connection connection = null;
-        try {
-            connection = DbConnection.getConnection();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        PreparedStatement ps = null;
-        try{
-            ps = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS " + groupId +
-                            "(" +
-                            id + " SERIAL PRIMARY KEY, " +
-                            group_id + " TEXT NOT NULL, " +
-                            ")"
-            );
-            if (ps.executeUpdate()==1)
-                System.out.println("Create table " + groupId + " berhasil!");
-        } catch (Exception ex){
-            System.out.println("Gagal membuat table " + groupId + " : " + ex.toString());
-        } finally {
-            DbConnection.ClosePreparedStatement(ps);
-            try {
-                DbConnection.CloseConnection(DbConnection.getConnection());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public static void CreateTableGroup(String groupId){
+//        Connection connection = null;
+//        try {
+//            connection = DbConnection.getConnection();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        PreparedStatement ps = null;
+//        try{
+//            ps = connection.prepareStatement(
+//                    "CREATE TABLE IF NOT EXISTS " + groupId +
+//                            "(" +
+//                            id + " SERIAL PRIMARY KEY, " +
+//                            group_id + " TEXT NOT NULL, " +
+//                            ")"
+//            );
+//            if (ps.executeUpdate()==1)
+//                System.out.println("Create table " + groupId + " berhasil!");
+//        } catch (Exception ex){
+//            System.out.println("Gagal membuat table " + groupId + " : " + ex.toString());
+//        } finally {
+//            DbConnection.ClosePreparedStatement(ps);
+//            try {
+//                DbConnection.CloseConnection(DbConnection.getConnection());
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public static void CreateTableData(String groupId){
         Connection connection = null;
@@ -78,9 +78,9 @@ public class GroupDao {
         try{
             connection = DbConnection.getConnection();
             preparedStatement = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS" + groupId + "_data" +
+                    "CREATE TABLE IF NOT EXISTS " + groupId + "_data" +
                             "(" +
-                            id + " SERIAL PRIMARY KEY, " +
+                            id + " TEXT PRIMARY KEY, " +
                             deskripsi + " TEXT NOT NULL, " +
                             tipe + " " +tipe_data + " NOT NULL" +
                             ")"
@@ -104,11 +104,12 @@ public class GroupDao {
             ps = connection.prepareStatement(
                     "INSERT INTO " + groupId + "_data" +
                             "(" +
-                            deskripsi + "," +tipe +
-                            ") VALUES (?,?)"
+                            id + "," + deskripsi + "," +tipe +
+                            ") VALUES (?,?,?)"
             );
-            ps.setString(1, group.getDeskripsi());
-            ps.setString(2, group.getTipe());
+            ps.setString(1, group.getId());
+            ps.setString(2, group.getDeskripsi());
+            ps.setString(3, group.getTipe());
             status = ps.executeUpdate();
         } catch (Exception ex){
             System.out.println("Gagal insert group table : " + ex.toString());

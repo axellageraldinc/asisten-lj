@@ -28,11 +28,7 @@ public class HandleJoinGroupController {
             group_id = ((RoomSource) source).getRoomId();
             System.out.println("ROOM ID : " + group_id);
         }
-        GroupDao.CreateTableGroup(groupId);
-        GroupDao.CreateTableData(groupId);
-//        System.out.println("Group name : " + getGroupName(groupId));
-//        System.out.println("Group ID dari method : " + get_group_name());
-//        GroupDao.CreateTableGroup(groupId);
+//        GroupDao.CreateTableData(groupId);
         replyMsg = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
                 "Silakan ketik /help untuk melihat command-command yang ada.");
         return replyMsg;
@@ -41,8 +37,13 @@ public class HandleJoinGroupController {
     @EventMapping
     public TextMessage handleTextSlash(MessageEvent<TextMessageContent> msg){
         TextMessage replyMsg = null;
-        if(msg.getMessage().getText().equals("/help")){
-            replyMsg = new TextMessage("command help");
+        if(msg.getMessage().getText().toUpperCase().equals("/HELP")){
+            replyMsg = new TextMessage("Daftar command LJ BOT\n" +
+                    "1. /PR [spasi] [deskripsi PR] : Tambah list PR\n" +
+                    "2. /UJIAN [spasi] [deskripsi UJIAN] : Tambah list seputar ujian (kisi-kisi, dll)\n");
+        } else if (msg.getMessage().getText().toUpperCase().substring(0,2).equals("/PR")){
+            String deskripsi = msg.getMessage().getText().substring(4);
+            replyMsg = new TextMessage("deskripsi PR : " + deskripsi);
         }
         return replyMsg;
     }
