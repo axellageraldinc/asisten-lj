@@ -81,7 +81,7 @@ public class GroupDao {
         try{
             connection = DbConnection.getConnection();
             preparedStatement = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS " + groupId + "_data" +
+                    "CREATE TABLE IF NOT EXISTS " + groupId +
                             "(" +
                             id + " TEXT PRIMARY KEY, " +
                             deskripsi + " TEXT NOT NULL, " +
@@ -89,9 +89,9 @@ public class GroupDao {
                             ")"
             );
             if (preparedStatement.executeUpdate()==1)
-                System.out.println("Create table " + groupId + "_data" + "berhasil");
+                System.out.println("Create table " + groupId + "berhasil");
         } catch (Exception ex){
-            System.out.println("Gagal create table " + groupId + "_data" + " : " + ex.toString());
+            System.out.println("Gagal create table " + groupId + " : " + ex.toString());
         } finally {
             DbConnection.ClosePreparedStatement(preparedStatement);
             DbConnection.CloseConnection(connection);
@@ -105,7 +105,7 @@ public class GroupDao {
         try{
             connection = DbConnection.getConnection();
             ps = connection.prepareStatement(
-                    "INSERT INTO " + groupId + "_data" +
+                    "INSERT INTO " + groupId +
                             "(" +
                             id + "," + deskripsi + "," +tipe +
                             ") VALUES (?,?,?)"
@@ -124,7 +124,7 @@ public class GroupDao {
     }
 
     public static List<Group> GetAllTugas(String groupId, String tipe){
-        String tableName = groupId + "_data";
+        String tableName = groupId;
         List<Group> groupList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement ps = null;
