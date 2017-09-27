@@ -43,6 +43,7 @@ public class HandleJoinGroupController {
                     "2. /UJIAN [spasi] [deskripsi UJIAN] : Tambah list seputar ujian (kisi-kisi, dll)\n");
         } else if (msg.getMessage().getText().toUpperCase().substring(0,2).equals("/PR")){
             String deskripsi = msg.getMessage().getText().substring(4);
+            System.out.println("deskripsi PR : " + deskripsi);
             replyMsg = new TextMessage("deskripsi PR : " + deskripsi);
         }
         return replyMsg;
