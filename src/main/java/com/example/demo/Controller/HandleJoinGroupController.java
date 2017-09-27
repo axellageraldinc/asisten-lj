@@ -68,13 +68,13 @@ public class HandleJoinGroupController {
             messageList.clear();
             CarouselTemplate carouselTemplate = new CarouselTemplate(
                     Arrays.asList(
-                            new CarouselColumn(null, "TUGAS", "Tambah atau lihat list tugas-tugas", Arrays.asList(
+                            new CarouselColumn(null, "TUGAS", "yoi Tugas", Arrays.asList(
                                     new PostbackAction("Tambah Tugas",
                                             "/ADD-TUGAS"),
                                     new PostbackAction("Lihat Tugas",
                                             "/SHOW-TUGAS")
                             )),
-                            new CarouselColumn(null, "UJIAN", "Tambah atau lihat hal seputar ujian (kisi-kisi, sifat ujian, dll)", Arrays.asList(
+                            new CarouselColumn(null, "UJIAN", "yoi Ujian", Arrays.asList(
                                     new PostbackAction("Tambah Ujian",
                                             "/ADD-UJIAN"),
                                     new PostbackAction("Lihat Ujian",
