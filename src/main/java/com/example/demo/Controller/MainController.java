@@ -151,7 +151,9 @@ public class MainController {
         if(data.equals("/ADD-TUGAS")){
             textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
             messageList.add(textMessage);
-            textMessage = new TextMessage("Perhatian!\nKirim deskripsi tugas dengan format #tugas [spasi] [deskripsi]");
+            textMessage = new TextMessage("Perhatian!\n" +
+                    "Kirim deskripsi tugas dengan format !tugas [spasi] [deskripsi]\n" +
+                    "Contoh : !tugas progdas bikin kalkulator deadline senin");
             messageList.add(textMessage);
         } else if(data.equals("/SHOW-TUGAS")){
             List<Group> groupList = MainDao.GetAll(id, "tugas");
