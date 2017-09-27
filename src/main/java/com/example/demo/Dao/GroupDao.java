@@ -123,7 +123,7 @@ public class GroupDao {
         return status;
     }
 
-    public static List<Group> GetAllTugas(String groupId, String type){
+    public static List<Group> GetAll(String groupId, String type){
         String tableName = groupId;
         List<Group> groupList = new ArrayList<>();
         Connection connection = null;

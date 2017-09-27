@@ -11,7 +11,6 @@ import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -30,7 +29,6 @@ public class HandleJoinGroupController {
     public TextMessage handleJoinNewGroup(JoinEvent joinEvent){
         TextMessage replyMsg = null;
         String groupId = joinEvent.getSource().getSenderId();
-        System.out.println("Group ID dari join : " + groupId);
         Source source = joinEvent.getSource();
         String group_id;
         if (source instanceof GroupSource){
@@ -67,11 +65,8 @@ public class HandleJoinGroupController {
         } else if (msg.getMessage().getText().toUpperCase().substring(0,6).equals("/TUGAS")){
             messageList.clear();
             String deskripsi = msg.getMessage().getText().substring(7);
-            System.out.println("deskripsi TUGAS : " + deskripsi);
-            TextMessage msgDeskripsi = new TextMessage("deskripsi TUGAS : " + deskripsi + "\n\nSemangat ya ngerjain TUGAS nyaaaa");
-            messageList.add(msgDeskripsi);
-            StickerMessage stickerSuksesTugas = new StickerMessage("1", "5");
-            messageList.add(stickerSuksesTugas);
+//            StickerMessage stickerSuksesTugas = new StickerMessage("1", "5");
+//            messageList.add(stickerSuksesTugas);
 
 //            //Add TUGAS ke database
             group.setId("TUGAS" + "-" + deskripsi.substring(0,5));
@@ -82,15 +77,34 @@ public class HandleJoinGroupController {
                 System.out.println("Berhasil masukkan tugas ke database");
             else
                 System.out.println("Gagal masukkan ke database");
-            List<Group> groupList = GroupDao.GetAllTugas(groupId, "tugas");
+            List<Group> groupList = GroupDao.GetAll(groupId, "tugas");
             StringBuilder Stringmsg = new StringBuilder();
-            String AllTugas = null;
+            int nomor=1;
             for (Group groupp:groupList) {
-                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
-//                AllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
+                Stringmsg.append(nomor + "." + "\nID : " + groupp.getId() + "\nTugas : " + groupp.getDeskripsi());
+                nomor++;
             }
-            System.out.println("AllTugas : " + String.valueOf(Stringmsg));
-            TextMessage msgAllTugas = new TextMessage("***LIST TUGAS***\n\n" + String.valueOf(Stringmsg));
+            TextMessage msgAllTugas = new TextMessage("LIST TUGAS\n" + String.valueOf(Stringmsg));
+            messageList.add(msgAllTugas);
+        } else if(msg.getMessage().getText().substring(0,6).equals("/UJIAN")){
+            messageList.clear();
+            String deskripsi = msg.getMessage().getText().substring(7);
+            group.setId("UJIAN" + "-" + deskripsi.substring(0,5));
+            group.setDeskripsi(deskripsi);
+            group.setTipe("ujian");
+            int status_insert = GroupDao.Insert(groupId, group);
+            if(status_insert==1)
+                System.out.println("Berhasil masukkan tugas ke database");
+            else
+                System.out.println("Gagal masukkan ke database");
+            List<Group> groupList = GroupDao.GetAll(groupId, "ujian");
+            StringBuilder Stringmsg = new StringBuilder();
+            int nomor=1;
+            for (Group groupp:groupList) {
+                Stringmsg.append(nomor + "." + "\nID : " + groupp.getId() + "\nUjian : " + groupp.getDeskripsi());
+                nomor++;
+            }
+            TextMessage msgAllTugas = new TextMessage("LIST UJIAN\n" + String.valueOf(Stringmsg));
             messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
