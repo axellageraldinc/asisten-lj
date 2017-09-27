@@ -84,6 +84,7 @@ public class MainController {
         String pesan = content.getText().toUpperCase();
         String apakah = pesan.substring(0,6);
         String game_siapakah = pesan.substring(0,14);
+        String join = pesan.substring(0,5);
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -95,7 +96,7 @@ public class MainController {
             command = "/APAKAH";
         } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
             command = "/GAME-SIAPAKAH";
-        } else if(pesan.substring(0,5).equals("/JOIN")){
+        } else if(join.equals("/JOIN")){
             command = "/JOIN";
         }
         System.out.println("Command : " + command);
@@ -210,19 +211,7 @@ public class MainController {
                 String type = getType(source);
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
-                AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-		        AsyncClass asyncClass = context.getBean(AsyncClass.class);
-		        Future future = asyncClass.gameMulai();
-		        status_waiting_game=1;
-                String pengumuman = null;
-                try {
-                    pengumuman = future.get().toString();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("UPDATE : " + pengumuman);
+                StartGame();
 //                List<String> memberList = GetMembers(type, groupId);
 //                StringBuilder sb = new StringBuilder();
 //                for (String members: memberList) {
@@ -409,6 +398,21 @@ public class MainController {
             e.printStackTrace();
         }
         return memberIds;
+    }
+
+    public void StartGame(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        AsyncClass asyncClass = context.getBean(AsyncClass.class);
+        Future future = asyncClass.gameMulai();
+        status_waiting_game=1;
+        String pengumuman = null;
+        try {
+            pengumuman = future.get().toString();
+        } catch (Exception e) {
+            System.out.println("Gagal asyncClass : " + e.toString());
+            e.printStackTrace();
+        }
+        System.out.println("UPDATE : " + pengumuman);
     }
 
     public String getName(String userId){
