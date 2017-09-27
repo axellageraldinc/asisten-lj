@@ -136,7 +136,7 @@ public class GroupDao {
         }
         try{
             ps = connection.prepareStatement(
-                    "SELECT * FROM " + tableName + " WHERE " + tipe + "=?"
+                    "SELECT * FROM " + tableName + " WHERE " + tipe + "=?::" + tipe_data
             );
             ps.setString(1, type);
             rs = ps.executeQuery();
