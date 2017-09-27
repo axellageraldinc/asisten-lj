@@ -1,5 +1,7 @@
 package com.example.demo.Dao;
 
+import com.example.demo.model.Group;
+
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,7 +56,6 @@ public class GroupDao {
                             "(" +
                             id + " SERIAL PRIMARY KEY, " +
                             group_id + " TEXT NOT NULL, " +
-                            group_name + " TEXT NOT NULL, " +
                             ")"
             );
             if (ps.executeUpdate()==1)
@@ -94,7 +95,7 @@ public class GroupDao {
         }
     }
 
-    public static int Insert(String groupId){
+    public static int Insert(String groupId,Group group){
         int status=0;
         Connection connection = null;
         PreparedStatement ps = null;
@@ -104,8 +105,10 @@ public class GroupDao {
                     "INSERT INTO " + groupId + "_data" +
                             "(" +
                             deskripsi + "," +tipe +
-                            ")"
+                            ") VALUES (?,?)"
             );
+            ps.setString(1, group.getDeskripsi());
+            ps.setString(2, group.getTipe());
             status = ps.executeUpdate();
         } catch (Exception ex){
             System.out.println("Gagal insert group table : " + ex.toString());
