@@ -92,12 +92,12 @@ public class MainController {
             } else if(pesan.substring(7, 12).equals("UJIAN")){
                 command = "/HPJ";
             }
+        } else if(join.equals("/JOIN")){
+            command = "/JOIN";
         } else if(apakah.equals("APAKAH")){
             command = "/APAKAH";
-        } if(game_siapakah.equals("/GAME-SIAPAKAH")){
+        } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
             command = "/GAME-SIAPAKAH";
-        } if(join.equals("/JOIN")){
-            command = "/JOIN";
         }
         System.out.println("Command : " + command);
         Main main = new Main();
@@ -211,9 +211,24 @@ public class MainController {
                 String type = getType(source);
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
-                String pengumuman = StartGame();
-                textMessage = new TextMessage("WAKTU HABIS!");
+
+                AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+                AsyncClass asyncClass = context.getBean(AsyncClass.class);
+                Future future = asyncClass.gameMulai();
+                status_waiting_game=1;
+                String pengumuman = null;
+                try {
+                    pengumuman = future.get().toString();
+                } catch (Exception e) {
+                    System.out.println("Gagal asyncClass : " + e.toString());
+                    e.printStackTrace();
+                }
+                System.out.println("UPDATE : " + pengumuman);
+                status_waiting_game=0;
+                textMessage = new TextMessage("GAME DIMULAI!");
                 KirimPesan(replyToken, textMessage);
+
+//                StartGame(replyToken);
 //                List<String> memberList = GetMembers(type, groupId);
 //                StringBuilder sb = new StringBuilder();
 //                for (String members: memberList) {
@@ -402,7 +417,7 @@ public class MainController {
         return memberIds;
     }
 
-    public String StartGame(){
+    public void StartGame(String replyToken){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         AsyncClass asyncClass = context.getBean(AsyncClass.class);
         Future future = asyncClass.gameMulai();
@@ -415,10 +430,8 @@ public class MainController {
             e.printStackTrace();
         }
         System.out.println("UPDATE : " + pengumuman);
-//        TextMessage textMessage = new TextMessage("GAME DIMULAI!");
-//        KirimPesan(replyToken, textMessage);
-        status_waiting_game=0;
-        return pengumuman;
+        TextMessage textMessage = new TextMessage("GAME DIMULAI!");
+        KirimPesan(replyToken, textMessage);
     }
 
     public String getName(String userId){
