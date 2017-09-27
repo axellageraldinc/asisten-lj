@@ -1,35 +1,18 @@
 package com.example.demo;
 
 import com.example.demo.Dao.FollowersDao;
+import com.example.demo.Dao.GroupDao;
 import com.example.demo.model.Followers;
-import com.linecorp.bot.client.ChannelTokenSupplier;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.Multicast;
 import com.linecorp.bot.model.PushMessage;
-import com.linecorp.bot.model.event.FollowEvent;
-import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.StickerMessageContent;
-import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
-import com.linecorp.bot.spring.boot.LineBotAutoConfiguration;
-import com.linecorp.bot.spring.boot.LineBotProperties;
-import com.linecorp.bot.spring.boot.annotation.EventMapping;
-import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import retrofit2.Response;
 
@@ -38,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 @SpringBootApplication
 @LineMessageHandler
@@ -55,12 +37,13 @@ public class DemoApplication {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
 		FollowersDao.CreateTable();
-		getUserId();
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
-		Future future = testAsyncClass.getUpdate();
-		String update = future.get().toString();
-		System.out.println("UPDATE : " + update);
+		GroupDao.CreateType();
+//		getUserId();
+//		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+//		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
+//		Future future = testAsyncClass.getUpdate();
+//		String update = future.get().toString();
+//		System.out.println("UPDATE : " + update);
 //		pushMessageKeAxell(update);
 
 //		System.out.println("About to run...");

@@ -37,24 +37,24 @@ public class TestAsyncClass {
 //        return new AsyncResult<>(userId);
 //    }
 
-    @Async
-    public Future<String> getUpdate() throws InterruptedException {
-        String newArticle="";
-        String firstTrIdAsync;
-        int x=0;
-        while (x!=1){
-            firstTrIdAsync = infoWebSarjana.firstId();
-            //Berarti ada update
-            if(!firstTrIdAsync.equals(firstTrId)){
-                newArticle = "PENGUMUMAN BARU SU!!!\n" + infoWebSarjana.GetDate() + "\n" +
-                        infoWebSarjana.GetCategory() + "\n" + infoWebSarjana.GetTitle() + "\n" + "\n" + infoWebSarjana.GetDescription();
-                firstTrId = infoWebSarjana.firstId();
-                DemoApplication.pushMessageKeAxell(newArticle);
-            }
-            System.out.println("firstTrIdAsync : " + firstTrIdAsync);
-            System.out.println("firstTrId : " + firstTrId);
-            Thread.sleep(5000);
-        }
-        return new AsyncResult<>(newArticle);
-    }
+//    @Async
+//    public Future<String> getUpdate() throws InterruptedException {
+//        String newArticle="";
+//        String firstTrIdAsync;
+//        int x=0;
+//        while (x!=1){
+//            firstTrIdAsync = infoWebSarjana.firstId();
+//            //Berarti ada update
+//            if(!firstTrIdAsync.equals(firstTrId)){
+//                newArticle = "PENGUMUMAN BARU SU!!!\n" + infoWebSarjana.GetDate() + "\n" +
+//                        infoWebSarjana.GetCategory() + "\n" + infoWebSarjana.GetTitle() + "\n" + "\n" + infoWebSarjana.GetDescription();
+//                firstTrId = infoWebSarjana.firstId();
+//                DemoApplication.pushMessageKeAxell(newArticle);
+//            }
+//            System.out.println("firstTrIdAsync : " + firstTrIdAsync);
+//            System.out.println("firstTrId : " + firstTrId);
+//            Thread.sleep(5000);
+//        }
+//        return new AsyncResult<>(newArticle);
+//    }
 }
