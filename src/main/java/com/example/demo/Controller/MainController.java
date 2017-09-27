@@ -4,6 +4,7 @@ import com.example.demo.Dao.MainDao;
 import com.example.demo.model.Group;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.FollowEvent;
 import com.linecorp.bot.model.event.JoinEvent;
@@ -61,15 +62,15 @@ public class MainController {
             CarouselTemplate carouselTemplate = new CarouselTemplate(
                     Arrays.asList(
                             new CarouselColumn(null, "TUGAS", "Tambah/Lihat seputar Tugas", Arrays.asList(
-                                    new PostbackAction("Tambah Tugas",
+                                    new MessageAction("Tambah Tugas",
                                             "/ADD-TUGAS"),
-                                    new PostbackAction("Lihat Tugas",
+                                    new MessageAction("Lihat Tugas",
                                             "/SHOW-TUGAS")
                             )),
                             new CarouselColumn(null, "UJIAN", "Tambah/Lihat seputar Ujian", Arrays.asList(
-                                    new PostbackAction("Tambah Ujian",
+                                    new MessageAction("Tambah Ujian",
                                             "/ADD-UJIAN"),
-                                    new PostbackAction("Lihat Ujian",
+                                    new MessageAction("Lihat Ujian",
                                             "/SHOW-UJIAN")
                             ))
                     ));
@@ -148,26 +149,26 @@ public class MainController {
         String data = event.getPostbackContent().getData();
         TextMessage textMessage = null;
         String id = getId(source);
-        if(data.equals("/ADD-TUGAS")){
-            textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
-            messageList.add(textMessage);
-            textMessage = new TextMessage("Perhatian!\n" +
-                    "Kirim deskripsi tugas dengan format !tugas [spasi] [deskripsi]\n" +
-                    "Contoh : /tugas progdas bikin kalkulator deadline senin");
-            messageList.add(textMessage);
-        } else if(data.equals("/SHOW-TUGAS")){
-            List<Group> groupList = MainDao.GetAll(id, "tugas");
-            StringBuilder sb = null;
-            int nomor=1;
-            for (Group item:groupList) {
-                sb.append(nomor + ".\n" +
-                        item.getId() + "\n" +
-                        item.getDeskripsi() + "\n");
-                nomor++;
-            }
-            textMessage = new TextMessage(String.valueOf(sb));
-            messageList.add(textMessage);
-        }
+//        if(data.equals("/ADD-TUGAS")){
+//            textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
+//            messageList.add(textMessage);
+//            textMessage = new TextMessage("Perhatian!\n" +
+//                    "Kirim deskripsi tugas dengan format !tugas [spasi] [deskripsi]\n" +
+//                    "Contoh : /tugas progdas bikin kalkulator deadline senin");
+//            messageList.add(textMessage);
+//        } else if(data.equals("/SHOW-TUGAS")){
+//            List<Group> groupList = MainDao.GetAll(id, "tugas");
+//            StringBuilder sb = null;
+//            int nomor=1;
+//            for (Group item:groupList) {
+//                sb.append(nomor + ".\n" +
+//                        item.getId() + "\n" +
+//                        item.getDeskripsi() + "\n");
+//                nomor++;
+//            }
+//            textMessage = new TextMessage(String.valueOf(sb));
+//            messageList.add(textMessage);
+//        }
         pushMessage = new PushMessage(id, messageList);
         KirimPesan(pushMessage);
     }
@@ -180,9 +181,20 @@ public class MainController {
         String pesan = msg.getMessage().getText();
         System.out.println("Pesan : " + pesan);
         System.out.println("Pesan substring : " + pesan.substring(0,6).toUpperCase());
-        PushMessage pushMessage;
+        PushMessage pushMessage = null;
         TextMessage textMessage;
-        if(pesan.substring(0,6).toUpperCase().equals("/TUGAS")){
+        List<Message> messageList = new ArrayList<>();
+        if (pesan.toUpperCase().equals("/ADD-TUGAS")){
+            messageList.clear();
+            textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
+            messageList.add(textMessage);
+            textMessage = new TextMessage("Perhatian!\n" +
+                    "Kirim deskripsi tugas dengan format !tugas [spasi] [deskripsi]\n" +
+                    "Contoh : /tugas progdas bikin kalkulator deadline senin");
+            messageList.add(textMessage);
+            pushMessage = new PushMessage(id, messageList);
+        }
+        else if(pesan.substring(0,6).toUpperCase().equals("/TUGAS")){
             String desc = pesan.substring(7);
             group.setId("TUGAS-" + desc.substring(0,5));
             group.setDeskripsi(desc);
@@ -195,8 +207,8 @@ public class MainController {
                 textMessage = new TextMessage("Oops! Ada kesalahan sistem, tugas gagal dicatat");
                 pushMessage = new PushMessage(id, textMessage);
             }
-            KirimPesan(pushMessage);
         }
+        KirimPesan(pushMessage);
     }
 
     public void KirimPesan(PushMessage pushMessage){
