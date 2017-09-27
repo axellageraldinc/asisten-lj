@@ -21,7 +21,7 @@ public class AsyncClass {
     public Future<String> gameMulai(){
         String pengumuman;
         int x=0;
-        while(x!=10){
+        while(x!=15){
             try {
                 Thread.sleep(1000);
                 x++;
