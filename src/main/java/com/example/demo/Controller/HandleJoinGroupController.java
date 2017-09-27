@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dao.GroupDao;
+import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.event.JoinEvent;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -11,14 +12,18 @@ import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @LineMessageHandler
 public class HandleJoinGroupController {
+    private static String AccessToken = "u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=";
 
     @EventMapping
     public TextMessage handleJoinNewGroup(JoinEvent joinEvent){
@@ -41,7 +46,7 @@ public class HandleJoinGroupController {
     }
 
     @EventMapping
-    public PushMessage handleTextSlash(MessageEvent<TextMessageContent> msg){
+    public void handleTextSlash(MessageEvent<TextMessageContent> msg){
 //        String groupId = msg.getSource().getSenderId();
         String groupId = null;
         Source source = msg.getSource();
@@ -66,7 +71,19 @@ public class HandleJoinGroupController {
             messageList.add(stickerSuksesPR);
         }
         pushMessage = new PushMessage(groupId, messageList);
-        return pushMessage;
+        Response<BotApiResponse> response =
+                null;
+        try {
+            response = LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .pushMessage(pushMessage)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(response.code() + " " + response.message());
+//        return pushMessage;
     }
 
 }
