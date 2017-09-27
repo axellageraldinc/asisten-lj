@@ -157,6 +157,7 @@ public class MainDao {
         Connection connection = null;
         PreparedStatement ps = null;
         try{
+            connection = DbConnection.getConnection();
             ps = connection.prepareStatement(
                     "DELETE FROM " + groupId + " WHERE " + id + "=?"
             );
