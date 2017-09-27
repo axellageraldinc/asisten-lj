@@ -84,9 +84,9 @@ public class MainController {
             } else if(pesan.substring(7, 12).equals("UJIAN")){
                 command = "/HPJ";
             }
-        } else if(apakah.equals("APAKAH")){
+        } if(apakah.equals("APAKAH")){
             command = "/APAKAH";
-        } else if(siapakah.equals("SIAPAKAH")){
+        } if(siapakah.equals("SIAPAKAH")){
             command = "/SIAPAKAH";
         }
         System.out.println("Command : " + command);
