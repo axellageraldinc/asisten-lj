@@ -202,6 +202,7 @@ public class MainController {
                         item.getDeskripsi() + "\n");
                 nomor++;
             }
+            System.out.println("Data get all : " + String.valueOf(sb));
             textMessage = new TextMessage(String.valueOf(sb));
             messageList.add(textMessage);
         }
