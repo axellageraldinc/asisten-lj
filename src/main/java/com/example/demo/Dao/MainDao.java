@@ -1,6 +1,6 @@
 package com.example.demo.Dao;
 
-import com.example.demo.model.Group;
+import com.example.demo.model.Main;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -98,7 +98,7 @@ public class MainDao {
         }
     }
 
-    public static int Insert(String groupId,Group group){
+    public static int Insert(String groupId,Main main){
         int status=0;
         Connection connection = null;
         PreparedStatement ps = null;
@@ -110,12 +110,12 @@ public class MainDao {
                             id + "," + deskripsi + "," +tipe +
                             ") VALUES (?,?,?::" + tipe_data + ")"
             );
-            ps.setString(1, group.getId());
-            ps.setString(2, group.getDeskripsi());
-            ps.setString(3, group.getTipe());
+            ps.setString(1, main.getId());
+            ps.setString(2, main.getDeskripsi());
+            ps.setString(3, main.getTipe());
             status = ps.executeUpdate();
         } catch (Exception ex){
-            System.out.println("Gagal insert group table : " + ex.toString());
+            System.out.println("Gagal insert main table : " + ex.toString());
         } finally {
             DbConnection.ClosePreparedStatement(ps);
             DbConnection.CloseConnection(connection);
@@ -123,8 +123,8 @@ public class MainDao {
         return status;
     }
 
-    public static List<Group> GetAll(String groupId, String type){
-        List<Group> groupList = new ArrayList<>();
+    public static List<Main> GetAll(String groupId, String type){
+        List<Main> mainList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -136,10 +136,10 @@ public class MainDao {
             ps.setString(1, type);
             rs = ps.executeQuery();
             while (rs.next()){
-                Group group = new Group();
-                group.setId(rs.getString(id));
-                group.setDeskripsi(rs.getString(deskripsi));
-                groupList.add(group);
+                Main main = new Main();
+                main.setId(rs.getString(id));
+                main.setDeskripsi(rs.getString(deskripsi));
+                mainList.add(main);
             }
         } catch (Exception ex){
             System.out.println("Gagal get data : " + ex.toString());
@@ -148,8 +148,8 @@ public class MainDao {
             DbConnection.ClosePreparedStatement(ps);
             DbConnection.CloseConnection(connection);
         }
-        System.out.println("Group List kelas DAO : " + groupList);
-        return groupList;
+        System.out.println("Main List kelas DAO : " + mainList);
+        return mainList;
     }
 
     public static int DeleteItem(String groupId, String idd){

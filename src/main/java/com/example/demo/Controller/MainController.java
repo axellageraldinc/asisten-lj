@@ -1,7 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dao.MainDao;
-import com.example.demo.model.Group;
+import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
@@ -20,7 +20,6 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.applet.Main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +52,8 @@ public class MainController {
         String id = getId(source);
         MainDao.CreateTableData(id);
         textMessage = new TextMessage("Nuwun yo aku wes di-add dadi friend\n" +
-                "Silakan ketik /woy untuk melihat fitur-fitur yang ada.");
+                "Silakan ketik /woy untuk melihat fitur-fitur yang ada.\n" +
+                "Aku di invite ning group lhoooo");
         return textMessage;
     }
 
@@ -81,10 +81,10 @@ public class MainController {
 ////                System.out.println("Berhasil masukkan tugas ke database");
 ////            else
 ////                System.out.println("Gagal masukkan ke database");
-////            List<Group> groupList = MainDao.GetAll(groupId, "tugas");
+////            List<Main> groupList = MainDao.GetAll(groupId, "tugas");
 ////            StringBuilder Stringmsg = new StringBuilder();
 ////            int nomor=1;
-////            for (Group groupp:groupList) {
+////            for (Main groupp:groupList) {
 ////                Stringmsg.append(nomor + "." + "\nID : " + groupp.getId() + "\nTugas : " + groupp.getDeskripsi());
 ////                nomor++;
 ////            }
@@ -101,10 +101,10 @@ public class MainController {
 ////                System.out.println("Berhasil masukkan tugas ke database");
 ////            else
 ////                System.out.println("Gagal masukkan ke database");
-////            List<Group> groupList = MainDao.GetAll(groupId, "ujian");
+////            List<Main> groupList = MainDao.GetAll(groupId, "ujian");
 ////            StringBuilder Stringmsg = new StringBuilder();
 ////            int nomor=1;
-////            for (Group groupp:groupList) {
+////            for (Main groupp:groupList) {
 ////                Stringmsg.append(nomor + "." + "\nID : " + groupp.getId() + "\nUjian : " + groupp.getDeskripsi());
 ////                nomor++;
 ////            }
@@ -147,7 +147,7 @@ public class MainController {
             }
         }
         System.out.println("Command : " + command);
-        Group group = new Group();
+        Main main = new Main();
         Source source = event.getSource();
         PushMessage pushMessage;
         List<Message> messageList = new ArrayList<>();
@@ -181,10 +181,10 @@ public class MainController {
             }
             case "/TUG" : {
                 String desc = pesan.substring(7);
-                group.setId("TUGAS-" + desc.substring(0,7));
-                group.setDeskripsi(desc);
-                group.setTipe("tugas");
-                int status_insert = MainDao.Insert(id, group);
+                main.setId("TUGAS-" + desc.substring(0,7));
+                main.setDeskripsi(desc);
+                main.setTipe("tugas");
+                int status_insert = MainDao.Insert(id, main);
                 if(status_insert==1){
                     textMessage = new TextMessage("Tugas berhasil dicatat.");
                     messageList.add(textMessage);
@@ -199,10 +199,10 @@ public class MainController {
             }
             case "/UJI" : {
                 String desc = pesan.substring(7);
-                group.setId("UJIAN-" + desc.substring(0,7));
-                group.setDeskripsi(desc);
-                group.setTipe("ujian");
-                int status_insert = MainDao.Insert(id, group);
+                main.setId("UJIAN-" + desc.substring(0,7));
+                main.setDeskripsi(desc);
+                main.setTipe("ujian");
+                int status_insert = MainDao.Insert(id, main);
                 if(status_insert==1){
                     textMessage = new TextMessage("Ujian berhasil dicatat.");
                     messageList.add(textMessage);
@@ -280,10 +280,10 @@ public class MainController {
             messageList.add(textMessage);
         } else if(data.equals("/SHOW-TUGAS")){
             messageList.clear();
-            List<Group> groupList = MainDao.GetAll(id, "tugas");
+            List<Main> mainList = MainDao.GetAll(id, "tugas");
             StringBuilder sb = new StringBuilder();
             int nomor=1;
-            for (Group item:groupList) {
+            for (Main item: mainList) {
                 sb.append("LIST TUGAS\n\n" +
                         nomor + ".\n" +
                         "ID : " + item.getId() + "\n" +
@@ -303,10 +303,10 @@ public class MainController {
             messageList.add(textMessage);
         } else if (data.equals("/SHOW-UJIAN")){
             messageList.clear();
-            List<Group> groupList = MainDao.GetAll(id, "ujian");
+            List<Main> mainList = MainDao.GetAll(id, "ujian");
             StringBuilder sb = new StringBuilder();
             int nomor=1;
-            for (Group item:groupList) {
+            for (Main item: mainList) {
                 sb.append("LIST UJIAN\n\n" +
                         nomor + ".\n" +
                         "ID : " + item.getId() + "\n" +
@@ -318,10 +318,10 @@ public class MainController {
             messageList.add(textMessage);
         } else if (data.equals("/HAPUS-TUGAS")){
             messageList.clear();
-            List<Group> groupList = MainDao.GetAll(id, "tugas");
+            List<Main> mainList = MainDao.GetAll(id, "tugas");
             StringBuilder sb = new StringBuilder();
             int nomor=1;
-            for (Group item:groupList) {
+            for (Main item: mainList) {
                 sb.append(nomor + ".\n" +
                         "ID : " + item.getId() + "\n" +
                         item.getDeskripsi() + "\n");
@@ -335,10 +335,10 @@ public class MainController {
             messageList.add(textMessage);
         } else if(data.equals("/HAPUS-UJIAN")){
             messageList.clear();
-            List<Group> groupList = MainDao.GetAll(id, "ujian");
+            List<Main> mainList = MainDao.GetAll(id, "ujian");
             StringBuilder sb = new StringBuilder();
             int nomor=1;
-            for (Group item:groupList) {
+            for (Main item: mainList) {
                 sb.append(nomor + ".\n" +
                         "ID : " + item.getId() + "\n" +
                         item.getDeskripsi() + "\n");
@@ -359,7 +359,7 @@ public class MainController {
 //    @EventMapping
 //    public void handleContent(MessageEvent<TextMessageContent> msg){
 //        Source source = msg.getSource();
-//        Group group = new Group();
+//        Main group = new Main();
 //        String id = getId(source);
 //        String pesan = msg.getMessage().getText();
 //        System.out.println("Pesan : " + pesan);

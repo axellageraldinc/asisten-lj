@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-public class Group {
+public class Main {
     private String id;
     private String deskripsi, tipe;
 
