@@ -142,7 +142,7 @@ public class MainController {
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
                 command = "HPT";
-            } else if(pesan.substring(7, 12).equals("/UJIAN")){
+            } else if(pesan.substring(7, 12).equals("UJIAN")){
                 command = "HPJ";
             }
         }
@@ -216,7 +216,7 @@ public class MainController {
                 break;
             }
             case "HPT" : {
-                String id_delete = pesan.substring(13);
+                String id_delete = pesan.substring(7);
                 int status_delete = MainDao.DeleteItem(id, id_delete);
                 if(status_delete==1){
                     textMessage = new TextMessage("Berhasil delete tugas ID : " + id_delete);
@@ -230,12 +230,17 @@ public class MainController {
                 break;
             }
             case "HPJ" : {
-                String id_delete = pesan.substring(13);
+                String id_delete = pesan.substring(7);
                 int status_delete = MainDao.DeleteItem(id, id_delete);
-                if(status_delete==1)
+                if(status_delete==1){
                     textMessage = new TextMessage("Berhasil delete ujian ID : " + id_delete);
-                else
+                    messageList.add(textMessage);
+                }
+                else{
                     textMessage = new TextMessage("Oops! Gagal delete ujian ID : " + id_delete);
+                    messageList.add(textMessage);
+                }
+                KirimPesan(replyToken, messageList);
                 break;
             }
         }
