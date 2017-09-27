@@ -66,7 +66,7 @@ public class HandleJoinGroupController {
             messageList.add(msgCommand);
         } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/TUGAS")){
             messageList.clear();
-            String deskripsi = msg.getMessage().getText().substring(4);
+            String deskripsi = msg.getMessage().getText().substring(7);
             System.out.println("deskripsi TUGAS : " + deskripsi);
             TextMessage msgDeskripsi = new TextMessage("deskripsi TUGAS : " + deskripsi + "\n\nSemangat ya ngerjain TUGAS nyaaaa");
             messageList.add(msgDeskripsi);
@@ -74,24 +74,24 @@ public class HandleJoinGroupController {
             messageList.add(stickerSuksesTugas);
 
 //            //Add TUGAS ke database
-//            group.setId("TUGAS" + "-" + deskripsi.substring(0,7));
-//            group.setDeskripsi(deskripsi);
-//            group.setTipe("tugas");
-//            int status_insert = GroupDao.Insert(groupId, group);
-//            if(status_insert==1)
-//                System.out.println("Berhasil masukkan tugas ke database");
-//            else
-//                System.out.println("Gagal masukkan ke database");
-//            List<Group> groupList = GroupDao.GetAllTugas(groupId, "tugas");
-////            StringBuilder Stringmsg = new StringBuilder();
-//            String AllTugas = null;
-//            for (Group groupp:groupList) {
-////                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
+            group.setId("TUGAS" + "-" + deskripsi.substring(0,7));
+            group.setDeskripsi(deskripsi);
+            group.setTipe("tugas");
+            int status_insert = GroupDao.Insert(groupId, group);
+            if(status_insert==1)
+                System.out.println("Berhasil masukkan tugas ke database");
+            else
+                System.out.println("Gagal masukkan ke database");
+            List<Group> groupList = GroupDao.GetAllTugas(groupId, "tugas");
+            StringBuilder Stringmsg = new StringBuilder();
+            String AllTugas = null;
+            for (Group groupp:groupList) {
+                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
 //                AllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
-//            }
-//            System.out.println("AllTugas : " + AllTugas);
-////            TextMessage msgAllTugas = new TextMessage(AllTugas);
-////            messageList.add(msgAllTugas);
+            }
+            System.out.println("AllTugas : " + String.valueOf(Stringmsg));
+//            TextMessage msgAllTugas = new TextMessage(AllTugas);
+//            messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
         Response<BotApiResponse> response =
