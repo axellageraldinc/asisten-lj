@@ -59,11 +59,13 @@ public class HandleJoinGroupController {
         PushMessage pushMessage;
         List<Message> messageList = new ArrayList<>();
         if(msg.getMessage().getText().toUpperCase().equals("/HELP")){
+            messageList.clear();
             TextMessage msgCommand = new TextMessage("Daftar command LJ BOT\n" +
                     "1. /TUGAS [spasi] [deskripsi TUGAS]\n" +
                     "2. /UJIAN [spasi] [deskripsi UJIAN]\n");
             messageList.add(msgCommand);
         } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/TUGAS")){
+            messageList.clear();
             String deskripsi = msg.getMessage().getText().substring(4);
             System.out.println("deskripsi TUGAS : " + deskripsi);
             TextMessage msgDeskripsi = new TextMessage("deskripsi TUGAS : " + deskripsi + "\n\nSemangat ya ngerjain TUGAS nyaaaa");
@@ -100,7 +102,6 @@ public class HandleJoinGroupController {
                     .build()
                     .pushMessage(pushMessage)
                     .execute();
-            messageList.clear();
         } catch (IOException e) {
             e.printStackTrace();
         }
