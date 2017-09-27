@@ -18,7 +18,7 @@ public class AsyncClass {
     String firstTrId = infoWebSarjana.firstId();
 
     @Async
-    public Future<String> gameMulai(){
+    public Future<Integer> gameMulai(){
         String pengumuman;
         int x=0;
         while(x!=15){
@@ -30,7 +30,7 @@ public class AsyncClass {
             }
         }
         pengumuman = "Game dimulai...";
-        return new AsyncResult<>(pengumuman);
+        return new AsyncResult<>(x);
     }
 
 //    @Async

@@ -232,17 +232,20 @@ public class MainController {
                     AsyncClass asyncClass = context.getBean(AsyncClass.class);
                     Future future = asyncClass.gameMulai();
                     status_waiting_game=1;
-                    String pengumuman = null;
+                    int pengumuman=0;
                     try {
-                        pengumuman = future.get().toString();
+                        pengumuman = (int) future.get();
                     } catch (Exception e) {
                         System.out.println("Gagal asyncClass : " + e.toString());
                         e.printStackTrace();
                     }
-                    System.out.println("UPDATE : " + pengumuman);
-                    status_waiting_game=0;
-                    textMessage = new TextMessage("GAME DIMULAI!");
-                    KirimPesan(replyToken, textMessage);
+                    if (pengumuman==15){
+
+                        System.out.println("UPDATE : " + pengumuman);
+                        status_waiting_game=0;
+                        textMessage = new TextMessage("GAME DIMULAI!");
+                        KirimPesan(replyToken, textMessage);
+                    }
                 } else{
                     textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
                     KirimPesan(replyToken, textMessage);
