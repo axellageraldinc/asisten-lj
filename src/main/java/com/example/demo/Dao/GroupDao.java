@@ -5,6 +5,9 @@ import com.example.demo.model.Group;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupDao {
     private static final String id = "id";
@@ -118,5 +121,38 @@ public class GroupDao {
             DbConnection.CloseConnection(connection);
         }
         return status;
+    }
+
+    public static List<Group> GetAllTugas(String groupId, String tipe){
+        String tableName = groupId + "_data";
+        List<Group> groupList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = DbConnection.getConnection();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        try{
+            ps = connection.prepareStatement(
+                    "SELECT * FROM " + tableName + " WHERE " + tipe + "=?"
+            );
+            ps.setString(1, tipe);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Group group = new Group();
+                group.setId(rs.getString(id));
+                group.setDeskripsi(rs.getString(deskripsi));
+                groupList.add(group);
+            }
+        } catch (Exception ex){
+            System.out.println("Gagal get data : " + ex.toString());
+        } finally {
+            DbConnection.CloseResultSet(rs);
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return groupList;
     }
 }

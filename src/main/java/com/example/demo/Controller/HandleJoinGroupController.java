@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dao.GroupDao;
+import com.example.demo.model.Group;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.event.JoinEvent;
@@ -39,7 +40,7 @@ public class HandleJoinGroupController {
             group_id = ((RoomSource) source).getRoomId();
             System.out.println("ROOM ID : " + group_id);
         }
-//        GroupDao.CreateTableData(groupId);
+        GroupDao.CreateTableData(groupId);
         replyMsg = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
                 "Silakan ketik /help untuk melihat command-command yang ada.");
         return replyMsg;
@@ -47,9 +48,9 @@ public class HandleJoinGroupController {
 
     @EventMapping
     public void handleTextSlash(MessageEvent<TextMessageContent> msg){
-//        String groupId = msg.getSource().getSenderId();
         String groupId = null;
         Source source = msg.getSource();
+        Group group = new Group();
         if (source instanceof GroupSource){
             groupId = ((GroupSource) source).getGroupId();
         } else if (source instanceof RoomSource){
@@ -59,16 +60,34 @@ public class HandleJoinGroupController {
         List<Message> messageList = new ArrayList<>();
         if(msg.getMessage().getText().toUpperCase().equals("/HELP")){
             TextMessage msgCommand = new TextMessage("Daftar command LJ BOT\n" +
-                    "1. /PR [spasi] [deskripsi PR]\n" +
+                    "1. /TUGAS [spasi] [deskripsi TUGAS]\n" +
                     "2. /UJIAN [spasi] [deskripsi UJIAN]\n");
             messageList.add(msgCommand);
-        } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/PR")){
+        } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/TUGAS")){
             String deskripsi = msg.getMessage().getText().substring(4);
-            System.out.println("deskripsi PR : " + deskripsi);
-            TextMessage msgDeskripsi = new TextMessage("deskripsi PR : " + deskripsi + "\nSudah berhasil masuk ke database");
+            System.out.println("deskripsi TUGAS : " + deskripsi);
+            TextMessage msgDeskripsi = new TextMessage("deskripsi TUGAS : " + deskripsi + "\n\nSemangat ya ngerjain TUGAS nyaaaa");
             messageList.add(msgDeskripsi);
-            StickerMessage stickerSuksesPR = new StickerMessage("1", "5");
-            messageList.add(stickerSuksesPR);
+            StickerMessage stickerSuksesTugas = new StickerMessage("1", "5");
+            messageList.add(stickerSuksesTugas);
+
+            //Add TUGAS ke database
+            group.setId("TUGAS" + "-" + deskripsi.substring(0,7));
+            group.setDeskripsi(deskripsi);
+            group.setTipe("tugas");
+            int status_insert = GroupDao.Insert(groupId, group);
+            if(status_insert==1)
+                System.out.println("Berhasil masukkan tugas ke database");
+            else
+                System.out.println("Gagal masukkan ke database");
+            List<Group> groupList = GroupDao.GetAllTugas(groupId, "tugas");
+            StringBuilder Stringmsg = new StringBuilder();
+            for (Group groupp:groupList) {
+                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
+//                msgAllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
+            }
+            TextMessage msgAllTugas = new TextMessage(String.valueOf(Stringmsg));
+            messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
         Response<BotApiResponse> response =
@@ -83,7 +102,6 @@ public class HandleJoinGroupController {
             e.printStackTrace();
         }
         System.out.println(response.code() + " " + response.message());
-//        return pushMessage;
     }
 
 }
