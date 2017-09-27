@@ -74,7 +74,7 @@ public class HandleJoinGroupController {
             messageList.add(stickerSuksesTugas);
 
 //            //Add TUGAS ke database
-            group.setId("TUGAS" + "-" + deskripsi.substring(0,7));
+            group.setId("TUGAS" + "-" + deskripsi.substring(0,5));
             group.setDeskripsi(deskripsi);
             group.setTipe("tugas");
             int status_insert = GroupDao.Insert(groupId, group);
@@ -90,8 +90,8 @@ public class HandleJoinGroupController {
 //                AllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
             }
             System.out.println("AllTugas : " + String.valueOf(Stringmsg));
-//            TextMessage msgAllTugas = new TextMessage(AllTugas);
-//            messageList.add(msgAllTugas);
+            TextMessage msgAllTugas = new TextMessage(String.valueOf(Stringmsg));
+            messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
         Response<BotApiResponse> response =
