@@ -139,10 +139,12 @@ public class MainController {
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
         String command = content.getText().toUpperCase().substring(0,4);
-        if(pesan.substring(0,12).equals("/HAPUS-TUGAS")){
-            command = "HPT";
-        } else if(pesan.substring(0,12).equals("/HAPUS-UJIAN")){
-            command = "HPJ";
+        if(command.equals("/HAP")) {
+            if (pesan.substring(0, 12).equals("/HAPUS-TUGAS")) {
+                command = "HPT";
+            } else if(pesan.substring(0, 12).equals("/HAPUS-UJIAN")){
+                command = "HPJ";
+            }
         }
         System.out.println("Command : " + command);
         Group group = new Group();
