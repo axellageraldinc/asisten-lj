@@ -211,7 +211,7 @@ public class MainController {
                 String type = getType(source);
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
-                StartGame();
+                StartGame(replyToken);
 //                List<String> memberList = GetMembers(type, groupId);
 //                StringBuilder sb = new StringBuilder();
 //                for (String members: memberList) {
@@ -400,7 +400,7 @@ public class MainController {
         return memberIds;
     }
 
-    public void StartGame(){
+    public void StartGame(String replyToken){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         AsyncClass asyncClass = context.getBean(AsyncClass.class);
         Future future = asyncClass.gameMulai();
@@ -413,6 +413,8 @@ public class MainController {
             e.printStackTrace();
         }
         System.out.println("UPDATE : " + pengumuman);
+        TextMessage textMessage = new TextMessage("GAME DIMULAI!");
+        KirimPesan(replyToken, textMessage);
     }
 
     public String getName(String userId){
