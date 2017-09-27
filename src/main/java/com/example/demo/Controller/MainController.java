@@ -216,10 +216,15 @@ public class MainController {
             case "HPT" : {
                 String id_delete = pesan.substring(13);
                 int status_delete = MainDao.DeleteItem(id, id_delete);
-                if(status_delete==1)
+                if(status_delete==1){
                     textMessage = new TextMessage("Berhasil delete tugas ID : " + id_delete);
-                else
+                    messageList.add(textMessage);
+                }
+                else{
                     textMessage = new TextMessage("Oops! Gagal delete tugas ID : " + id_delete);
+                    messageList.add(textMessage);
+                }
+                KirimPesan(replyToken, messageList);
                 break;
             }
             case "HPJ" : {
@@ -313,6 +318,8 @@ public class MainController {
                         item.getDeskripsi() + "\n");
                 nomor++;
             }
+            textMessage = new TextMessage(String.valueOf(sb));
+            messageList.add(textMessage);
             textMessage = new TextMessage("Kirim command dengan format /hapus [spasi] [ID]");
             messageList.add(textMessage);
             textMessage = new TextMessage("List ID tugas bisa dilihat di atas");
@@ -328,6 +335,8 @@ public class MainController {
                         item.getDeskripsi() + "\n");
                 nomor++;
             }
+            textMessage = new TextMessage(String.valueOf(sb));
+            messageList.add(textMessage);
             textMessage = new TextMessage("Kirim command dengan format /hapus [spasi] [ID]");
             messageList.add(textMessage);
             textMessage = new TextMessage("List ID ujian bisa dilihat di atas");
