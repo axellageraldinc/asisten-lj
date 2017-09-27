@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDao {
+public class MainDao {
     private static final String id = "id";
     private static final String group_id = "group_id";
     private static final String group_name = "group_name";

@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Dao.FollowersDao;
-import com.example.demo.Dao.GroupDao;
+import com.example.demo.Dao.MainDao;
 import com.example.demo.model.Followers;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
@@ -37,7 +37,7 @@ public class DemoApplication {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		SpringApplication.run(DemoApplication.class, args);
 		FollowersDao.CreateTable();
-		GroupDao.CreateType();
+		MainDao.CreateType();
 //		getUserId();
 //		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 //		TestAsyncClass testAsyncClass = context.getBean(TestAsyncClass.class);
