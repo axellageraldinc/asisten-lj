@@ -224,19 +224,20 @@ public class MainController {
                     "Contoh : /tugas progdas bikin kalkulator deadline senin");
             messageList.add(textMessage);
         } else if(data.equals("/SHOW-TUGAS")){
-            messageList.clear();
-            List<Group> groupList = MainDao.GetAll(id, "tugas");
-            StringBuilder sb = null;
-            int nomor=1;
-            for (Group item:groupList) {
-                sb.append(nomor + ".\n" +
-                        item.getId() + "\n" +
-                        item.getDeskripsi() + "\n");
-                nomor++;
-            }
-            System.out.println("Data get all : " + String.valueOf(sb));
-            textMessage = new TextMessage(String.valueOf(sb));
-            messageList.add(textMessage);
+            System.out.println("Masuk kondisi show tugas");
+//            messageList.clear();
+//            List<Group> groupList = MainDao.GetAll(id, "tugas");
+//            StringBuilder sb = null;
+//            int nomor=1;
+//            for (Group item:groupList) {
+//                sb.append(nomor + ".\n" +
+//                        item.getId() + "\n" +
+//                        item.getDeskripsi() + "\n");
+//                nomor++;
+//            }
+//            System.out.println("Data get all : " + String.valueOf(sb));
+//            textMessage = new TextMessage(String.valueOf(sb));
+//            messageList.add(textMessage);
         }
         pushMessage = new PushMessage(id, messageList);
         KirimPesan(event.getReplyToken(), messageList);
