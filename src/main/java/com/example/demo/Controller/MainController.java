@@ -259,8 +259,13 @@ public class MainController {
             case "/JOIN" : {
                 //memang game baru dibuat
                 if(status_waiting_game==1){
-                    String userId = source.getSenderId();
+//                    String userId = source.getSenderId();
+                    String userId = event.getSource().getUserId();
+                    System.out.println("userId : " + userId);
                     String name = getName(userId);
+                    System.out.println("name : " + name);
+                    name = getName2(userId);
+                    System.out.println("name 2 : " + name);
                     boolean status_add_list_player = playerList.add(name);
                     if(status_add_list_player){
                         textMessage = new TextMessage(name + " berhasil join!");
@@ -469,5 +474,17 @@ public class MainController {
             e.printStackTrace();
         }
         return name;
+    }
+
+    public String getName2(String userId){
+        final String[] name = new String[1];
+        lineMessagingClient
+                .getProfile(userId)
+                .whenComplete(((userProfileResponse, throwable) -> {
+                    if(throwable!=null){
+                        name[0] = userProfileResponse.getDisplayName();
+                    }
+                }));
+        return name[0];
     }
 }
