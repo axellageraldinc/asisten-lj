@@ -4,7 +4,6 @@ import com.example.demo.Dao.MainDao;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
-import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.*;
@@ -23,9 +22,6 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.plugin.util.UserProfile;
-
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
