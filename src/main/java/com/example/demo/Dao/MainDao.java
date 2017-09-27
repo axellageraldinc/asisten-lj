@@ -151,4 +151,23 @@ public class MainDao {
         System.out.println("Group List kelas DAO : " + groupList);
         return groupList;
     }
+
+    public static int DeleteItem(String groupId, String idd){
+        int status = 0;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try{
+            ps = connection.prepareStatement(
+                    "DELETE FROM " + groupId + " WHERE " + id + "=?"
+            );
+            ps.setString(1, idd);
+            status = ps.executeUpdate();
+        } catch (Exception ex){
+            System.out.println("Gagal delete item : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return status;
+    }
 }

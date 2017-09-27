@@ -20,6 +20,7 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import sun.applet.Main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,6 +139,11 @@ public class MainController {
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
         String command = content.getText().toUpperCase().substring(0,4);
+        if(pesan.substring(0,12).equals("/HAPUS-TUGAS")){
+            command = "HPT";
+        } else if(pesan.substring(0,12).equals("/HAPUS-UJIAN")){
+            command = "HPJ";
+        }
         System.out.println("Command : " + command);
         Group group = new Group();
         Source source = event.getSource();
@@ -154,13 +160,17 @@ public class MainController {
                                         new PostbackAction("Tambah Tugas",
                                                 "/ADD-TUGAS"),
                                         new PostbackAction("Lihat Tugas",
-                                                "/SHOW-TUGAS")
+                                                "/SHOW-TUGAS"),
+                                        new PostbackAction("Hapus Tugas",
+                                                "/HAPUS-TUGAS")
                                 )),
                                 new CarouselColumn(null, "UJIAN", "Tambah/Lihat seputar Ujian", Arrays.asList(
                                         new PostbackAction("Tambah Ujian",
                                                 "/ADD-UJIAN"),
                                         new PostbackAction("Lihat Ujian",
-                                                "/SHOW-UJIAN")
+                                                "/SHOW-UJIAN"),
+                                        new PostbackAction("Hapus Ujian",
+                                                "/HAPUS-UJIAN")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -186,6 +196,39 @@ public class MainController {
                 break;
             }
             case "/UJI" : {
+                String desc = pesan.substring(7);
+                group.setId("UJIAN-" + desc.substring(0,7));
+                group.setDeskripsi(desc);
+                group.setTipe("ujian");
+                int status_insert = MainDao.Insert(id, group);
+                if(status_insert==1){
+                    textMessage = new TextMessage("Ujian berhasil dicatat.");
+                    messageList.add(textMessage);
+//                    pushMessage = new PushMessage(id, textMessage);
+                } else{
+                    textMessage = new TextMessage("Oops! Ada kesalahan sistem, ujian gagal dicatat");
+                    messageList.add(textMessage);
+//                    pushMessage = new PushMessage(id, textMessage);
+                }
+                KirimPesan(replyToken, messageList);
+                break;
+            }
+            case "HPT" : {
+                String id_delete = pesan.substring(13);
+                int status_delete = MainDao.DeleteItem(id, id_delete);
+                if(status_delete==1)
+                    textMessage = new TextMessage("Berhasil delete tugas ID : " + id_delete);
+                else
+                    textMessage = new TextMessage("Oops! Gagal delete tugas ID : " + id_delete);
+                break;
+            }
+            case "HPJ" : {
+                String id_delete = pesan.substring(13);
+                int status_delete = MainDao.DeleteItem(id, id_delete);
+                if(status_delete==1)
+                    textMessage = new TextMessage("Berhasil delete ujian ID : " + id_delete);
+                else
+                    textMessage = new TextMessage("Oops! Gagal delete ujian ID : " + id_delete);
                 break;
             }
         }
@@ -220,23 +263,74 @@ public class MainController {
             textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
             messageList.add(textMessage);
             textMessage = new TextMessage("Perhatian!\n" +
-                    "Kirim deskripsi tugas dengan format !tugas [spasi] [deskripsi]\n" +
+                    "Kirim deskripsi tugas dengan format /tugas [spasi] [deskripsi]\n" +
                     "Contoh : /tugas progdas bikin kalkulator deadline senin");
             messageList.add(textMessage);
         } else if(data.equals("/SHOW-TUGAS")){
-            System.out.println("Masuk kondisi show tugas");
             messageList.clear();
             List<Group> groupList = MainDao.GetAll(id, "tugas");
             StringBuilder sb = new StringBuilder();
             int nomor=1;
             for (Group item:groupList) {
                 sb.append(nomor + ".\n" +
-                        item.getId() + "\n" +
+                        "ID : " + item.getId() + "\n" +
                         item.getDeskripsi() + "\n");
                 nomor++;
             }
             System.out.println("Data get all : " + String.valueOf(sb));
             textMessage = new TextMessage(String.valueOf(sb));
+            messageList.add(textMessage);
+        } else if (data.equals("/ADD-UJIAN")){
+            messageList.clear();
+            textMessage = new TextMessage("Kirim deskripsi ujian selengkap mungkin (makul, sifat ujian, materi apa aja, dll)");
+            messageList.add(textMessage);
+            textMessage = new TextMessage("Perhatian!\n" +
+                    "Kirim deskripsi ujian dengan format /ujian [spasi] [deskripsi]\n" +
+                    "Contoh : /ujian progdas open A4 tinta biru");
+            messageList.add(textMessage);
+        } else if (data.equals("/SHOW-UJIAN")){
+            messageList.clear();
+            List<Group> groupList = MainDao.GetAll(id, "ujian");
+            StringBuilder sb = new StringBuilder();
+            int nomor=1;
+            for (Group item:groupList) {
+                sb.append(nomor + ".\n" +
+                        "ID : " + item.getId() + "\n" +
+                        item.getDeskripsi() + "\n");
+                nomor++;
+            }
+            System.out.println("Data get all : " + String.valueOf(sb));
+            textMessage = new TextMessage(String.valueOf(sb));
+            messageList.add(textMessage);
+        } else if (data.equals("/HAPUS-TUGAS")){
+            messageList.clear();
+            List<Group> groupList = MainDao.GetAll(id, "tugas");
+            StringBuilder sb = new StringBuilder();
+            int nomor=1;
+            for (Group item:groupList) {
+                sb.append(nomor + ".\n" +
+                        "ID : " + item.getId() + "\n" +
+                        item.getDeskripsi() + "\n");
+                nomor++;
+            }
+            textMessage = new TextMessage("Kirim command dengan format /hapus [spasi] [ID]");
+            messageList.add(textMessage);
+            textMessage = new TextMessage("List ID tugas bisa dilihat di atas");
+            messageList.add(textMessage);
+        } else if(data.equals("/HAPUS-UJIAN")){
+            messageList.clear();
+            List<Group> groupList = MainDao.GetAll(id, "ujian");
+            StringBuilder sb = new StringBuilder();
+            int nomor=1;
+            for (Group item:groupList) {
+                sb.append(nomor + ".\n" +
+                        "ID : " + item.getId() + "\n" +
+                        item.getDeskripsi() + "\n");
+                nomor++;
+            }
+            textMessage = new TextMessage("Kirim command dengan format /hapus [spasi] [ID]");
+            messageList.add(textMessage);
+            textMessage = new TextMessage("List ID ujian bisa dilihat di atas");
             messageList.add(textMessage);
         }
         pushMessage = new PushMessage(id, messageList);
