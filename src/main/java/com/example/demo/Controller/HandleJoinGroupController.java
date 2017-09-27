@@ -42,8 +42,15 @@ public class HandleJoinGroupController {
 
     @EventMapping
     public PushMessage handleTextSlash(MessageEvent<TextMessageContent> msg){
-        String groupId = msg.getSource().getSenderId();
-        PushMessage pushMessage = null;
+//        String groupId = msg.getSource().getSenderId();
+        String groupId = null;
+        Source source = msg.getSource();
+        if (source instanceof GroupSource){
+            groupId = ((GroupSource) source).getGroupId();
+        } else if (source instanceof RoomSource){
+            groupId = ((RoomSource) source).getRoomId();
+        }
+        PushMessage pushMessage;
         List<Message> messageList = new ArrayList<>();
         if(msg.getMessage().getText().toUpperCase().equals("/HELP")){
             TextMessage msgCommand = new TextMessage("Daftar command LJ BOT\n" +
