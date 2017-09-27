@@ -87,8 +87,9 @@ public class HandleJoinGroupController {
 //                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
                 AllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
             }
-            TextMessage msgAllTugas = new TextMessage(AllTugas);
-            messageList.add(msgAllTugas);
+            System.out.println("AllTugas : " + AllTugas);
+//            TextMessage msgAllTugas = new TextMessage(AllTugas);
+//            messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
         Response<BotApiResponse> response =
