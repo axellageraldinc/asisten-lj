@@ -96,8 +96,6 @@ public class MainController {
             command = "/APAKAH";
         } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
             command = "/GAME-SIAPAKAH";
-        } else if(join.equals("/JOIN")){
-            command = "/JOIN";
         }
         System.out.println("Command : " + command);
         Main main = new Main();
@@ -211,7 +209,9 @@ public class MainController {
                 String type = getType(source);
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
-                StartGame(replyToken);
+                String pengumuman = StartGame();
+                textMessage = new TextMessage("WAKTU HABIS!");
+                KirimPesan(replyToken, textMessage);
 //                List<String> memberList = GetMembers(type, groupId);
 //                StringBuilder sb = new StringBuilder();
 //                for (String members: memberList) {
@@ -223,7 +223,7 @@ public class MainController {
 //                KirimPesan(replyToken, messageList);
                 break;
             }
-            case "/JOIN" : {
+            case "/JOI" : {
                 //memang game baru dibuat
                 if(status_waiting_game==1){
                     String userId = source.getSenderId();
@@ -400,7 +400,7 @@ public class MainController {
         return memberIds;
     }
 
-    public void StartGame(String replyToken){
+    public String StartGame(){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         AsyncClass asyncClass = context.getBean(AsyncClass.class);
         Future future = asyncClass.gameMulai();
@@ -413,8 +413,10 @@ public class MainController {
             e.printStackTrace();
         }
         System.out.println("UPDATE : " + pengumuman);
-        TextMessage textMessage = new TextMessage("GAME DIMULAI!");
-        KirimPesan(replyToken, textMessage);
+//        TextMessage textMessage = new TextMessage("GAME DIMULAI!");
+//        KirimPesan(replyToken, textMessage);
+        status_waiting_game=0;
+        return pengumuman;
     }
 
     public String getName(String userId){
