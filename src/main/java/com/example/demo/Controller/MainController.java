@@ -190,6 +190,7 @@ public class MainController {
                     messageList.add(textMessage);
                 }
                 KirimPesan(replyToken, messageList);
+                System.out.println(source);
                 break;
             }
             case "/SIAPAKAH" : {
