@@ -12,6 +12,7 @@ import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
@@ -35,105 +36,39 @@ public class MainController {
     private static String AccessToken = "u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=";
 
     @EventMapping
-    public TextMessage handleJoinNewGroup(JoinEvent joinEvent) {
-        TextMessage replyMsg = null;
+    public void handleJoinNewGroup(JoinEvent joinEvent) {
+        List<Message> messageList = new ArrayList<>();
+        TextMessage textMessage = null;
         Source source = joinEvent.getSource();
         String id = getId(source);
         MainDao.CreateTableData(id);
-        replyMsg = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
+        StickerMessage stickerMessage = new StickerMessage("1", "2");
+        messageList.add(stickerMessage);
+        textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
                 "Silakan ketik /woy untuk melihat fitur-fitur yang ada.");
-        return replyMsg;
+        messageList.add(textMessage);
+        KirimPesan(joinEvent.getReplyToken(), messageList);
     }
 
     @EventMapping
-    public TextMessage handleNewFollower(FollowEvent followEvent){
+    public void handleNewFollower(FollowEvent followEvent){
+        List<Message> messageList = new ArrayList<>();
         TextMessage textMessage = null;
         Source source = followEvent.getSource();
         String id = getId(source);
         MainDao.CreateTableData(id);
+        StickerMessage stickerMessage = new StickerMessage("1", "2");
+        messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes di-add dadi friend\n" +
                 "Silakan ketik /woy untuk melihat fitur-fitur yang ada.\n" +
                 "Aku di invite ning group lhoooo");
-        return textMessage;
+        messageList.add(textMessage);
+        KirimPesan(followEvent.getReplyToken(), messageList);
     }
 
     @EventMapping
     public void handleTextSlash(MessageEvent<TextMessageContent> msg) {
         handleContent(msg.getReplyToken(), msg, msg.getMessage());
-//        if (pesan.equals("/WOY")) {
-//
-////            TextMessage msgCommand = new TextMessage("Daftar command LJ BOT\n" +
-////                    "1. /TUGAS [spasi] [deskripsi TUGAS]\n" +
-////                    "2. /UJIAN [spasi] [deskripsi UJIAN]\n");
-////            messageList.add(msgCommand);
-////        } else if (msg.getMessage().getText().toUpperCase().substring(0,6).equals("/TUGAS")){
-////            messageList.clear();
-////            String deskripsi = msg.getMessage().getText().substring(7);
-//////            StickerMessage stickerSuksesTugas = new StickerMessage("1", "5");
-//////            messageList.add(stickerSuksesTugas);
-////
-//////            //Add TUGAS ke database
-////            group.setId("TUGAS" + "-" + deskripsi.substring(0,5));
-////            group.setDeskripsi(deskripsi);
-////            group.setTipe("tugas");
-////            int status_insert = MainDao.Insert(groupId, group);
-////            if(status_insert==1)
-////                System.out.println("Berhasil masukkan tugas ke database");
-////            else
-////                System.out.println("Gagal masukkan ke database");
-////            List<Main> groupList = MainDao.GetAll(groupId, "tugas");
-////            StringBuilder Stringmsg = new StringBuilder();
-////            int nomor=1;
-////            for (Main groupp:groupList) {
-////                Stringmsg.append(nomor + "." + "\nID : " + groupp.getId() + "\nTugas : " + groupp.getDeskripsi());
-////                nomor++;
-////            }
-////            TextMessage msgAllTugas = new TextMessage("LIST TUGAS\n" + String.valueOf(Stringmsg));
-////            messageList.add(msgAllTugas);
-////        } else if(msg.getMessage().getText().substring(0,6).equals("/UJIAN")){
-////            messageList.clear();
-////            String deskripsi = msg.getMessage().getText().substring(7);
-////            group.setId("UJIAN" + "-" + deskripsi.substring(0,5));
-////            group.setDeskripsi(deskripsi);
-////            group.setTipe("ujian");
-////            int status_insert = MainDao.Insert(groupId, group);
-////            if(status_insert==1)
-////                System.out.println("Berhasil masukkan tugas ke database");
-////            else
-////                System.out.println("Gagal masukkan ke database");
-////            List<Main> groupList = MainDao.GetAll(groupId, "ujian");
-////            StringBuilder Stringmsg = new StringBuilder();
-////            int nomor=1;
-////            for (Main groupp:groupList) {
-////                Stringmsg.append(nomor + "." + "\nID : " + groupp.getId() + "\nUjian : " + groupp.getDeskripsi());
-////                nomor++;
-////            }
-////            TextMessage msgAllTugas = new TextMessage("LIST UJIAN\n" + String.valueOf(Stringmsg));
-////            messageList.add(msgAllTugas);
-////        }
-////            pushMessage = new PushMessage(groupId, messageList);
-////            Response<BotApiResponse> response =
-////                    null;
-////            try {
-////                response = LineMessagingServiceBuilder
-////                        .create(AccessToken)
-////                        .build()
-////                        .pushMessage(pushMessage)
-////                        .execute();
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////            }
-////            System.out.println(response.code() + " " + response.message());
-//            try {
-//                BotApiResponse apiResponse = lineMessagingClient
-//                        .replyMessage(new ReplyMessage(msg.getReplyToken(), templateMessage))
-//                        .get();
-//            } catch (InterruptedException | ExecutionException e) {
-//                throw new RuntimeException(e);
-//            }
-//        } else if(pesan.substring(0,6).equals("/TUGAS")){
-//
-//        }
     }
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
@@ -141,15 +76,14 @@ public class MainController {
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
-                command = "HPT";
+                command = "/HPT";
             } else if(pesan.substring(7, 12).equals("UJIAN")){
-                command = "HPJ";
+                command = "/HPJ";
             }
         }
         System.out.println("Command : " + command);
         Main main = new Main();
         Source source = event.getSource();
-        PushMessage pushMessage;
         List<Message> messageList = new ArrayList<>();
         TextMessage textMessage = null;
         String id = getId(source);
@@ -188,11 +122,9 @@ public class MainController {
                 if(status_insert==1){
                     textMessage = new TextMessage("Tugas berhasil dicatat.");
                     messageList.add(textMessage);
-//                    pushMessage = new PushMessage(id, textMessage);
                 } else{
                     textMessage = new TextMessage("Oops! Ada kesalahan sistem, tugas gagal dicatat");
                     messageList.add(textMessage);
-//                    pushMessage = new PushMessage(id, textMessage);
                 }
                 KirimPesan(replyToken, messageList);
                 break;
@@ -206,16 +138,14 @@ public class MainController {
                 if(status_insert==1){
                     textMessage = new TextMessage("Ujian berhasil dicatat.");
                     messageList.add(textMessage);
-//                    pushMessage = new PushMessage(id, textMessage);
                 } else{
                     textMessage = new TextMessage("Oops! Ada kesalahan sistem, ujian gagal dicatat");
                     messageList.add(textMessage);
-//                    pushMessage = new PushMessage(id, textMessage);
                 }
                 KirimPesan(replyToken, messageList);
                 break;
             }
-            case "HPT" : {
+            case "/HPT" : {
                 String id_delete = pesan.substring(7);
                 int status_delete = MainDao.DeleteItem(id, id_delete);
                 if(status_delete==1){
@@ -229,7 +159,7 @@ public class MainController {
                 KirimPesan(replyToken, messageList);
                 break;
             }
-            case "HPJ" : {
+            case "/HPJ" : {
                 String id_delete = pesan.substring(7);
                 int status_delete = MainDao.DeleteItem(id, id_delete);
                 if(status_delete==1){
@@ -251,7 +181,6 @@ public class MainController {
             BotApiResponse apiResponse = lineMessagingClient
                     .replyMessage(new ReplyMessage(replyToken, messages))
                     .get();
-            System.out.println("Response code : " + apiResponse.getMessage());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -264,7 +193,6 @@ public class MainController {
     @EventMapping
     public void handlePostback(PostbackEvent event){
         Source source = event.getSource();
-        PushMessage pushMessage;
         List<Message> messageList = new ArrayList<>();
         String data = event.getPostbackContent().getData();
         TextMessage textMessage = null;
@@ -351,9 +279,7 @@ public class MainController {
             textMessage = new TextMessage("List ID ujian bisa dilihat di atas");
             messageList.add(textMessage);
         }
-        pushMessage = new PushMessage(id, messageList);
         KirimPesan(event.getReplyToken(), messageList);
-//        KirimPesan(pushMessage);
     }
 
 //    @EventMapping
