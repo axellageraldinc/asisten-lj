@@ -184,6 +184,7 @@ public class MainController {
         TextMessage textMessage = null;
         String id = getId(source);
         if(data.equals("/ADD-TUGAS")){
+            messageList.clear();
             textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
             messageList.add(textMessage);
             textMessage = new TextMessage("Perhatian!\n" +
@@ -191,6 +192,7 @@ public class MainController {
                     "Contoh : /tugas progdas bikin kalkulator deadline senin");
             messageList.add(textMessage);
         } else if(data.equals("/SHOW-TUGAS")){
+            messageList.clear();
             List<Group> groupList = MainDao.GetAll(id, "tugas");
             StringBuilder sb = null;
             int nomor=1;
