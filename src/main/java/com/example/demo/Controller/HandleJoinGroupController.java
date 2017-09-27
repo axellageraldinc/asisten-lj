@@ -1,15 +1,21 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dao.GroupDao;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.event.JoinEvent;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
+import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @LineMessageHandler
 public class HandleJoinGroupController {
@@ -35,18 +41,25 @@ public class HandleJoinGroupController {
     }
 
     @EventMapping
-    public TextMessage handleTextSlash(MessageEvent<TextMessageContent> msg){
-        TextMessage replyMsg = null;
+    public PushMessage handleTextSlash(MessageEvent<TextMessageContent> msg){
+        String groupId = msg.getSource().getSenderId();
+        PushMessage pushMessage = null;
+        List<Message> messageList = new ArrayList<>();
         if(msg.getMessage().getText().toUpperCase().equals("/HELP")){
-            replyMsg = new TextMessage("Daftar command LJ BOT\n" +
-                    "1. /PR [spasi] [deskripsi PR] : Tambah list PR\n" +
-                    "2. /UJIAN [spasi] [deskripsi UJIAN] : Tambah list seputar ujian (kisi-kisi, dll)\n");
+            TextMessage msgCommand = new TextMessage("Daftar command LJ BOT\n" +
+                    "1. /PR [spasi] [deskripsi PR]\n" +
+                    "2. /UJIAN [spasi] [deskripsi UJIAN]\n");
+            messageList.add(msgCommand);
         } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/PR")){
             String deskripsi = msg.getMessage().getText().substring(4);
             System.out.println("deskripsi PR : " + deskripsi);
-            replyMsg = new TextMessage("deskripsi PR : " + deskripsi);
+            TextMessage msgDeskripsi = new TextMessage("deskripsi PR : " + deskripsi + "\nSudah berhasil masuk ke database");
+            messageList.add(msgDeskripsi);
+            StickerMessage stickerSuksesPR = new StickerMessage("1", "5");
+            messageList.add(stickerSuksesPR);
         }
-        return replyMsg;
+        pushMessage = new PushMessage(groupId, messageList);
+        return pushMessage;
     }
 
 }
