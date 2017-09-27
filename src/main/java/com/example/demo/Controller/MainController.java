@@ -136,7 +136,7 @@ public class MainController {
     }
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
-        String command = content.getText().toUpperCase();
+        String command = content.getText().toUpperCase().substring(0,4);
         System.out.println("Command : " + command);
         Group group = new Group();
         Source source = event.getSource();
@@ -146,7 +146,7 @@ public class MainController {
         String id = getId(source);
         TemplateMessage templateMessage = null;
         switch (command){
-            case "/WOY" : {
+            case "/" : {
                 CarouselTemplate carouselTemplate = new CarouselTemplate(
                         Arrays.asList(
                                 new CarouselColumn(null, "TUGAS", "Tambah/Lihat seputar Tugas", Arrays.asList(
@@ -166,7 +166,7 @@ public class MainController {
                 KirimPesan(replyToken, templateMessage);
                 break;
             }
-            case "/TUGAS" : {
+            case "/TUG" : {
                 String desc = command.substring(7);
                 group.setId("TUGAS-" + desc.substring(0,7));
                 group.setDeskripsi(desc);
@@ -184,7 +184,7 @@ public class MainController {
                 KirimPesan(replyToken, messageList);
                 break;
             }
-            case "/UJIAN" : {
+            case "/UJI" : {
                 break;
             }
         }
