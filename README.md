@@ -1,5 +1,5 @@
 # What is this?
-Sebuah BOT LINE untuk mengambil update informasi dari website sarjana.jteti.ugm.ac.id/akademik
+Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat tugas-tugas kuliah dan serba-serbi ujian di kampus sehingga SEMUA ORANG bisa menjadi mahasiswa yang lebih baik lagi.
 
 # Technology
 * Java (Spring)
