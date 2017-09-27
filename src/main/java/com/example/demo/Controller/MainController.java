@@ -223,27 +223,30 @@ public class MainController {
                 break;
             }
             case "/GAME-SIAPAKAH" : {
-                String groupId = getId(source);
-                String type = getType(source);
-//                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
-//                KirimPesan(replyToken, textMessage);
-
-                AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-                AsyncClass asyncClass = context.getBean(AsyncClass.class);
-                Future future = asyncClass.gameMulai();
-                status_waiting_game=1;
-                String pengumuman = null;
-                try {
-                    pengumuman = future.get().toString();
-                } catch (Exception e) {
-                    System.out.println("Gagal asyncClass : " + e.toString());
-                    e.printStackTrace();
-                }
-                System.out.println("UPDATE : " + pengumuman);
-                status_waiting_game=0;
-                textMessage = new TextMessage("GAME DIMULAI!");
+//                String groupId = getId(source);
+//                String type = getType(source);
+                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
-
+                if (status_waiting_game==0){
+                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
+                    Future future = asyncClass.gameMulai();
+                    status_waiting_game=1;
+                    String pengumuman = null;
+                    try {
+                        pengumuman = future.get().toString();
+                    } catch (Exception e) {
+                        System.out.println("Gagal asyncClass : " + e.toString());
+                        e.printStackTrace();
+                    }
+                    System.out.println("UPDATE : " + pengumuman);
+                    status_waiting_game=0;
+                    textMessage = new TextMessage("GAME DIMULAI!");
+                    KirimPesan(replyToken, textMessage);
+                } else{
+                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
+                    KirimPesan(replyToken, textMessage);
+                }
 //                StartGame(replyToken);
 //                List<String> memberList = GetMembers(type, groupId);
 //                StringBuilder sb = new StringBuilder();
