@@ -284,7 +284,8 @@ public class MainController {
             StringBuilder sb = new StringBuilder();
             int nomor=1;
             for (Group item:groupList) {
-                sb.append(nomor + ".\n" +
+                sb.append("LIST TUGAS\n\n" +
+                        nomor + ".\n" +
                         "ID : " + item.getId() + "\n" +
                         item.getDeskripsi() + "\n");
                 nomor++;
@@ -306,7 +307,8 @@ public class MainController {
             StringBuilder sb = new StringBuilder();
             int nomor=1;
             for (Group item:groupList) {
-                sb.append(nomor + ".\n" +
+                sb.append("LIST UJIAN\n\n" +
+                        nomor + ".\n" +
                         "ID : " + item.getId() + "\n" +
                         item.getDeskripsi() + "\n");
                 nomor++;
