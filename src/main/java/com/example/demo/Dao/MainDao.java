@@ -148,6 +148,7 @@ public class MainDao {
             DbConnection.ClosePreparedStatement(ps);
             DbConnection.CloseConnection(connection);
         }
+        System.out.println("Group List kelas DAO : " + groupList);
         return groupList;
     }
 }
