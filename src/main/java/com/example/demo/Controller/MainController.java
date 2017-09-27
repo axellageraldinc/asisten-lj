@@ -264,8 +264,6 @@ public class MainController {
                     System.out.println("userId : " + userId);
                     String name = getName(userId);
                     System.out.println("name : " + name);
-                    name = getName2(userId);
-                    System.out.println("name 2 : " + name);
                     boolean status_add_list_player = playerList.add(name);
                     if(status_add_list_player){
                         textMessage = new TextMessage(name + " berhasil join!");
