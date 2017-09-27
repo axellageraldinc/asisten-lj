@@ -146,7 +146,7 @@ public class MainController {
         String id = getId(source);
         TemplateMessage templateMessage = null;
         switch (command){
-            case "/" : {
+            case "/WOY" : {
                 CarouselTemplate carouselTemplate = new CarouselTemplate(
                         Arrays.asList(
                                 new CarouselColumn(null, "TUGAS", "Tambah/Lihat seputar Tugas", Arrays.asList(
