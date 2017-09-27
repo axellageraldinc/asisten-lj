@@ -176,8 +176,8 @@ public class MainController {
             }
             case "/APAKAH" : {
                 Random random = new Random();
-                int randInt = random.nextInt(1) + 0;
-                if(randInt==0){
+                int randInt = random.nextInt(2) + 1;
+                if(randInt==2){
                     textMessage = new TextMessage("Nggak");
                     messageList.add(textMessage);
                 }
