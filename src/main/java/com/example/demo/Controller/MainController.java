@@ -140,9 +140,9 @@ public class MainController {
         String pesan = content.getText().toUpperCase();
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
-            if (pesan.substring(0, 12).equals("/HAPUS-TUGAS")) {
+            if (pesan.substring(7, 12).equals("/HAPUS-TUGAS")) {
                 command = "HPT";
-            } else if(pesan.substring(0, 12).equals("/HAPUS-UJIAN")){
+            } else if(pesan.substring(7, 12).equals("/HAPUS-UJIAN")){
                 command = "HPJ";
             }
         }
