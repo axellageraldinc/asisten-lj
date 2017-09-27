@@ -136,6 +136,7 @@ public class MainController {
     }
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
+        String pesan = content.getText().toUpperCase();
         String command = content.getText().toUpperCase().substring(0,4);
         System.out.println("Command : " + command);
         Group group = new Group();
@@ -167,7 +168,7 @@ public class MainController {
                 break;
             }
             case "/TUG" : {
-                String desc = command.substring(7);
+                String desc = pesan.substring(7);
                 group.setId("TUGAS-" + desc.substring(0,7));
                 group.setDeskripsi(desc);
                 group.setTipe("tugas");
