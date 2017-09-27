@@ -123,7 +123,7 @@ public class GroupDao {
         return status;
     }
 
-    public static List<Group> GetAllTugas(String groupId, String tipe){
+    public static List<Group> GetAllTugas(String groupId, String type){
         String tableName = groupId;
         List<Group> groupList = new ArrayList<>();
         Connection connection = null;
@@ -138,7 +138,7 @@ public class GroupDao {
             ps = connection.prepareStatement(
                     "SELECT * FROM " + tableName + " WHERE " + tipe + "=?"
             );
-            ps.setString(1, tipe);
+            ps.setString(1, type);
             rs = ps.executeQuery();
             while (rs.next()){
                 Group group = new Group();
