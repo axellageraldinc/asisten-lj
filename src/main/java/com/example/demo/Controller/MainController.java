@@ -82,10 +82,11 @@ public class MainController {
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
-        String apakah = pesan.substring(0,6);
-        String game_siapakah = pesan.substring(0,14);
-        String join = pesan.substring(0,5);
+//        String apakah = pesan.substring(0,6);
+//        String game_siapakah = pesan.substring(0,14);
+//        String join = pesan.substring(0,5);
         String command = content.getText().toUpperCase().substring(0,4);
+        System.out.println("Command atas : " + command);
         if (command.equals("/WOY"))
             command = "/WOY";
         else if((command + "US").equals("/HAPUS")){
