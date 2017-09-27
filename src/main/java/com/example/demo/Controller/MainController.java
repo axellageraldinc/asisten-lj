@@ -77,6 +77,7 @@ public class MainController {
         String pesan = content.getText().toUpperCase();
         String apakah = pesan.substring(0,6);
         String siapakah = pesan.substring(0,8);
+        System.out.println("siapakah : " + siapakah);
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
