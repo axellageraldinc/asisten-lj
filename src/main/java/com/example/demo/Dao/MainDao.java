@@ -124,19 +124,14 @@ public class MainDao {
     }
 
     public static List<Group> GetAll(String groupId, String type){
-        String tableName = groupId;
         List<Group> groupList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        try {
-            connection = DbConnection.getConnection();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
         try{
+            connection = DbConnection.getConnection();
             ps = connection.prepareStatement(
-                    "SELECT * FROM " + tableName + " WHERE " + tipe + "=?::" + tipe_data
+                    "SELECT * FROM " + groupId + " WHERE " + tipe + "=?::" + tipe_data
             );
             ps.setString(1, type);
             rs = ps.executeQuery();
