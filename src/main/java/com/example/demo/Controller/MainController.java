@@ -94,8 +94,10 @@ public class MainController {
             }
         } else if(apakah.equals("APAKAH")){
             command = "/APAKAH";
-        } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
+        } if(game_siapakah.equals("/GAME-SIAPAKAH")){
             command = "/GAME-SIAPAKAH";
+        } if(join.equals("/JOIN")){
+            command = "/JOIN";
         }
         System.out.println("Command : " + command);
         Main main = new Main();
@@ -223,7 +225,7 @@ public class MainController {
 //                KirimPesan(replyToken, messageList);
                 break;
             }
-            case "/JOI" : {
+            case "/JOIN" : {
                 //memang game baru dibuat
                 if(status_waiting_game==1){
                     String userId = source.getSenderId();
