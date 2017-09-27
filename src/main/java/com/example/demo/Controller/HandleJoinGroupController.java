@@ -100,11 +100,11 @@ public class HandleJoinGroupController {
                     .build()
                     .pushMessage(pushMessage)
                     .execute();
+            messageList.clear();
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println(response.code() + " " + response.message());
-        messageList.clear();
     }
 
 }
