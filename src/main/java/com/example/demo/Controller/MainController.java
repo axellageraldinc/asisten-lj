@@ -225,8 +225,8 @@ public class MainController {
             case "/GAME-SIAPAKAH" : {
                 String groupId = getId(source);
                 String type = getType(source);
-                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
-                KirimPesan(replyToken, textMessage);
+//                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
+//                KirimPesan(replyToken, textMessage);
 
                 AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
                 AsyncClass asyncClass = context.getBean(AsyncClass.class);
