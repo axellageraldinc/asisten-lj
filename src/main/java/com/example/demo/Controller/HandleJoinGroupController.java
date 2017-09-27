@@ -41,7 +41,7 @@ public class HandleJoinGroupController {
             replyMsg = new TextMessage("Daftar command LJ BOT\n" +
                     "1. /PR [spasi] [deskripsi PR] : Tambah list PR\n" +
                     "2. /UJIAN [spasi] [deskripsi UJIAN] : Tambah list seputar ujian (kisi-kisi, dll)\n");
-        } else if (msg.getMessage().getText().toUpperCase().substring(0,2).equals("/PR")){
+        } else if (msg.getMessage().getText().toUpperCase().substring(0,3).equals("/PR")){
             String deskripsi = msg.getMessage().getText().substring(4);
             System.out.println("deskripsi PR : " + deskripsi);
             replyMsg = new TextMessage("deskripsi PR : " + deskripsi);
