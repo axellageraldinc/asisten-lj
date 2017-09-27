@@ -90,7 +90,7 @@ public class HandleJoinGroupController {
 //                AllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
             }
             System.out.println("AllTugas : " + String.valueOf(Stringmsg));
-            TextMessage msgAllTugas = new TextMessage(String.valueOf(Stringmsg));
+            TextMessage msgAllTugas = new TextMessage("***LIST TUGAS***\n\n" + String.valueOf(Stringmsg));
             messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
