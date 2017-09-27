@@ -86,19 +86,34 @@ public class MainController {
         String game_siapakah = pesan.substring(0,14);
         String join = pesan.substring(0,5);
         String command = content.getText().toUpperCase().substring(0,4);
-        if(command.equals("/HAP")) {
+        if (command.equals("/WOY"))
+            command = "/WOY";
+        else if((command + "US").equals("/HAPUS")){
             if (pesan.substring(7, 12).equals("TUGAS")) {
                 command = "/HPT";
             } else if(pesan.substring(7, 12).equals("UJIAN")){
                 command = "/HPJ";
             }
-        } else if(join.equals("/JOIN")){
-            command = "/JOIN";
-        } else if(apakah.equals("APAKAH")){
-            command = "/APAKAH";
-        } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
-            command = "/GAME-SIAPAKAH";
         }
+        else if((command + "N").equals("/JOIN"))
+            command = "/JOIN";
+        else if((command + "AH").equals("APAKAH"))
+            command = "/APAKAH";
+        else if((command + "E-SIAPAKAH").equals("/GAME-SIAPAKAH"))
+            command = "/GAME-SIAPAKAH";
+//        if(command.equals("/HAP")) {
+//            if (pesan.substring(7, 12).equals("TUGAS")) {
+//                command = "/HPT";
+//            } else if(pesan.substring(7, 12).equals("UJIAN")){
+//                command = "/HPJ";
+//            }
+//        } else if(join.equals("/JOIN")){
+//            command = "/JOIN";
+//        } else if(apakah.equals("APAKAH")){
+//            command = "/APAKAH";
+//        } else if(game_siapakah.equals("/GAME-SIAPAKAH")){
+//            command = "/GAME-SIAPAKAH";
+//        }
         System.out.println("Command : " + command);
         Main main = new Main();
         Source source = event.getSource();
