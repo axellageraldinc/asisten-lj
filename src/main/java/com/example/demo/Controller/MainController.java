@@ -22,10 +22,7 @@ import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @LineMessageHandler
@@ -67,12 +64,13 @@ public class MainController {
     }
 
     @EventMapping
-    public void handleTextSlash(MessageEvent<TextMessageContent> msg) {
+    public void handleText(MessageEvent<TextMessageContent> msg) {
         handleContent(msg.getReplyToken(), msg, msg.getMessage());
     }
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
+        String apakah = pesan.substring(0,6);
         String command = content.getText().toUpperCase().substring(0,4);
         if(command.equals("/HAP")) {
             if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -80,6 +78,8 @@ public class MainController {
             } else if(pesan.substring(7, 12).equals("UJIAN")){
                 command = "/HPJ";
             }
+        } else if(apakah.equals("APAKAH")){
+            command = "/APAKAH";
         }
         System.out.println("Command : " + command);
         Main main = new Main();
@@ -169,6 +169,20 @@ public class MainController {
                 }
                 else{
                     textMessage = new TextMessage("Oops! Gagal delete ujian ID : " + id_delete);
+                    messageList.add(textMessage);
+                }
+                KirimPesan(replyToken, messageList);
+                break;
+            }
+            case "/APAKAH" : {
+                Random random = new Random();
+                int randInt = random.nextInt(1);
+                if(randInt==0){
+                    textMessage = new TextMessage("Nggak");
+                    messageList.add(textMessage);
+                }
+                else{
+                    textMessage = new TextMessage("Ya");
                     messageList.add(textMessage);
                 }
                 KirimPesan(replyToken, messageList);
@@ -282,47 +296,6 @@ public class MainController {
         }
         KirimPesan(event.getReplyToken(), messageList);
     }
-
-//    @EventMapping
-//    public void handleContent(MessageEvent<TextMessageContent> msg){
-//        Source source = msg.getSource();
-//        Main group = new Main();
-//        String id = getId(source);
-//        String pesan = msg.getMessage().getText();
-//        System.out.println("Pesan : " + pesan);
-//        System.out.println("Pesan substring : " + pesan.substring(0,6).toUpperCase());
-//        PushMessage pushMessage;
-//        TextMessage textMessage;
-//        if(pesan.substring(0,6).toUpperCase().equals("/TUGAS")){
-//            String desc = pesan.substring(7);
-//            group.setId("TUGAS-" + desc.substring(0,5));
-//            group.setDeskripsi(desc);
-//            group.setTipe("tugas");
-//            int status_insert = MainDao.Insert(id, group);
-//            if(status_insert==1){
-//                textMessage = new TextMessage("Tugas berhasil dicatat.");
-//                pushMessage = new PushMessage(id, textMessage);
-//            } else{
-//                textMessage = new TextMessage("Oops! Ada kesalahan sistem, tugas gagal dicatat");
-//                pushMessage = new PushMessage(id, textMessage);
-//            }
-//            KirimPesan(pushMessage);
-//        }
-//    }
-
-//    public void KirimPesan(PushMessage pushMessage){
-//        Response<BotApiResponse> response = null;
-//        try {
-//            response = LineMessagingServiceBuilder
-//                    .create(AccessToken)
-//                    .build()
-//                    .pushMessage(pushMessage)
-//                    .execute();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(response.code() + " " + response.message());
-//    }
 
     public String getId(Source source){
         String id=null;
