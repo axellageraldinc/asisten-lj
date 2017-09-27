@@ -32,7 +32,7 @@ public class GroupDao {
             ps_tipe = connection.prepareStatement(
                     "CREATE TYPE " + tipe_data + " AS ENUM " +
                             "(" + "'" +tipe_tugas + "'" + "," +
-                            "'" + tipe_ujian + "'" + "," +
+                            "'" + tipe_ujian + "'" +
                             ")"
             );
             if (ps_tipe.executeUpdate()==1)
