@@ -38,7 +38,7 @@ public class GroupDao {
             if (ps_tipe.executeUpdate()==1)
                 System.out.println("Create type " + tipe_data + " berhasil!");
         } catch (Exception ex){
-            System.out.println("Gagal create type : " + tipe_data + " gagal");
+            System.out.println("Gagal create type : " + tipe_data + " gagal : " + ex.toString());
         } finally {
             DbConnection.ClosePreparedStatement(ps_tipe);
             DbConnection.CloseConnection(connection);
