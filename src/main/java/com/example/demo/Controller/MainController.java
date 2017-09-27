@@ -176,6 +176,8 @@ public class MainController {
         Group group = new Group();
         String id = getId(source);
         String pesan = msg.getMessage().getText();
+        System.out.println("Pesan : " + pesan);
+        System.out.println("Pesan substring : " + pesan.substring(0,6).toUpperCase());
         PushMessage pushMessage;
         TextMessage textMessage;
         if(pesan.substring(0,6).toUpperCase().equals("#TUGAS")){
