@@ -81,12 +81,13 @@ public class HandleJoinGroupController {
             else
                 System.out.println("Gagal masukkan ke database");
             List<Group> groupList = GroupDao.GetAllTugas(groupId, "tugas");
-            StringBuilder Stringmsg = new StringBuilder();
+//            StringBuilder Stringmsg = new StringBuilder();
+            String AllTugas = null;
             for (Group groupp:groupList) {
-                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
-//                msgAllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
+//                Stringmsg.append("\n" + groupp.getId() + " | " + groupp.getDeskripsi());
+                AllTugas += "\n" + groupp.getId() + " | " + groupp.getDeskripsi();
             }
-            TextMessage msgAllTugas = new TextMessage(String.valueOf(Stringmsg));
+            TextMessage msgAllTugas = new TextMessage(AllTugas);
             messageList.add(msgAllTugas);
         }
         pushMessage = new PushMessage(groupId, messageList);
