@@ -108,7 +108,7 @@ public class GroupDao {
                     "INSERT INTO " + groupId +
                             "(" +
                             id + "," + deskripsi + "," +tipe +
-                            ") VALUES (?,?,?)"
+                            ") VALUES (?,?,?::" + tipe_data + ")"
             );
             ps.setString(1, group.getId());
             ps.setString(2, group.getDeskripsi());
