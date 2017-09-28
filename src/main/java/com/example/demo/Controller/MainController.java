@@ -313,7 +313,9 @@ public class MainController {
                     int banyakMember = groupMemberList.size();
                     Random random = new Random();
                     int randInt = random.nextInt(banyakMember);
-                    randInt--;
+                    if(randInt==banyakMember){
+                        randInt--;
+                    }
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
                     String user_name_beruntung = getName(user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
