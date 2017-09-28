@@ -156,6 +156,14 @@ public class MainController {
                                                 "/SHOW-UJIAN"),
                                         new PostbackAction("Hapus Ujian",
                                                 "/HAPUS-UJIAN")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v1", "Menanyakan pertanyaan seputar apakah", Arrays.asList(
+                                        new PostbackAction("Cara pakai LJ Ajaib v1",
+                                                "/CARA-PAKAI-APAKAH")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v2", "Menanyakan pertanyaan seputar siapakah", Arrays.asList(
+                                        new PostbackAction("Cara pakai LJ Ajaib v2",
+                                                "/CARA-PAKAI-SIAPAKAH")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -247,8 +255,15 @@ public class MainController {
                 //kata[5] adalah yang
                 //kata[6] adalah paling
                 //kata[7] adalah ....?
-                String nama1 = kata[2];
-                String nama2 = kata[4];
+                //Jika di antara (dipisah antara di dan antara
+                String nama1, nama2;
+                if (kata[2].equals("antara")){
+                    nama1 = kata[3];
+                    nama2 = kata[5];
+                } else{
+                    nama1 = kata[2];
+                    nama2 = kata[4];
+                }
                 char[] kataTerakhir;
                 StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
                 if(pesan.contains("?")){
@@ -431,6 +446,18 @@ public class MainController {
             textMessage = new TextMessage("Kirim command dengan format /hapus [spasi] [ID]");
             messageList.add(textMessage);
             textMessage = new TextMessage("List ID ujian bisa dilihat di atas");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-APAKAH")){
+            messageList.clear();
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\nKetikkan command dengan format :\n" +
+                    "Apakah .......\n" +
+                    "Contoh : Apakah dedy tampan?");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-SIAPAKAH")){
+            messageList.clear();
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\nKetikkan command dengan format :\n" +
+                    "Siapakah diantara [nama 1] dan [nama 2] yang ......\n" +
+                    "Contoh : Siapakah diantara Dedy dan Kepok yang paling tampan?");
             messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
