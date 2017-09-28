@@ -124,9 +124,11 @@ public class MainDao {
         }
     }
 
-    public static int InsertGroupMemberId(String groupId, String user_id){
+    public static int InsertGroupMemberId(String groupId, String user_idd){
         Connection connection = null;
         PreparedStatement ps = null;
+        PreparedStatement ps2 = null;
+        ResultSet rs = null;
         int status=0;
         String groupMemberTableName = groupId + "_memberIds";
         try{
@@ -136,11 +138,25 @@ public class MainDao {
                             user_id +
                             ") VALUES(?)"
             );
-            ps.setString(1, user_id);
-            status = ps.executeUpdate();
+            ps.setString(1, user_idd);
+            int isDuplicate = 0;
+            ps2 = connection.prepareStatement(
+                    "SELECT * FROM " + groupMemberTableName + " WHERE " + user_id + "=?"
+            );
+            ps2.setString(1, user_idd);
+            rs = ps2.executeQuery();
+            while (rs.next()){
+                isDuplicate++;
+            }
+            if(isDuplicate==0)
+                status = ps.executeUpdate();
+            else
+                status = 0;
         } catch (Exception ex){
             System.out.println("Gagal insert grup member : " + ex.toString());
         } finally {
+            DbConnection.CloseResultSet(rs);
+            DbConnection.ClosePreparedStatement(ps2);
             DbConnection.ClosePreparedStatement(ps);
             DbConnection.CloseConnection(connection);
         }
