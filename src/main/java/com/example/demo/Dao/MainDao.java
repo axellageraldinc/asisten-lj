@@ -104,7 +104,7 @@ public class MainDao {
     public static void CreateTableGroupMember(String group_id){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String groupMemberTableName = group_id + "-memberIds";
+        String groupMemberTableName = group_id + "_memberIds";
         try{
             connection = DbConnection.getConnection();
             preparedStatement = connection.prepareStatement(
@@ -128,7 +128,7 @@ public class MainDao {
         Connection connection = null;
         PreparedStatement ps = null;
         int status=0;
-        String groupMemberTableName = groupId + "-memberIds";
+        String groupMemberTableName = groupId + "_memberIds";
         try{
             ps = connection.prepareStatement(
                     "INSERT INTO " + groupMemberTableName +
@@ -151,7 +151,7 @@ public class MainDao {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String groupMemberTableName = groupId + "-memberIds";
+        String groupMemberTableName = groupId + "_memberIds";
         List<GroupMember> groupMembers = new ArrayList<>();
         try{
             ps = connection.prepareStatement(
