@@ -158,11 +158,11 @@ public class MainController {
                                                 "/HAPUS-UJIAN")
                                 )),
                                 new CarouselColumn(null, "LJ AJAIB v1", "LJ Ajaib Apakah", Arrays.asList(
-                                        new PostbackAction("Cara pakai LJ Ajaib v1",
+                                        new PostbackAction("How to LJ Ajaib v1",
                                                 "/CARA-PAKAI-APAKAH")
                                 )),
                                 new CarouselColumn(null, "LJ AJAIB v2", "LJ Ajaib Siapakah", Arrays.asList(
-                                        new PostbackAction("Cara pakai LJ Ajaib v2",
+                                        new PostbackAction("How to LJ Ajaib v2",
                                                 "/CARA-PAKAI-SIAPAKAH")
                                 ))
                         ));
