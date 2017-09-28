@@ -92,10 +92,10 @@ public class MainController {
 //        String apakah = pesan.substring(0,6);
 //        String game_siapakah = pesan.substring(0,14);
 //        String join = pesan.substring(0,5);
-        Source source = event.getSource();
+        Source sourcee = event.getSource();
         String user_id = event.getSource().getUserId();
         System.out.println("user_id : " + user_id);
-        String group_id = getId(source);
+        String group_id = getId(sourcee);
         System.out.println("group_id : " + group_id);
         GroupMember groupMember = new GroupMember();
         groupMember.setUserId(user_id);
