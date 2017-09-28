@@ -400,8 +400,10 @@ public class MainController {
                 break;
             }
             case "/HAI" : {
-                String userId = getId(source);
+                String userId = source.getSenderId();
+                System.out.println("user ID : " + userId);
                 textMessage = new TextMessage("Hai hai " + getName(userId));
+                System.out.println("Name : " + getName(userId));
                 KirimPesan(replyToken, textMessage);
                 break;
             }
