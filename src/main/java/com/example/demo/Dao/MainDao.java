@@ -15,6 +15,8 @@ public class MainDao {
     private static final String group_name = "group_name";
     private static final String deskripsi = "deskripsi";
     private static final String tipe = "tipe";
+    private static final String user_id = "user_id";
+    private static final String user_name = "user_name";
 
     private static final String tipe_data = "tipe_data";
     private static final String tipe_tugas = "tugas";
@@ -96,6 +98,30 @@ public class MainDao {
             DbConnection.ClosePreparedStatement(preparedStatement);
             DbConnection.CloseConnection(connection);
         }
+    }
+
+    public static void CreateTableGroupMember(String group_id){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = DbConnection.getConnection();
+            preparedStatement = connection.prepareStatement(
+                    "CREATE TABLE IF NOT EXISTS" + group_id +
+                            "(" +
+                            id + " SERIAL PRIMARY KEY, " +
+                            user_id + " TEXT NOT NULL, " +
+                            user_name + " TEXT NOT NULL" +
+                            ")"
+            );
+            if(preparedStatement.executeUpdate()==1)
+                System.out.println("Berhasil create table GroupMember");
+        } catch (Exception ex){
+            System.out.println("Gagal create table GroupMember : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(preparedStatement);
+            DbConnection.CloseConnection(connection);
+        }
+
     }
 
     public static int Insert(String groupId,Main main){
