@@ -245,14 +245,18 @@ public class MainController {
                 //kata[3] adalah dan
                 //kata[4] adalah nama2
                 //kata[5] adalah yang
-                //kata[6] adalah ...
-                //dst
+                //kata[6] adalah paling
+                //kata[7] adalah ....
+                //kata[8] adalah ?
                 String nama1 = kata[2];
-                String nama2 = kata[3];
+                String nama2 = kata[4];
+                System.out.println("nama1 : " + nama1);
+                System.out.println("nama2 : " + nama2);
                 StringBuilder yangPaling = new StringBuilder();
-                for (int i=5; i<kata.length; i++){
+                for (int i=5; i<kata.length-1; i++){
                     yangPaling.append(kata[i] + " ");
                 }
+                System.out.println("yang Paling : " + yangPaling);
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
                 if(randInt%2==0){
