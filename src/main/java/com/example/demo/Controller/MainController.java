@@ -279,14 +279,6 @@ public class MainController {
             case "/APAKAH" : {
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
-                if (pesan.contains("DAMAS") ||
-                        pesan.contains("SULIS") ||
-                        pesan.contains("SIMBAH") ||
-                        pesan.contains("SDP")){
-                    textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
-                    messageList.add(textMessage);
-                    KirimPesan(replyToken, messageList);
-                } else{
                     if(randInt%2==0){
                         textMessage = new TextMessage("Nggak");
                         messageList.add(textMessage);
@@ -296,7 +288,6 @@ public class MainController {
                         messageList.add(textMessage);
                     }
                     KirimPesan(replyToken, messageList);
-                }
                 break;
             }
             case "/SIAPAKAH" : {
