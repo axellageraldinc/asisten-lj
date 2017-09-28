@@ -249,7 +249,7 @@ public class MainController {
                 //kata[7] adalah ....?
                 String nama1 = kata[2];
                 String nama2 = kata[4];
-                char[] kataTerakhir = String.valueOf(kata[-1]).toCharArray();
+                char[] kataTerakhir = String.valueOf(kata[kata.length-1]).toCharArray();
                 StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
                 for (int i=0;i<kataTerakhir.length-1; i++){
                     kataTerakhirTanpaTanya.append(kataTerakhir[i]);
