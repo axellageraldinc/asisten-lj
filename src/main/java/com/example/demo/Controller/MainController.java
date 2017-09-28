@@ -243,23 +243,19 @@ public class MainController {
                 for(int i=0;i<minusSiapakahDiantara.length();i++){
                     //Ketika loop character tadi belum menemukan kata "DAN",
                     //Berarti itu adalah NAMA, maka masukkan ke list Nama
-                    while (chars[i]!=" ".charAt(0) &&
-                            chars[i+1]!="D".charAt(0) &&
+                    while (chars[i+1]!="D".charAt(0) &&
                             chars[i+2]!="A".charAt(0)&&
-                            chars[i+3]!="N".charAt(0) &&
-                            chars[i+4]!=" ".charAt(0)){
+                            chars[i+3]!="N".charAt(0)){
                         nama1[x] = chars[i];
                         System.out.println("char nama1 ke-" + x + " : " + nama1[x]);
                         i++;
                         x++;
                     }
                     i+=5;
-                    while(chars[i]!=" ".charAt(0) &&
-                            chars[i+1]!="Y".charAt(0) &&
+                    while(chars[i+1]!="Y".charAt(0) &&
                             chars[i+2]!="A".charAt(0) &&
                             chars[i+3]!="N".charAt(0) &&
-                            chars[i+4]!="G".charAt(0) &&
-                            chars[i+5]!=" ".charAt(0)){
+                            chars[i+4]!="G".charAt(0)){
                         nama2[y] = chars[i];
                         System.out.println("char nama2 ke-" + y + " : " + nama2[y]);
                         i++;
