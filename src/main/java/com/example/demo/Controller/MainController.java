@@ -264,16 +264,17 @@ public class MainController {
                         pesan.contains("SDP")){
                     textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
                     messageList.add(textMessage);
+                } else{
+                    if(randInt%2==0){
+                        textMessage = new TextMessage("Nggak");
+                        messageList.add(textMessage);
+                    }
+                    else if(randInt%2!=0){
+                        textMessage = new TextMessage("Ya");
+                        messageList.add(textMessage);
+                    }
+                    KirimPesan(replyToken, messageList);
                 }
-                if(randInt%2==0){
-                    textMessage = new TextMessage("Nggak");
-                    messageList.add(textMessage);
-                }
-                else if(randInt%2!=0){
-                    textMessage = new TextMessage("Ya");
-                    messageList.add(textMessage);
-                }
-                KirimPesan(replyToken, messageList);
                 break;
             }
             case "/SIAPAKAH" : {
@@ -283,76 +284,77 @@ public class MainController {
                         pesan.contains("SDP")){
                     textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
                     messageList.add(textMessage);
-                }
-                String[] kata = pesan.split(" ");
-                //kata[0] adalah siapakah
-                //kata[1] adalah diantara
-                //kata[2] adalah nama1
-                //kata[3] adalah dan
-                //kata[4] adalah nama2
-                //kata[5] adalah yang
-                //kata[6] adalah paling
-                //kata[7] adalah ....?
-                //Jika di antara (dipisah antara di dan antara
+                } else{
+                    String[] kata = pesan.split(" ");
+                    //kata[0] adalah siapakah
+                    //kata[1] adalah diantara
+                    //kata[2] adalah nama1
+                    //kata[3] adalah dan
+                    //kata[4] adalah nama2
+                    //kata[5] adalah yang
+                    //kata[6] adalah paling
+                    //kata[7] adalah ....?
+                    //Jika di antara (dipisah antara di dan antara
 //                String nama1 = null, nama2 = null;
-                StringBuilder nama1 = new StringBuilder();
-                StringBuilder nama2 = new StringBuilder();
-                int indexDan = 0, indexYang = 0;
-                for(int i=0; i<kata.length; i++){
-                    System.out.println(kata[i]);
-                }
-                for(int i=0;i<kata.length; i++){
-                    if (kata[i].equals("DAN"))
-                        indexDan=i;
-                    if(kata[i].equals("YANG"))
-                        indexYang=i;
-                }
-                System.out.println("index dan : " + indexDan + " index yang : " + indexYang);
-                if (kata[2].equals("ANTARA")){
-                    for(int i=3; i<indexDan;i++){
-                        nama1.append(kata[i] + " ");
+                    StringBuilder nama1 = new StringBuilder();
+                    StringBuilder nama2 = new StringBuilder();
+                    int indexDan = 0, indexYang = 0;
+                    for(int i=0; i<kata.length; i++){
+                        System.out.println(kata[i]);
                     }
-                    for(int i=6; i<indexYang;i++){
-                        nama2.append(kata[i] + " ");
+                    for(int i=0;i<kata.length; i++){
+                        if (kata[i].equals("DAN"))
+                            indexDan=i;
+                        if(kata[i].equals("YANG"))
+                            indexYang=i;
                     }
+                    System.out.println("index dan : " + indexDan + " index yang : " + indexYang);
+                    if (kata[2].equals("ANTARA")){
+                        for(int i=3; i<indexDan;i++){
+                            nama1.append(kata[i] + " ");
+                        }
+                        for(int i=6; i<indexYang;i++){
+                            nama2.append(kata[i] + " ");
+                        }
 //                    nama1 = kata[3];
 //                    nama2 = kata[5];
-                }
-                if(kata[1].equals("DIANTARA")){
-                    for(int i=2; i<indexDan;i++){
-                        nama1.append(kata[i] + " ");
                     }
-                    for(int i=5; i<indexYang;i++){
-                        nama2.append(kata[i] + " ");
-                    }
+                    if(kata[1].equals("DIANTARA")){
+                        for(int i=2; i<indexDan;i++){
+                            nama1.append(kata[i] + " ");
+                        }
+                        for(int i=5; i<indexYang;i++){
+                            nama2.append(kata[i] + " ");
+                        }
 //                    nama1 = kata[2];
 //                    nama2 = kata[4];
-                }
-                char[] kataTerakhir;
-                StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
-                if(pesan.contains("?")){
-                    kataTerakhir = String.valueOf(kata[kata.length-1]).toCharArray(); //kata terakhir dipecah-pecah jadi perhuruf
-                    for (int i=0;i<kataTerakhir.length-1; i++){
-                        kataTerakhirTanpaTanya.append(kataTerakhir[i]); //menggabungkan huruf2 yang dipecah tadi jadi satu tapi minus tanda tanya
                     }
-                } else{
-                    kataTerakhirTanpaTanya.append(kata[kata.length-1]);
+                    char[] kataTerakhir;
+                    StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
+                    if(pesan.contains("?")){
+                        kataTerakhir = String.valueOf(kata[kata.length-1]).toCharArray(); //kata terakhir dipecah-pecah jadi perhuruf
+                        for (int i=0;i<kataTerakhir.length-1; i++){
+                            kataTerakhirTanpaTanya.append(kataTerakhir[i]); //menggabungkan huruf2 yang dipecah tadi jadi satu tapi minus tanda tanya
+                        }
+                    } else{
+                        kataTerakhirTanpaTanya.append(kata[kata.length-1]);
+                    }
+                    System.out.println("nama1 : " + nama1);
+                    System.out.println("nama2 : " + nama2);
+                    StringBuilder yangPaling = new StringBuilder();
+                    for (int i=indexYang; i<kata.length-1; i++){
+                        yangPaling.append(kata[i] + " "); //menggabungkan kata-kata yang dipisah-pusah tadi (yang ... ... ... dst)
+                    }
+                    System.out.println("yang Paling : " + yangPaling + kataTerakhirTanpaTanya);
+                    Random random = new Random();
+                    int randInt = random.nextInt(10) + 1;
+                    if(randInt%2==0){
+                        textMessage = new TextMessage(String.valueOf(nama1) + yangPaling + kataTerakhirTanpaTanya);
+                    } else if (randInt%2!=0){
+                        textMessage = new TextMessage(String.valueOf(nama2) + yangPaling + kataTerakhirTanpaTanya);
+                    }
+                    KirimPesan(replyToken, textMessage);
                 }
-                System.out.println("nama1 : " + nama1);
-                System.out.println("nama2 : " + nama2);
-                StringBuilder yangPaling = new StringBuilder();
-                for (int i=indexYang; i<kata.length-1; i++){
-                    yangPaling.append(kata[i] + " "); //menggabungkan kata-kata yang dipisah-pusah tadi (yang ... ... ... dst)
-                }
-                System.out.println("yang Paling : " + yangPaling + kataTerakhirTanpaTanya);
-                Random random = new Random();
-                int randInt = random.nextInt(10) + 1;
-                if(randInt%2==0){
-                    textMessage = new TextMessage(String.valueOf(nama1) + yangPaling + kataTerakhirTanpaTanya);
-                } else if (randInt%2!=0){
-                    textMessage = new TextMessage(String.valueOf(nama2) + yangPaling + kataTerakhirTanpaTanya);
-                }
-                KirimPesan(replyToken, textMessage);
                 break;
             }
             case "/GAME-SIAPAKAH" : {
