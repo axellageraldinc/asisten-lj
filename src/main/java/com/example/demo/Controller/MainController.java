@@ -294,7 +294,8 @@ public class MainController {
                     }
 //                    nama1 = kata[3];
 //                    nama2 = kata[5];
-                } else{
+                }
+                if(kata[1].equals("DIANTARA")){
                     for(int i=2; i<indexDan;i++){
                         nama1.append(kata[i] + " ");
                     }
@@ -317,7 +318,7 @@ public class MainController {
                 System.out.println("nama1 : " + nama1);
                 System.out.println("nama2 : " + nama2);
                 StringBuilder yangPaling = new StringBuilder();
-                for (int i=5; i<kata.length-1; i++){
+                for (int i=indexYang; i<kata.length-1; i++){
                     yangPaling.append(kata[i] + " "); //menggabungkan kata-kata yang dipisah-pusah tadi (yang ... ... ... dst)
                 }
                 System.out.println("yang Paling : " + yangPaling + kataTerakhirTanpaTanya);
