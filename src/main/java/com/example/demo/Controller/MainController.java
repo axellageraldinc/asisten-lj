@@ -60,7 +60,7 @@ public class MainController {
         StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
-                "Silakan ketik /woy untuk melihat fitur-fitur yang ada.");
+                "Silakan ketik /fitur untuk melihat fitur-fitur yang ada.");
         messageList.add(textMessage);
         KirimPesan(joinEvent.getReplyToken(), messageList);
     }
@@ -75,7 +75,7 @@ public class MainController {
         StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes di-add dadi friend\n" +
-                "Silakan ketik /woy untuk melihat fitur-fitur yang ada.\n" +
+                "Silakan ketik /fitur untuk melihat fitur-fitur yang ada.\n" +
                 "Aku di invite ning group lhoooo");
         messageList.add(textMessage);
         KirimPesan(followEvent.getReplyToken(), messageList);
@@ -95,8 +95,12 @@ public class MainController {
         System.out.println("Command atas : " + command);
 
         //Coba untuk command ini diganti dengan metode String startsWith()
-        if (command.equals("/WOY"))
-            command = "/WOY";
+        if((command + "UR").equals("/FITUR"))
+            command = "/FITUR";
+        if ((command + "KULIAHAN").equals("/PERKULIAHAN"))
+            command = "/PERKULIAHAN";
+        else if((command + "URAN").equals("/HIBURAN"))
+            command = "/HIBURAN";
         else if((command + "AS").equals("/TUGAS"))
             command = "/TUGAS";
         else if((command + "AN").equals("/UJIAN"))
@@ -138,7 +142,14 @@ public class MainController {
         String id = getId(source);
         TemplateMessage templateMessage = null;
         switch (command){
-            case "/WOY" : {
+            case "/FITUR" :{
+                textMessage = new TextMessage("FITUR-FITURL LJ BOT\n\n" +
+                        "1. /PERKULIAHAN\n" +
+                        "2. /HIBURAN");
+                KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/PERKULIAHAN" : {
                 CarouselTemplate carouselTemplate = new CarouselTemplate(
                         Arrays.asList(
                                 new CarouselColumn(null, "TUGAS", "Tambah/Lihat seputar Tugas", Arrays.asList(
@@ -156,7 +167,15 @@ public class MainController {
                                                 "/SHOW-UJIAN"),
                                         new PostbackAction("Hapus Ujian",
                                                 "/HAPUS-UJIAN")
-                                )),
+                                ))
+                        ));
+                templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
+                KirimPesan(replyToken, templateMessage);
+                break;
+            }
+            case "/HIBURAN" : {
+                CarouselTemplate carouselTemplate = new CarouselTemplate(
+                        Arrays.asList(
                                 new CarouselColumn(null, "LJ AJAIB v1", "LJ Ajaib Apakah", Arrays.asList(
                                         new PostbackAction("How to LJ Ajaib v1",
                                                 "/CARA-PAKAI-APAKAH")
