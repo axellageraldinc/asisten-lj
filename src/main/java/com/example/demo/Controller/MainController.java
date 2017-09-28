@@ -143,7 +143,7 @@ public class MainController {
         TemplateMessage templateMessage = null;
         switch (command){
             case "/FITUR" :{
-                textMessage = new TextMessage("FITUR-FITURL LJ BOT\n\n" +
+                textMessage = new TextMessage("FITUR-FITUR LJ BOT\n\n" +
                         "1. /PERKULIAHAN\n" +
                         "2. /HIBURAN");
                 KirimPesan(replyToken, textMessage);
