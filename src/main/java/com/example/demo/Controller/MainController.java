@@ -297,10 +297,9 @@ public class MainController {
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
                 Future<Integer> process=null;
-                if (status_waiting_game==0){
+                status_waiting_game=1;
                     try {
                         process = services.process();
-                        status_waiting_game=1;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -328,7 +327,7 @@ public class MainController {
 //                        textMessage = new TextMessage("GAME DIMULAI!");
 //                        KirimPesan(replyToken, textMessage);
 //                    }
-                } else{
+                if(status_waiting_game==1){
                     textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
                     KirimPesan(replyToken, textMessage);
                 }
