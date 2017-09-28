@@ -18,9 +18,6 @@ import java.util.concurrent.Future;
 @EnableAsync
 public class DemoApplication {
 
-	@Resource
-	static AsyncServices services;
-
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
