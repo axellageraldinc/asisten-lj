@@ -275,13 +275,34 @@ public class MainController {
                 //kata[6] adalah paling
                 //kata[7] adalah ....?
                 //Jika di antara (dipisah antara di dan antara
-                String nama1, nama2;
-                if (kata[2].equals("antara")){
-                    nama1 = kata[3];
-                    nama2 = kata[5];
+//                String nama1 = null, nama2 = null;
+                StringBuilder nama1 = new StringBuilder();
+                StringBuilder nama2 = new StringBuilder();
+                int indexDan = 0, indexYang = 0;
+                for(int i=0;i<kata.length; i++){
+                    if (kata[i].equals("DAN"))
+                        indexDan=i;
+                    if(kata[i].equals("YANG"))
+                        indexYang=i;
+                }
+                if (kata[2].equals("ANTARA")){
+                    for(int i=3; i<indexDan;i++){
+                        nama1.append(kata[i] + " ");
+                    }
+                    for(int i=5; i<indexYang;i++){
+                        nama2.append(kata[i] + " ");
+                    }
+//                    nama1 = kata[3];
+//                    nama2 = kata[5];
                 } else{
-                    nama1 = kata[2];
-                    nama2 = kata[4];
+                    for(int i=2; i<indexDan;i++){
+                        nama1.append(kata[i] + " ");
+                    }
+                    for(int i=4; i<indexYang;i++){
+                        nama2.append(kata[i] + " ");
+                    }
+//                    nama1 = kata[2];
+//                    nama2 = kata[4];
                 }
                 char[] kataTerakhir;
                 StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
@@ -303,9 +324,9 @@ public class MainController {
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
                 if(randInt%2==0){
-                    textMessage = new TextMessage(nama1 + " " + yangPaling + kataTerakhirTanpaTanya);
+                    textMessage = new TextMessage(String.valueOf(nama1) + yangPaling + kataTerakhirTanpaTanya);
                 } else if (randInt%2!=0){
-                    textMessage = new TextMessage(nama2 + " " + yangPaling + kataTerakhirTanpaTanya);
+                    textMessage = new TextMessage(String.valueOf(nama2) + yangPaling + kataTerakhirTanpaTanya);
                 }
                 KirimPesan(replyToken, textMessage);
                 break;
