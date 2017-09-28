@@ -339,7 +339,7 @@ public class MainController {
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
                     String user_name_beruntung = getName(user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
-                    textMessage = new TextMessage(user_name_beruntung + " " + kataYang + kataTerakhirTanpaTanyaa);
+                    textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(kataYang).toLowerCase() + String.valueOf(kataTerakhirTanpaTanyaa).toLowerCase());
                     KirimPesan(replyToken, textMessage);
                 } else{
                     //kata[0] adalah siapakah
