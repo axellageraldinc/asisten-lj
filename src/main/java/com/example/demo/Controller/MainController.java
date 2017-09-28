@@ -246,23 +246,27 @@ public class MainController {
                 //kata[4] adalah nama2
                 //kata[5] adalah yang
                 //kata[6] adalah paling
-                //kata[7] adalah ....
-                //kata[8] adalah ?
+                //kata[7] adalah ....?
                 String nama1 = kata[2];
                 String nama2 = kata[4];
+                char[] kataTerakhir = String.valueOf(kata[-1]).toCharArray();
+                StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
+                for (int i=0;i<kataTerakhir.length-1; i++){
+                    kataTerakhirTanpaTanya.append(kataTerakhir[i]);
+                }
                 System.out.println("nama1 : " + nama1);
                 System.out.println("nama2 : " + nama2);
                 StringBuilder yangPaling = new StringBuilder();
                 for (int i=5; i<kata.length-1; i++){
                     yangPaling.append(kata[i] + " ");
                 }
-                System.out.println("yang Paling : " + yangPaling);
+                System.out.println("yang Paling : " + yangPaling + " " + kataTerakhirTanpaTanya);
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
                 if(randInt%2==0){
-                    textMessage = new TextMessage(nama1 + " " + yangPaling);
+                    textMessage = new TextMessage(nama1 + " " + yangPaling + " " + kataTerakhirTanpaTanya);
                 } else if (randInt%2!=0){
-                    textMessage = new TextMessage(nama2 + " " + yangPaling);
+                    textMessage = new TextMessage(nama2 + " " + yangPaling + " " + kataTerakhirTanpaTanya);
                 }
                 KirimPesan(replyToken, textMessage);
 //                String minusSiapakahDiantara = pesan.substring(18);
