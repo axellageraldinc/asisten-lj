@@ -124,7 +124,7 @@ public class MainDao {
         }
     }
 
-    public static int InsertGroupMemberId(String groupId, GroupMember groupMember){
+    public static int InsertGroupMemberId(String groupId, String user_id){
         Connection connection = null;
         PreparedStatement ps = null;
         int status=0;
@@ -136,7 +136,7 @@ public class MainDao {
                             user_id +
                             ") VALUES(?)"
             );
-            ps.setString(1, groupMember.getUserId());
+            ps.setString(1, user_id);
             status = ps.executeUpdate();
         } catch (Exception ex){
             System.out.println("Gagal insert grup member : " + ex.toString());

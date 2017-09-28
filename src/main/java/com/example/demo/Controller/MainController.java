@@ -99,7 +99,7 @@ public class MainController {
         System.out.println("group_id : " + group_id);
         GroupMember groupMember = new GroupMember();
         groupMember.setUserId(user_id);
-        int status_insert_memberId = MainDao.InsertGroupMemberId(group_id, groupMember);
+        int status_insert_memberId = MainDao.InsertGroupMemberId(group_id, user_id);
         if (status_insert_memberId==1){
             List<GroupMember> groupMembers = MainDao.getAllMemberIds(group_id);
             for (GroupMember item:groupMembers
