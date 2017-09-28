@@ -264,6 +264,7 @@ public class MainController {
                         pesan.contains("SDP")){
                     textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
                     messageList.add(textMessage);
+                    KirimPesan(replyToken, messageList);
                 } else{
                     if(randInt%2==0){
                         textMessage = new TextMessage("Nggak");
@@ -284,6 +285,7 @@ public class MainController {
                         pesan.contains("SDP")){
                     textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
                     messageList.add(textMessage);
+                    KirimPesan(replyToken, messageList);
                 } else{
                     String[] kata = pesan.split(" ");
                     //kata[0] adalah siapakah
