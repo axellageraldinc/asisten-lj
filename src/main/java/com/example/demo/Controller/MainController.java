@@ -261,7 +261,7 @@ public class MainController {
                 if (pesan.contains("DAMAS") ||
                         pesan.contains("SULIS") ||
                         pesan.contains("SIMBAH") ||
-                        pesan.contains("")){
+                        pesan.contains("SDP")){
                     textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
                     messageList.add(textMessage);
                 }
@@ -277,6 +277,13 @@ public class MainController {
                 break;
             }
             case "/SIAPAKAH" : {
+                if (pesan.contains("DAMAS") ||
+                        pesan.contains("SULIS") ||
+                        pesan.contains("SIMBAH") ||
+                        pesan.contains("SDP")){
+                    textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
+                    messageList.add(textMessage);
+                }
                 String[] kata = pesan.split(" ");
                 //kata[0] adalah siapakah
                 //kata[1] adalah diantara
