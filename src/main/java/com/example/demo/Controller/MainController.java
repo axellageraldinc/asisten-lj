@@ -238,6 +238,29 @@ public class MainController {
                 break;
             }
             case "/SIAPAKAH" : {
+                String[] kata = pesan.split(" ");
+                //kata[0] adalah siapakah
+                //kata[1] adalah diantara
+                //kata[2] adalah nama1
+                //kata[3] adalah dan
+                //kata[4] adalah nama2
+                //kata[5] adalah yang
+                //kata[6] adalah ...
+                //dst
+                String nama1 = kata[2];
+                String nama2 = kata[3];
+                StringBuilder yangPaling = new StringBuilder();
+                for (int i=5; i<kata.length; i++){
+                    yangPaling.append(kata[i] + " ");
+                }
+                Random random = new Random();
+                int randInt = random.nextInt(10) + 1;
+                if(randInt%2==0){
+                    textMessage = new TextMessage(nama1 + " " + yangPaling);
+                } else if (randInt%2!=0){
+                    textMessage = new TextMessage(nama2 + " " + yangPaling);
+                }
+                KirimPesan(replyToken, textMessage);
 //                String minusSiapakahDiantara = pesan.substring(18);
 //                System.out.println("String minus siapakah diantara : " + minusSiapakahDiantara);
 //                char[] chars = minusSiapakahDiantara.toCharArray();
@@ -288,7 +311,7 @@ public class MainController {
 //                    name2.append(nama2[i]);
 //                }
 //                System.out.println("nama 1 : " + name1);
-//                System.out.println("nama 2 : " + name2);
+//                System.out.println("nama 2 : " + name2)
                 break;
             }
             case "/GAME-SIAPAKAH" : {

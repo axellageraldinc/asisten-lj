@@ -7,15 +7,21 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @SpringBootApplication
 @LineMessageHandler
 @EnableAsync
+@RestController
 public class DemoApplication {
 
 	@Autowired
@@ -41,6 +47,13 @@ public class DemoApplication {
 //		System.out.println("This will run immediately");
 //		String result = (String) future.get();
 //		System.out.println("Result is : " + result);
+	}
+
+	@GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, String> testing(){
+		Map<String, String> param = new HashMap<>();
+		param.put("KEY", "TEST TEST");
+		return param;
 	}
 
 //	@EventMapping
