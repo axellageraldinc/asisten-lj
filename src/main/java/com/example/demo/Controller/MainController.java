@@ -310,9 +310,10 @@ public class MainController {
                     KirimPesan(replyToken, messageList);
                 } else if(kata[1].equals("YANG")){
                     List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
-                    int banyakMember = groupMemberList.size()-1;
+                    int banyakMember = groupMemberList.size();
                     Random random = new Random();
                     int randInt = random.nextInt(banyakMember);
+                    randInt--;
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
                     String user_name_beruntung = getName(user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
