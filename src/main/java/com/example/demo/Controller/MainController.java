@@ -294,14 +294,14 @@ public class MainController {
             case "/GAME-SIAPAKAH" : {
 //                String groupId = getId(source);
 //                String type = getType(source);
-                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
-                KirimPesan(replyToken, textMessage);
-                Future<Integer> process=null;
                 if(status_waiting_game==1){
                     textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
                     KirimPesan(replyToken, textMessage);
-                }
-                status_waiting_game=1;
+                } else{
+                    textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
+                    KirimPesan(replyToken, textMessage);
+                    Future<Integer> process=null;
+                    status_waiting_game=1;
                     try {
                         process = services.process();
                     } catch (InterruptedException e) {
@@ -314,6 +314,7 @@ public class MainController {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
 //                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 //                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
 //                    Future future = asyncClass.gameMulai();
