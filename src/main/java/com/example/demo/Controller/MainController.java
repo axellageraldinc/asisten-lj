@@ -243,18 +243,37 @@ public class MainController {
                 for(int i=0;i<minusSiapakahDiantara.length();i++){
                     //Ketika loop character tadi belum menemukan kata "DAN",
                     //Berarti itu adalah NAMA, maka masukkan ke list Nama
-                    if(chars[i]!=" ".charAt(0) && chars[i+1]!="D".charAt(0) && chars[i+2]!="A".charAt(0) && chars[i+3]!="N".charAt(0)){
+                    while (chars[i]!=" ".charAt(0) &&
+                            chars[i+1]!="D".charAt(0) &&
+                            chars[i+2]!="A".charAt(0) &&
+                            chars[i+3]!="N".charAt(0)){
                         nama1[x] = chars[i];
                         System.out.println("char nama1 ke-" + x + " : " + chars[i]);
                         x++;
-                    } else{
-                        i+=4;
-                        if(chars[i]!=" ".charAt(0)){
-                            nama2[y] = chars[i];
-                            System.out.println("char nama2 ke-" + x + " : " + chars[i]);
-                            y++;
-                        }
                     }
+                    i+=4;
+                    while(chars[i]!=" ".charAt(0) &&
+                            chars[i+1]!="Y".charAt(0) &&
+                            chars[i+2]!="A".charAt(0) &&
+                            chars[i+3]!="N".charAt(0) &&
+                            chars[i+4]!="G".charAt(0)){
+                        nama2[y] = chars[i];
+                        System.out.println("char nama2 ke-" + x + " : " + chars[i]);
+                        y++;
+                    }
+                    i=minusSiapakahDiantara.length();
+//                    if(chars[i]!=" ".charAt(0) && chars[i+1]!="D".charAt(0) && chars[i+2]!="A".charAt(0) && chars[i+3]!="N".charAt(0)){
+//                        nama1[x] = chars[i];
+//                        System.out.println("char nama1 ke-" + x + " : " + chars[i]);
+//                        x++;
+//                    } else{
+//                        i+=4;
+//                        if(chars[i]!=" ".charAt(0)){
+//                            nama2[y] = chars[i];
+//                            System.out.println("char nama2 ke-" + x + " : " + chars[i]);
+//                            y++;
+//                        }
+//                    }
                 }
                 for (int i=0; i<nama1.length; i++){
                     name1.append(nama1[i]);
