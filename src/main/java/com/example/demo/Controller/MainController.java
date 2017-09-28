@@ -297,6 +297,10 @@ public class MainController {
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
                 Future<Integer> process=null;
+                if(status_waiting_game==1){
+                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
+                    KirimPesan(replyToken, textMessage);
+                }
                 status_waiting_game=1;
                     try {
                         process = services.process();
@@ -326,10 +330,6 @@ public class MainController {
 //                        textMessage = new TextMessage("GAME DIMULAI!");
 //                        KirimPesan(replyToken, textMessage);
 //                    }
-                if(status_waiting_game==1){
-                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
-                    KirimPesan(replyToken, textMessage);
-                }
 //                StartGame(replyToken);
 //                List<String> memberList = GetMembers(type, groupId);
 //                StringBuilder sb = new StringBuilder();
