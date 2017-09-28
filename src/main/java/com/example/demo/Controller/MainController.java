@@ -293,7 +293,7 @@ public class MainController {
                     for(int i=3; i<indexDan;i++){
                         nama1.append(kata[i] + " ");
                     }
-                    for(int i=5; i<indexYang;i++){
+                    for(int i=6; i<indexYang;i++){
                         nama2.append(kata[i] + " ");
                     }
 //                    nama1 = kata[3];
@@ -303,7 +303,7 @@ public class MainController {
                     for(int i=2; i<indexDan;i++){
                         nama1.append(kata[i] + " ");
                     }
-                    for(int i=4; i<indexYang;i++){
+                    for(int i=5; i<indexYang;i++){
                         nama2.append(kata[i] + " ");
                     }
 //                    nama1 = kata[2];
