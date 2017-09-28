@@ -233,6 +233,7 @@ public class MainController {
             }
             case "/SIAPAKAH" : {
                 String minusSiapakahDiantara = pesan.substring(18);
+                System.out.println("String minus siapakah diantara : " + minusSiapakahDiantara);
                 char[] chars = minusSiapakahDiantara.toCharArray();
                 char[] nama1 = new char[30];
                 char[] nama2 = new char[30];
