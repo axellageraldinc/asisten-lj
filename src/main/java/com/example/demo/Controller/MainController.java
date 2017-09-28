@@ -313,10 +313,7 @@ public class MainController {
                     List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
                     int banyakMember = groupMemberList.size();
                     Random random = new Random();
-                    int randInt = random.nextInt(banyakMember);
-                    if(randInt==banyakMember){
-                        randInt--;
-                    }
+                    int randInt = random.nextInt(banyakMember-1);
                     for (int i =0; i<kata.length; i++){
                         if (kata[i].equals("YANG")){
                             indexYangg=i;
