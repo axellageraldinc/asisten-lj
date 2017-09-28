@@ -286,72 +286,72 @@ public class MainController {
                 System.out.println("nama 2 : " + name2);
                 break;
             }
-//            case "/GAME-SIAPAKAH" : {
-////                String groupId = getId(source);
-////                String type = getType(source);
-//                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
-//                KirimPesan(replyToken, textMessage);
-//                if (status_waiting_game==0){
-//                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-//                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
-//                    Future future = asyncClass.gameMulai();
-//                    status_waiting_game=1;
-//                    int pengumuman=0;
-//                    try {
-//                        pengumuman = (int) future.get();
-//                    } catch (Exception e) {
-//                        System.out.println("Gagal asyncClass : " + e.toString());
-//                        e.printStackTrace();
-//                    }
-//                    if (pengumuman==15){
-//                        status_waiting_game=0;
-//                        textMessage = new TextMessage("GAME DIMULAI!");
-//                        KirimPesan(replyToken, textMessage);
-//                    }
-//                } else{
-//                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
-//                    KirimPesan(replyToken, textMessage);
+            case "/GAME-SIAPAKAH" : {
+//                String groupId = getId(source);
+//                String type = getType(source);
+                textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
+                KirimPesan(replyToken, textMessage);
+                if (status_waiting_game==0){
+                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
+                    Future future = asyncClass.gameMulai();
+                    status_waiting_game=1;
+                    int pengumuman=0;
+                    try {
+                        pengumuman = (int) future.get();
+                    } catch (Exception e) {
+                        System.out.println("Gagal asyncClass : " + e.toString());
+                        e.printStackTrace();
+                    }
+                    if (pengumuman==15){
+                        status_waiting_game=0;
+                        textMessage = new TextMessage("GAME DIMULAI!");
+                        KirimPesan(replyToken, textMessage);
+                    }
+                } else{
+                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
+                    KirimPesan(replyToken, textMessage);
+                }
+//                StartGame(replyToken);
+//                List<String> memberList = GetMembers(type, groupId);
+//                StringBuilder sb = new StringBuilder();
+//                for (String members: memberList) {
+//                    sb.append("Members ID : " + members + "\n");
 //                }
-////                StartGame(replyToken);
-////                List<String> memberList = GetMembers(type, groupId);
-////                StringBuilder sb = new StringBuilder();
-////                for (String members: memberList) {
-////                    sb.append("Members ID : " + members + "\n");
-////                }
-////                System.out.println("Members ID : " + String.valueOf(sb));
-////                textMessage = new TextMessage(String.valueOf(sb));
-////                messageList.add(textMessage);
-////                KirimPesan(replyToken, messageList);
-//                break;
-//            }
-//            case "/JOIN" : {
-//                //memang game baru dibuat
-//                if(status_waiting_game==1){
-////                    String userId = source.getSenderId();
-//                    String userId = event.getSource().getUserId();
-//                    System.out.println("userId : " + userId);
-//                    String name = getName(userId);
-//                    System.out.println("name : " + name);
-//                    boolean status_add_list_player = playerList.add(name);
-//                    if(status_add_list_player){
-//                        textMessage = new TextMessage(name + " berhasil join!");
-//                        messageList.add(textMessage);
-//                        KirimPesan(replyToken, messageList);
-//                        for (String player:playerList
-//                             ) {
-//                            System.out.println("LIST PLAYER : " + player);
-//                        }
-//                    }
-//                }
-//                //gak ada yang yang dibuat
-//                else{
-//                    textMessage = new TextMessage("Gak ada game yang jalan.\n" +
-//                            "Ketik command /game-siapakah untuk mulai");
-//                    messageList.add(textMessage);
-//                    KirimPesan(replyToken, messageList);
-//                }
-//                break;
-//            }
+//                System.out.println("Members ID : " + String.valueOf(sb));
+//                textMessage = new TextMessage(String.valueOf(sb));
+//                messageList.add(textMessage);
+//                KirimPesan(replyToken, messageList);
+                break;
+            }
+            case "/JOIN" : {
+                //memang game baru dibuat
+                if(status_waiting_game==1){
+//                    String userId = source.getSenderId();
+                    String userId = event.getSource().getUserId();
+                    System.out.println("userId : " + userId);
+                    String name = getName(userId);
+                    System.out.println("name : " + name);
+                    boolean status_add_list_player = playerList.add(name);
+                    if(status_add_list_player){
+                        textMessage = new TextMessage(name + " berhasil join!");
+                        messageList.add(textMessage);
+                        KirimPesan(replyToken, messageList);
+                        for (String player:playerList
+                             ) {
+                            System.out.println("LIST PLAYER : " + player);
+                        }
+                    }
+                }
+                //gak ada yang yang dibuat
+                else{
+                    textMessage = new TextMessage("Gak ada game yang jalan.\n" +
+                            "Ketik command /game-siapakah untuk mulai");
+                    messageList.add(textMessage);
+                    KirimPesan(replyToken, messageList);
+                }
+                break;
+            }
         }
     }
 
