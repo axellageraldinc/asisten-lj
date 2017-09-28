@@ -246,15 +246,15 @@ public class MainController {
                     while (chars[i]!=" ".charAt(0) &&
                             chars[i+1]!="D".charAt(0)){
                         nama1[x] = chars[i];
-                        System.out.println("char nama1 ke-" + x + " : " + nama1[i]);
+                        System.out.println("char nama1 ke-" + x + " : " + nama1[x]);
                         i++;
                         x++;
                     }
-                    i+=3;
+                    i+=5;
                     while(chars[i]!=" ".charAt(0) &&
                             chars[i+1]!="Y".charAt(0)){
                         nama2[y] = chars[i];
-                        System.out.println("char nama2 ke-" + x + " : " + nama2[i]);
+                        System.out.println("char nama2 ke-" + y + " : " + nama2[y]);
                         i++;
                         y++;
                     }
