@@ -133,6 +133,11 @@ public class MainDao {
         int status=0;
         String groupMemberTableName = groupId + "_memberIds";
         try{
+            try {
+                connection = DbConnection.getConnection();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             ps = connection.prepareStatement(
                     "INSERT INTO " + groupMemberTableName +
                             "(" +
@@ -171,6 +176,7 @@ public class MainDao {
         String groupMemberTableName = groupId + "_memberIds";
         List<GroupMember> groupMembers = new ArrayList<>();
         try{
+            connection = DbConnection.getConnection();
             ps = connection.prepareStatement(
                     "SELECT " + user_id + " FROM " + groupMemberTableName
             );
