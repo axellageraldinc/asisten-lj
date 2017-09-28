@@ -120,6 +120,11 @@ public class MainController {
             command = "/GAME-SIAPAKAH";
         else if((command + "AKAH").equals("SIAPAKAH")){
             command = "/SIAPAKAH";
+        } else if((pesan.contains("HAI") ||
+                pesan.contains("HEI") ||
+                pesan.contains("HEY") ||
+                pesan.contains("HI")) && pesan.contains("LJ BOT")){
+            command = "/HAI";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -253,6 +258,13 @@ public class MainController {
             case "/APAKAH" : {
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
+                if (pesan.contains("DAMAS") ||
+                        pesan.contains("SULIS") ||
+                        pesan.contains("SIMBAH") ||
+                        pesan.contains("")){
+                    textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
+                    messageList.add(textMessage);
+                }
                 if(randInt%2==0){
                     textMessage = new TextMessage("Nggak");
                     messageList.add(textMessage);
@@ -337,27 +349,27 @@ public class MainController {
                 break;
             }
             case "/GAME-SIAPAKAH" : {
-                if(status_waiting_game==1){
-                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
-                    KirimPesan(replyToken, textMessage);
-                } else{
-                    textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
-                    KirimPesan(replyToken, textMessage);
-                    Future<Integer> process=null;
-                    status_waiting_game=1;
-                    try {
-                        process = services.process();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        if(process.get()==10){
-                            status_waiting_game=0;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if(status_waiting_game==1){
+//                    textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
+//                    KirimPesan(replyToken, textMessage);
+//                } else{
+//                    textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
+//                    KirimPesan(replyToken, textMessage);
+//                    Future<Integer> process=null;
+//                    status_waiting_game=1;
+//                    try {
+//                        process = services.process();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    try {
+//                        if(process.get()==10){
+//                            status_waiting_game=0;
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
                 break;
             }
             case "/JOIN" : {
@@ -385,6 +397,12 @@ public class MainController {
                     messageList.add(textMessage);
                     KirimPesan(replyToken, messageList);
                 }
+                break;
+            }
+            case "/HAI" : {
+                String userId = getId(source);
+                textMessage = new TextMessage("Hai hai " + getName(userId));
+                KirimPesan(replyToken, textMessage);
                 break;
             }
         }
