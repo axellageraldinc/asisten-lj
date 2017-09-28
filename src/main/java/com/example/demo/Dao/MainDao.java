@@ -111,7 +111,7 @@ public class MainDao {
                     "CREATE TABLE IF NOT EXISTS " + groupMemberTableName +
                             "(" +
                             id + " SERIAL PRIMARY KEY, " +
-                            user_id + " TEXT NOT NULL, " +
+                            user_id + " TEXT NOT NULL " +
                             ")"
             );
             if(preparedStatement.executeUpdate()==1)
