@@ -1,5 +1,6 @@
 package com.example.demo.Dao;
 
+import com.example.demo.model.GroupMember;
 import com.example.demo.model.Main;
 
 import java.net.URISyntaxException;
@@ -103,14 +104,14 @@ public class MainDao {
     public static void CreateTableGroupMember(String group_id){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        String groupMemberTableName = group_id + "-memberIds";
         try{
             connection = DbConnection.getConnection();
             preparedStatement = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS" + group_id +
+                    "CREATE TABLE IF NOT EXISTS" + groupMemberTableName +
                             "(" +
                             id + " SERIAL PRIMARY KEY, " +
                             user_id + " TEXT NOT NULL, " +
-                            user_name + " TEXT NOT NULL" +
                             ")"
             );
             if(preparedStatement.executeUpdate()==1)
@@ -121,7 +122,55 @@ public class MainDao {
             DbConnection.ClosePreparedStatement(preparedStatement);
             DbConnection.CloseConnection(connection);
         }
+    }
 
+    public static int InsertGroupMemberId(String groupId, GroupMember groupMember){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        int status=0;
+        String groupMemberTableName = groupId + "-memberIds";
+        try{
+            ps = connection.prepareStatement(
+                    "INSERT INTO " + groupMemberTableName +
+                            "(" +
+                            user_id +
+                            ") VALUES(?)"
+            );
+            ps.setString(1, groupMember.getUserId());
+            status = ps.executeUpdate();
+        } catch (Exception ex){
+            System.out.println("Gagal insert grup member : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return status;
+    }
+
+    public static List<GroupMember> getAllMemberIds(String groupId){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String groupMemberTableName = groupId + "-memberIds";
+        List<GroupMember> groupMembers = new ArrayList<>();
+        try{
+            ps = connection.prepareStatement(
+                    "SELECT " + user_id + " FROM " + groupMemberTableName
+            );
+            rs = ps.executeQuery();
+            while(rs.next()){
+                GroupMember groupMember = new GroupMember();
+                groupMember.setUserId(rs.getString(user_id));
+                groupMembers.add(groupMember);
+            }
+        } catch (Exception ex){
+            System.out.println("Gagal get all data member id : " + ex.toString());
+        } finally {
+            DbConnection.CloseResultSet(rs);
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return groupMembers;
     }
 
     public static int Insert(String groupId,Main main){

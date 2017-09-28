@@ -4,6 +4,7 @@ import com.example.demo.Config.AppConfig;
 import com.example.demo.AsyncClass;
 import com.example.demo.Dao.MainDao;
 import com.example.demo.Service.AsyncServices;
+import com.example.demo.model.GroupMember;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
@@ -56,7 +57,7 @@ public class MainController {
         Source source = joinEvent.getSource();
         String id = getId(source);
         MainDao.CreateTableData(id);
-//        MainDao.CreateTableGroupMember(id);
+        MainDao.CreateTableGroupMember(id);
         StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
@@ -91,6 +92,23 @@ public class MainController {
 //        String apakah = pesan.substring(0,6);
 //        String game_siapakah = pesan.substring(0,14);
 //        String join = pesan.substring(0,5);
+        Source source = event.getSource();
+        String user_id = event.getSource().getUserId();
+        System.out.println("user_id : " + user_id);
+        String group_id = getId(source);
+        System.out.println("group_id : " + group_id);
+        GroupMember groupMember = new GroupMember();
+        groupMember.setUserId(user_id);
+        int status_insert_memberId = MainDao.InsertGroupMemberId(group_id, groupMember);
+        if (status_insert_memberId==1){
+            List<GroupMember> groupMembers = MainDao.getAllMemberIds(group_id);
+            for (GroupMember item:groupMembers
+                 ) {
+                int i=1;
+                System.out.println("USER ID ke-" + i  +" : " + item.getUserId());
+            }
+        }
+
         String command = content.getText().toUpperCase().substring(0,4);
         System.out.println("Command atas : " + command);
 
