@@ -249,82 +249,34 @@ public class MainController {
                 //kata[7] adalah ....?
                 String nama1 = kata[2];
                 String nama2 = kata[4];
-                char[] kataTerakhir = String.valueOf(kata[kata.length-1]).toCharArray();
+                char[] kataTerakhir;
                 StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
-                for (int i=0;i<kataTerakhir.length-1; i++){
-                    kataTerakhirTanpaTanya.append(kataTerakhir[i]);
+                if(pesan.contains("?")){
+                    kataTerakhir = String.valueOf(kata[kata.length-1]).toCharArray(); //kata terakhir dipecah-pecah jadi perhuruf
+                    for (int i=0;i<kataTerakhir.length-1; i++){
+                        kataTerakhirTanpaTanya.append(kataTerakhir[i]); //menggabungkan huruf2 yang dipecah tadi jadi satu tapi minus tanda tanya
+                    }
+                } else{
+                    kataTerakhirTanpaTanya.append(kata[kata.length-1]);
                 }
                 System.out.println("nama1 : " + nama1);
                 System.out.println("nama2 : " + nama2);
                 StringBuilder yangPaling = new StringBuilder();
                 for (int i=5; i<kata.length-1; i++){
-                    yangPaling.append(kata[i] + " ");
+                    yangPaling.append(kata[i] + " "); //menggabungkan kata-kata yang dipisah-pusah tadi (yang ... ... ... dst)
                 }
-                System.out.println("yang Paling : " + yangPaling + " " + kataTerakhirTanpaTanya);
+                System.out.println("yang Paling : " + yangPaling + kataTerakhirTanpaTanya);
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
                 if(randInt%2==0){
-                    textMessage = new TextMessage(nama1 + " " + yangPaling + " " + kataTerakhirTanpaTanya);
+                    textMessage = new TextMessage(nama1 + " " + yangPaling + kataTerakhirTanpaTanya);
                 } else if (randInt%2!=0){
-                    textMessage = new TextMessage(nama2 + " " + yangPaling + " " + kataTerakhirTanpaTanya);
+                    textMessage = new TextMessage(nama2 + " " + yangPaling + kataTerakhirTanpaTanya);
                 }
                 KirimPesan(replyToken, textMessage);
-//                String minusSiapakahDiantara = pesan.substring(18);
-//                System.out.println("String minus siapakah diantara : " + minusSiapakahDiantara);
-//                char[] chars = minusSiapakahDiantara.toCharArray();
-//                char[] nama1 = new char[30];
-//                char[] nama2 = new char[30];
-//                StringBuilder name1 = new StringBuilder();
-//                StringBuilder name2 = new StringBuilder();
-//                int x=0, y=0;
-//                for(int i=0;i<minusSiapakahDiantara.length();i++){
-//                    //Ketika loop character tadi belum menemukan kata "DAN",
-//                    //Berarti itu adalah NAMA, maka masukkan ke list Nama
-//                    while (chars[i+1]!="D".charAt(0) &&
-//                            chars[i+2]!="A".charAt(0)&&
-//                            chars[i+3]!="N".charAt(0)){
-//                        nama1[x] = chars[i];
-//                        System.out.println("char nama1 ke-" + x + " : " + nama1[x]);
-//                        i++;
-//                        x++;
-//                    }
-//                    i+=5;
-//                    while(chars[i+1]!="Y".charAt(0) &&
-//                            chars[i+2]!="A".charAt(0) &&
-//                            chars[i+3]!="N".charAt(0) &&
-//                            chars[i+4]!="G".charAt(0)){
-//                        nama2[y] = chars[i];
-//                        System.out.println("char nama2 ke-" + y + " : " + nama2[y]);
-//                        i++;
-//                        y++;
-//                    }
-//                    i=minusSiapakahDiantara.length();
-////                    if(chars[i]!=" ".charAt(0) && chars[i+1]!="D".charAt(0) && chars[i+2]!="A".charAt(0) && chars[i+3]!="N".charAt(0)){
-////                        nama1[x] = chars[i];
-////                        System.out.println("char nama1 ke-" + x + " : " + chars[i]);
-////                        x++;
-////                    } else{
-////                        i+=4;
-////                        if(chars[i]!=" ".charAt(0)){
-////                            nama2[y] = chars[i];
-////                            System.out.println("char nama2 ke-" + x + " : " + chars[i]);
-////                            y++;
-////                        }
-////                    }
-//                }
-//                for (int i=0; i<nama1.length; i++){
-//                    name1.append(nama1[i]);
-//                }
-//                for (int i=0; i<nama2.length; i++){
-//                    name2.append(nama2[i]);
-//                }
-//                System.out.println("nama 1 : " + name1);
-//                System.out.println("nama 2 : " + name2)
                 break;
             }
             case "/GAME-SIAPAKAH" : {
-//                String groupId = getId(source);
-//                String type = getType(source);
                 if(status_waiting_game==1){
                     textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
                     KirimPesan(replyToken, textMessage);
@@ -346,38 +298,11 @@ public class MainController {
                         e.printStackTrace();
                     }
                 }
-//                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-//                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
-//                    Future future = asyncClass.gameMulai();
-//                    status_waiting_game=1;
-//                    int pengumuman=0;
-//                    try {
-//                        pengumuman = (int) future.get();
-//                    } catch (Exception e) {
-//                        System.out.println("Gagal asyncClass : " + e.toString());
-//                        e.printStackTrace();
-//                    }
-//                    if (pengumuman==15){
-//                        status_waiting_game=0;
-//                        textMessage = new TextMessage("GAME DIMULAI!");
-//                        KirimPesan(replyToken, textMessage);
-//                    }
-//                StartGame(replyToken);
-//                List<String> memberList = GetMembers(type, groupId);
-//                StringBuilder sb = new StringBuilder();
-//                for (String members: memberList) {
-//                    sb.append("Members ID : " + members + "\n");
-//                }
-//                System.out.println("Members ID : " + String.valueOf(sb));
-//                textMessage = new TextMessage(String.valueOf(sb));
-//                messageList.add(textMessage);
-//                KirimPesan(replyToken, messageList);
                 break;
             }
             case "/JOIN" : {
                 //memang game baru dibuat
                 if(status_waiting_game==1){
-//                    String userId = source.getSenderId();
                     String userId = event.getSource().getUserId();
                     System.out.println("userId : " + userId);
                     String name = getName(userId);
