@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Dao.MainDao;
+import com.example.demo.Service.AsyncServices;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import javax.annotation.Resource;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @SpringBootApplication
 @LineMessageHandler
 @EnableAsync
 public class DemoApplication {
+
+	@Resource
+	static AsyncServices services;
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;

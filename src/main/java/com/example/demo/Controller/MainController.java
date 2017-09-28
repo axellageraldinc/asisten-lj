@@ -1,8 +1,9 @@
 package com.example.demo.Controller;
 
-import com.example.demo.AppConfig;
+import com.example.demo.Config.AppConfig;
 import com.example.demo.AsyncClass;
 import com.example.demo.Dao.MainDao;
+import com.example.demo.Service.AsyncServices;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import retrofit2.Response;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -38,6 +40,9 @@ public class MainController {
 
     int status_waiting_game=0;
     List<String> playerList = new ArrayList<>();
+
+    @Resource
+    AsyncServices services;
 
     @Autowired
     private LineMessagingClient lineMessagingClient;
@@ -291,23 +296,38 @@ public class MainController {
 //                String type = getType(source);
                 textMessage = new TextMessage("GAME DIMULAI!\nKetik /join untuk join");
                 KirimPesan(replyToken, textMessage);
+                Future<Integer> process=null;
                 if (status_waiting_game==0){
-                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
-                    Future future = asyncClass.gameMulai();
-                    status_waiting_game=1;
-                    int pengumuman=0;
                     try {
-                        pengumuman = (int) future.get();
-                    } catch (Exception e) {
-                        System.out.println("Gagal asyncClass : " + e.toString());
+                        process = services.process();
+                        status_waiting_game=1;
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (pengumuman==15){
-                        status_waiting_game=0;
-                        textMessage = new TextMessage("GAME DIMULAI!");
-                        KirimPesan(replyToken, textMessage);
+                    try {
+                        if(process.get()==10){
+                            textMessage = new TextMessage("Waktu habis!\nGame dimulai!");
+                            KirimPesan(replyToken, textMessage);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+//                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+//                    AsyncClass asyncClass = context.getBean(AsyncClass.class);
+//                    Future future = asyncClass.gameMulai();
+//                    status_waiting_game=1;
+//                    int pengumuman=0;
+//                    try {
+//                        pengumuman = (int) future.get();
+//                    } catch (Exception e) {
+//                        System.out.println("Gagal asyncClass : " + e.toString());
+//                        e.printStackTrace();
+//                    }
+//                    if (pengumuman==15){
+//                        status_waiting_game=0;
+//                        textMessage = new TextMessage("GAME DIMULAI!");
+//                        KirimPesan(replyToken, textMessage);
+//                    }
                 } else{
                     textMessage = new TextMessage("Game SUDAH dimulai.\nketik /join untuk join");
                     KirimPesan(replyToken, textMessage);
