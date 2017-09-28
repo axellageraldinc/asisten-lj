@@ -157,11 +157,11 @@ public class MainController {
                                         new PostbackAction("Hapus Ujian",
                                                 "/HAPUS-UJIAN")
                                 )),
-                                new CarouselColumn(null, "LJ AJAIB v1", "Menanyakan pertanyaan seputar apakah", Arrays.asList(
+                                new CarouselColumn(null, "LJ AJAIB v1", "LJ Ajaib Apakah", Arrays.asList(
                                         new PostbackAction("Cara pakai LJ Ajaib v1",
                                                 "/CARA-PAKAI-APAKAH")
                                 )),
-                                new CarouselColumn(null, "LJ AJAIB v2", "Menanyakan pertanyaan seputar siapakah", Arrays.asList(
+                                new CarouselColumn(null, "LJ AJAIB v2", "LJ Ajaib Siapakah", Arrays.asList(
                                         new PostbackAction("Cara pakai LJ Ajaib v2",
                                                 "/CARA-PAKAI-SIAPAKAH")
                                 ))
