@@ -300,6 +300,7 @@ public class MainController {
                 break;
             }
             case "/SIAPAKAH" : {
+                String[] kata = pesan.split(" ");
                 if (pesan.contains("DAMAS") ||
                         pesan.contains("SULIS") ||
                         pesan.contains("SIMBAH") ||
@@ -307,8 +308,17 @@ public class MainController {
                     textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
                     messageList.add(textMessage);
                     KirimPesan(replyToken, messageList);
+                } else if(kata[1].equals("YANG")){
+                    List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
+                    int banyakMember = groupMemberList.size()-1;
+                    Random random = new Random();
+                    int randInt = random.nextInt(banyakMember);
+                    GroupMember user_id_beruntung = groupMemberList.get(randInt);
+                    String user_name_beruntung = getName(user_id_beruntung.getUserId());
+                    System.out.println("username beruntung : " + user_name_beruntung);
+                    textMessage = new TextMessage(user_name_beruntung);
+                    KirimPesan(replyToken, textMessage);
                 } else{
-                    String[] kata = pesan.split(" ");
                     //kata[0] adalah siapakah
                     //kata[1] adalah diantara
                     //kata[2] adalah nama1
@@ -406,29 +416,29 @@ public class MainController {
             }
             case "/JOIN" : {
                 //memang game baru dibuat
-                if(status_waiting_game==1){
-                    String userId = event.getSource().getUserId();
-                    System.out.println("userId : " + userId);
-                    String name = getName(userId);
-                    System.out.println("name : " + name);
-                    boolean status_add_list_player = playerList.add(name);
-                    if(status_add_list_player){
-                        textMessage = new TextMessage(name + " berhasil join!");
-                        messageList.add(textMessage);
-                        KirimPesan(replyToken, messageList);
-                        for (String player:playerList
-                             ) {
-                            System.out.println("LIST PLAYER : " + player);
-                        }
-                    }
-                }
-                //gak ada yang yang dibuat
-                else{
-                    textMessage = new TextMessage("Gak ada game yang jalan.\n" +
-                            "Ketik command /game-siapakah untuk mulai");
-                    messageList.add(textMessage);
-                    KirimPesan(replyToken, messageList);
-                }
+//                if(status_waiting_game==1){
+//                    String userId = event.getSource().getUserId();
+//                    System.out.println("userId : " + userId);
+//                    String name = getName(userId);
+//                    System.out.println("name : " + name);
+//                    boolean status_add_list_player = playerList.add(name);
+//                    if(status_add_list_player){
+//                        textMessage = new TextMessage(name + " berhasil join!");
+//                        messageList.add(textMessage);
+//                        KirimPesan(replyToken, messageList);
+//                        for (String player:playerList
+//                             ) {
+//                            System.out.println("LIST PLAYER : " + player);
+//                        }
+//                    }
+//                }
+//                //gak ada yang yang dibuat
+//                else{
+//                    textMessage = new TextMessage("Gak ada game yang jalan.\n" +
+//                            "Ketik command /game-siapakah untuk mulai");
+//                    messageList.add(textMessage);
+//                    KirimPesan(replyToken, messageList);
+//                }
                 break;
             }
             case "/HAI" : {
