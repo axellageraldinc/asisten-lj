@@ -56,7 +56,7 @@ public class MainController {
         Source source = joinEvent.getSource();
         String id = getId(source);
         MainDao.CreateTableData(id);
-        MainDao.CreateTableGroupMember(id);
+//        MainDao.CreateTableGroupMember(id);
         StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
@@ -125,6 +125,8 @@ public class MainController {
                 pesan.contains("HEY") ||
                 pesan.contains("HI")) && pesan.contains("LJ BOT")){
             command = "/HAI";
+        } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
+            command = "/LEAVE-GROUP";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -418,6 +420,42 @@ public class MainController {
                 KirimPesan(replyToken, textMessage);
                 break;
             }
+            case "/LEAVE-GROUP" : {
+                textMessage = new TextMessage("Wah kabur kalo ada dedy kepok~");
+                KirimPesan(replyToken, textMessage);
+                String type = getType(source);
+                if (type.equals("group")){
+                    LeaveGroup(id);
+                } else if(type.equals("room")){
+                    LeaveRoom(id);
+                }
+            }
+        }
+    }
+
+    public void LeaveGroup(String id){
+        try {
+            Response<BotApiResponse> response =
+                    LineMessagingServiceBuilder
+                            .create(AccessToken)
+                            .build()
+                            .leaveGroup(id)
+                            .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void LeaveRoom(String id){
+        try {
+            Response<BotApiResponse> response =
+                    LineMessagingServiceBuilder
+                            .create(AccessToken)
+                            .build()
+                            .leaveRoom(id)
+                            .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -464,7 +502,10 @@ public class MainController {
                 nomor++;
             }
             System.out.println("Data get all : " + String.valueOf(sb));
-            textMessage = new TextMessage(String.valueOf(sb));
+            if(sb.equals(null))
+                textMessage = new TextMessage("Belum ada data tugas");
+            else
+                textMessage = new TextMessage(String.valueOf(sb));
             messageList.add(textMessage);
         } else if (data.equals("/ADD-UJIAN")){
             messageList.clear();
@@ -487,7 +528,10 @@ public class MainController {
                 nomor++;
             }
             System.out.println("Data get all : " + String.valueOf(sb));
-            textMessage = new TextMessage(String.valueOf(sb));
+            if(sb.equals(null))
+                textMessage = new TextMessage("Belum ada data tugas");
+            else
+                textMessage = new TextMessage(String.valueOf(sb));
             messageList.add(textMessage);
         } else if (data.equals("/HAPUS-TUGAS")){
             messageList.clear();
