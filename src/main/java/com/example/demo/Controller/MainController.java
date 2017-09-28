@@ -114,6 +114,9 @@ public class MainController {
         }
         else if((command + "N").equals("/JOIN"))
             command = "/JOIN";
+        else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
+            command = "/LEAVE-GROUP";
+        }
         else if((command + "AH").equals("APAKAH"))
             command = "/APAKAH";
         else if((command + "E-SIAPAKAH").equals("/GAME-SIAPAKAH"))
@@ -125,8 +128,6 @@ public class MainController {
                 pesan.contains("HEY") ||
                 pesan.contains("HI")) && pesan.contains("LJ BOT")){
             command = "/HAI";
-        } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
-            command = "/LEAVE-GROUP";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -264,7 +265,7 @@ public class MainController {
                         pesan.contains("SULIS") ||
                         pesan.contains("SIMBAH") ||
                         pesan.contains("SDP")){
-                    textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
+                    textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
                     messageList.add(textMessage);
                     KirimPesan(replyToken, messageList);
                 } else{
@@ -285,7 +286,7 @@ public class MainController {
                         pesan.contains("SULIS") ||
                         pesan.contains("SIMBAH") ||
                         pesan.contains("SDP")){
-                    textMessage = new TextMessage("Heh gak boleh gitu nanti kualat lho...");
+                    textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
                     messageList.add(textMessage);
                     KirimPesan(replyToken, messageList);
                 } else{
@@ -317,7 +318,7 @@ public class MainController {
                         for(int i=3; i<indexDan;i++){
                             nama1.append(kata[i] + " ");
                         }
-                        for(int i=6; i<indexYang;i++){
+                        for(int i=indexDan+1; i<indexYang;i++){
                             nama2.append(kata[i] + " ");
                         }
 //                    nama1 = kata[3];
@@ -327,7 +328,7 @@ public class MainController {
                         for(int i=2; i<indexDan;i++){
                             nama1.append(kata[i] + " ");
                         }
-                        for(int i=5; i<indexYang;i++){
+                        for(int i=indexDan+1; i<indexYang;i++){
                             nama2.append(kata[i] + " ");
                         }
 //                    nama1 = kata[2];
