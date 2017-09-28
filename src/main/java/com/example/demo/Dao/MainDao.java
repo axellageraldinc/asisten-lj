@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,7 +153,7 @@ public class MainDao {
                 status = ps.executeUpdate();
             else
                 status = 0;
-        } catch (Exception ex){
+        } catch (SQLException ex){
             System.out.println("Gagal insert grup member : " + ex.toString());
         } finally {
             DbConnection.CloseResultSet(rs);
