@@ -305,8 +305,7 @@ public class MainController {
                     }
                     try {
                         if(process.get()==10){
-                            textMessage = new TextMessage("Waktu habis!\nGame dimulai!");
-                            KirimPesan(replyToken, textMessage);
+                            status_waiting_game=0;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -561,15 +560,15 @@ public class MainController {
         return name;
     }
 
-    public String getName2(String userId){
-        final String[] name = new String[1];
-        lineMessagingClient
-                .getProfile(userId)
-                .whenComplete(((userProfileResponse, throwable) -> {
-                    if(throwable!=null){
-                        name[0] = userProfileResponse.getDisplayName();
-                    }
-                }));
-        return name[0];
-    }
+//    public String getName2(String userId){
+//        final String[] name = new String[1];
+//        lineMessagingClient
+//                .getProfile(userId)
+//                .whenComplete(((userProfileResponse, throwable) -> {
+//                    if(throwable!=null){
+//                        name[0] = userProfileResponse.getDisplayName();
+//                    }
+//                }));
+//        return name[0];
+//    }
 }
