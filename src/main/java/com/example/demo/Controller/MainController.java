@@ -279,12 +279,16 @@ public class MainController {
                 StringBuilder nama1 = new StringBuilder();
                 StringBuilder nama2 = new StringBuilder();
                 int indexDan = 0, indexYang = 0;
+                for(int i=0; i<kata.length; i++){
+                    System.out.println(kata[i]);
+                }
                 for(int i=0;i<kata.length; i++){
                     if (kata[i].equals("DAN"))
                         indexDan=i;
                     if(kata[i].equals("YANG"))
                         indexYang=i;
                 }
+                System.out.println("index dan : " + indexDan + " index yang : " + indexYang);
                 if (kata[2].equals("ANTARA")){
                     for(int i=3; i<indexDan;i++){
                         nama1.append(kata[i] + " ");
