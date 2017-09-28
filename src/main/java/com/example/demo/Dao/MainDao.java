@@ -108,7 +108,7 @@ public class MainDao {
         try{
             connection = DbConnection.getConnection();
             preparedStatement = connection.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS" + groupMemberTableName +
+                    "CREATE TABLE IF NOT EXISTS " + groupMemberTableName +
                             "(" +
                             id + " SERIAL PRIMARY KEY, " +
                             user_id + " TEXT NOT NULL, " +
