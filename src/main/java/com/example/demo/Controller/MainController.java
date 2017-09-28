@@ -400,7 +400,7 @@ public class MainController {
                 break;
             }
             case "/HAI" : {
-                String userId = source.getSenderId();
+                String userId = event.getSource().getUserId();
                 System.out.println("user ID : " + userId);
                 textMessage = new TextMessage("Hai hai " + getName(userId));
                 System.out.println("Name : " + getName(userId));
