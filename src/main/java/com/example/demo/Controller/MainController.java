@@ -309,6 +309,7 @@ public class MainController {
                     messageList.add(textMessage);
                     KirimPesan(replyToken, messageList);
                 } else if(kata[1].equals("YANG")){
+                    int indexDann=0, indexYangg=0;
                     List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
                     int banyakMember = groupMemberList.size();
                     Random random = new Random();
@@ -316,10 +317,29 @@ public class MainController {
                     if(randInt==banyakMember){
                         randInt--;
                     }
+                    for (int i =0; i<kata.length; i++){
+                        if (kata[i].equals("YANG")){
+                            indexYangg=i;
+                        }
+                    }
+                    StringBuilder kataYang=new StringBuilder();
+                    for (int i=indexYangg; i<kata.length-1; i++){
+                        kataYang.append(kata[i] + " ");
+                    }
+                    char[] kataTerakhirr;
+                    StringBuilder kataTerakhirTanpaTanyaa = new StringBuilder();
+                    if(pesan.contains("?")){
+                        kataTerakhirr = String.valueOf(kata[kata.length-1]).toCharArray(); //kata terakhir dipecah-pecah jadi perhuruf
+                        for (int i=0;i<kataTerakhirr.length-1; i++){
+                            kataTerakhirTanpaTanyaa.append(kataTerakhirr[i]); //menggabungkan huruf2 yang dipecah tadi jadi satu tapi minus tanda tanya
+                        }
+                    } else{
+                        kataTerakhirTanpaTanyaa.append(kata[kata.length-1]);
+                    }
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
                     String user_name_beruntung = getName(user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
-                    textMessage = new TextMessage(user_name_beruntung);
+                    textMessage = new TextMessage(user_name_beruntung + " " + kataYang + kataTerakhirTanpaTanyaa);
                     KirimPesan(replyToken, textMessage);
                 } else{
                     //kata[0] adalah siapakah
