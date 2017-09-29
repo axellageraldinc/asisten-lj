@@ -339,9 +339,12 @@ public class MainController {
                     } else{
                         kataTerakhirTanpaTanyaa.append(kata[kata.length-1]);
                     }
+                    String senderId = event.getSource().getSenderId();
+                    String type  = getType(sourcee);
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
                     System.out.println("USER ID GroupMemberGetList : " + user_id_beruntung.getUserId());
-                    String user_name_beruntung = getName(user_id_beruntung.getUserId());
+//                    String user_name_beruntung = getName(user_id_beruntung.getUserId());
+                    String user_name_beruntung = getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
                     textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(kataYang).toLowerCase() + String.valueOf(kataTerakhirTanpaTanyaa).toLowerCase());
                     KirimPesan(replyToken, textMessage);
@@ -691,6 +694,27 @@ public class MainController {
             e.printStackTrace();
         }
         return memberIds;
+    }
+
+    public String getGroupMemberName(String type, String senderId, String userId){
+        String userName = "";
+        try{
+            Response<UserProfileResponse> response =
+                    LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .getMemberProfile(type, senderId, userId)
+                    .execute();
+            if (response.isSuccessful()){
+                UserProfileResponse profileResponse = response.body();
+                userName = profileResponse.getDisplayName();
+            } else{
+                System.out.println(response.code() + " " + response.message());
+            }
+        } catch (Exception ex){
+            System.out.println("Gagal get Group Member Name : " + ex.toString());
+        }
+        return userName;
     }
 
     public void StartGame(String replyToken){
