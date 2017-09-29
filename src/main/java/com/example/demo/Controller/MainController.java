@@ -297,13 +297,28 @@ public class MainController {
             }
             case "/SIAPAKAH" : {
                 String[] kata = pesan.split(" ");
+                List<GroupMember> groupMemberList = new ArrayList<>();
                 if(kata[1].equals("YANG")){
                     int indexDann=0, indexYangg=0;
-                    List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
-                    int banyakMember = groupMemberList.size();
-                    Random random = new Random();
+                    try{
+                        groupMemberList = MainDao.getAllMemberIds(group_id);
+                    } catch (Exception ex){
+                        System.out.println("Gagal get all member id : " + ex.toString());
+                    }
+                    int banyakMember=0;
+                    try{
+                        banyakMember = groupMemberList.size();
+                    } catch (Exception ex){
+                        System.out.println("gagal get banyak member : " + ex.toString());
+                    }
+//                    Random random = new Random();
 //                    int randInt = random.nextInt(banyakMember-1);
-                    int randInt = (int) (Math.random() * ((banyakMember-1)-0));
+                    int randInt = 0;
+                    try{
+                        randInt = (int) (Math.random() * ((banyakMember-1)-0));
+                    } catch (Exception ex){
+                        System.out.println("Gagal random : " + ex.toString());
+                    }
                     System.out.println("Random int : " + randInt);
                     for (int i =0; i<kata.length; i++){
                         if (kata[i].equals("YANG")){
@@ -353,6 +368,16 @@ public class MainController {
                             indexYang=i;
                     }
                     System.out.println("index dan : " + indexDan + " index yang : " + indexYang);
+                    //SIAPAKAH ANTARA
+                    if(kata[1].equals("ANTARA")){
+                        for(int i=2; i<indexDan;i++){
+                            nama1.append(kata[i] + " ");
+                        }
+                        for(int i=indexDan+1; i<indexYang;i++){
+                            nama2.append(kata[i] + " ");
+                        }
+                    }
+                    //SIAPAKAH DI ANTARA
                     if (kata[2].equals("ANTARA")){
                         for(int i=3; i<indexDan;i++){
                             nama1.append(kata[i] + " ");
@@ -363,6 +388,7 @@ public class MainController {
 //                    nama1 = kata[3];
 //                    nama2 = kata[5];
                     }
+                    //SIAPAKAH DIANTARA
                     if(kata[1].equals("DIANTARA")){
                         for(int i=2; i<indexDan;i++){
                             nama1.append(kata[i] + " ");
