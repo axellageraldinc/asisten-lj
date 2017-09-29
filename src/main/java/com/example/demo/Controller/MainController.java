@@ -102,9 +102,11 @@ public class MainController {
         groupMember.setUserId(user_id);
         List<GroupMember> groupMembers = new ArrayList<>();
         int status_insert_memberId = MainDao.InsertGroupMemberId(group_id, user_id);
-        if (status_insert_memberId==1){
-            groupMembers = MainDao.getAllMemberIds(group_id);
-        }
+        if (status_insert_memberId==1)
+            System.out.println("ID user baru berhasil di insert database : " + user_id);
+        else
+            System.out.println("USER ID : " + user_id + " SUDAH ADA DI DB");
+        groupMembers = MainDao.getAllMemberIds(group_id);
         int idKe=1;
         for (GroupMember item:groupMembers
                 ) {
