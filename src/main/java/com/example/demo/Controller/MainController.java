@@ -56,8 +56,6 @@ public class MainController {
         TextMessage textMessage = null;
         Source source = joinEvent.getSource();
         String id = getId(source);
-        MainDao.CreateTableData(id);
-        MainDao.CreateTableGroupMember(id);
         StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
@@ -94,6 +92,9 @@ public class MainController {
 //        String join = pesan.substring(0,5);
         Source sourcee = event.getSource();
         String user_id = event.getSource().getUserId();
+        String idd = getId(sourcee);
+        MainDao.CreateTableData(idd);
+        MainDao.CreateTableGroupMember(idd);
         System.out.println("user_id : " + user_id);
         String group_id = getId(sourcee);
         System.out.println("group_id : " + group_id);
