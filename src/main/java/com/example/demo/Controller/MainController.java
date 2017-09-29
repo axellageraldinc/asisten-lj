@@ -99,14 +99,15 @@ public class MainController {
         System.out.println("group_id : " + group_id);
         GroupMember groupMember = new GroupMember();
         groupMember.setUserId(user_id);
+        List<GroupMember> groupMembers = new ArrayList<>();
         int status_insert_memberId = MainDao.InsertGroupMemberId(group_id, user_id);
         if (status_insert_memberId==1){
-            List<GroupMember> groupMembers = MainDao.getAllMemberIds(group_id);
-            for (GroupMember item:groupMembers
-                 ) {
-                int i=1;
-                System.out.println("USER ID ke-" + i  +" : " + item.getUserId());
-            }
+            groupMembers = MainDao.getAllMemberIds(group_id);
+        }
+        for (GroupMember item:groupMembers
+                ) {
+            int i=1;
+            System.out.println("USER ID ke-" + i  +" : " + item.getUserId());
         }
 
         String command = content.getText().toUpperCase().substring(0,4);
