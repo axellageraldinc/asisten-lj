@@ -292,14 +292,7 @@ public class MainController {
             }
             case "/SIAPAKAH" : {
                 String[] kata = pesan.split(" ");
-                if (pesan.contains("DAMAS") ||
-                        pesan.contains("SULIS") ||
-                        pesan.contains("SIMBAH") ||
-                        pesan.contains("SDP")){
-                    textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
-                    messageList.add(textMessage);
-                    KirimPesan(replyToken, messageList);
-                } else if(kata[1].equals("YANG")){
+                if(kata[1].equals("YANG")){
                     int indexDann=0, indexYangg=0;
                     List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
                     int banyakMember = groupMemberList.size();
