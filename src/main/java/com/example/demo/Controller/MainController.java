@@ -320,11 +320,11 @@ public class MainController {
                         System.out.println("Gagal random : " + ex.toString());
                     }
                     System.out.println("Random int : " + randInt);
-                    for (int i =0; i<kata.length; i++){
-                        if (kata[i].equals("YANG")){
-                            indexYangg=i;
-                        }
-                    }
+//                    for (int i =0; i<kata.length; i++){
+//                        if (kata[i].equals("YANG")){
+//                            indexYangg=i;
+//                        }
+//                    }
                     StringBuilder kataYang=new StringBuilder();
                     for (int i=1; i<kata.length-1; i++){
                         kataYang.append(kata[i] + " ");
@@ -340,6 +340,7 @@ public class MainController {
                         kataTerakhirTanpaTanyaa.append(kata[kata.length-1]);
                     }
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
+                    System.out.println("USER ID GroupMemberGetList : " + user_id_beruntung.getUserId());
                     String user_name_beruntung = getName(user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
                     textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(kataYang).toLowerCase() + String.valueOf(kataTerakhirTanpaTanyaa).toLowerCase());
