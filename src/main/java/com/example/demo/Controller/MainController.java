@@ -303,6 +303,7 @@ public class MainController {
                     int banyakMember = groupMemberList.size();
                     Random random = new Random();
                     int randInt = random.nextInt(banyakMember-1);
+                    System.out.println("Random int : " + randInt);
                     for (int i =0; i<kata.length; i++){
                         if (kata[i].equals("YANG")){
                             indexYangg=i;
