@@ -104,10 +104,11 @@ public class MainController {
         if (status_insert_memberId==1){
             groupMembers = MainDao.getAllMemberIds(group_id);
         }
+        int idKe=1;
         for (GroupMember item:groupMembers
                 ) {
-            int i=1;
-            System.out.println("USER ID ke-" + i  +" : " + item.getUserId());
+            System.out.println("USER ID ke-" + idKe  +" : " + item.getUserId());
+            idKe++;
         }
 
         String command = content.getText().toUpperCase().substring(0,4);
