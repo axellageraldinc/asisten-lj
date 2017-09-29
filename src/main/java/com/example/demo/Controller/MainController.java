@@ -304,7 +304,7 @@ public class MainController {
                         }
                     }
                     StringBuilder kataYang=new StringBuilder();
-                    for (int i=indexYangg; i<kata.length-1; i++){
+                    for (int i=1; i<kata.length-1; i++){
                         kataYang.append(kata[i] + " ");
                     }
                     char[] kataTerakhirr;
