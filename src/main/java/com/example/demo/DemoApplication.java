@@ -49,6 +49,8 @@ public class DemoApplication {
 //		System.out.println("Result is : " + result);
 	}
 
+
+
 	@GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, String> testing(){
 		Map<String, String> param = new HashMap<>();

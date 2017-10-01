@@ -11,14 +11,12 @@ import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.*;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.StickerMessage;
-import com.linecorp.bot.model.message.TemplateMessage;
-import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.*;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.profile.MembersIdsResponse;
@@ -26,12 +24,16 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import okhttp3.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import retrofit2.Response;
 
 import javax.annotation.Resource;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -83,6 +85,40 @@ public class MainController {
     @EventMapping
     public void handleText(MessageEvent<TextMessageContent> msg) {
         handleContent(msg.getReplyToken(), msg, msg.getMessage());
+    }
+
+    @EventMapping
+    public void handleImage(MessageEvent<ImageMessageContent> img){
+        ImageMessageContent content = img.getMessage();
+        String id = content.getId();
+        handleImageContent(img.getReplyToken(), id);
+    }
+
+    public void handleImageContent(String replyToken, String id){
+        try {
+            Response<ResponseBody> response =
+                    LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .getMessageContent(id)
+                    .execute();
+            if(response.isSuccessful()){
+                ResponseBody content = response.body();
+                InputStream isi = content.byteStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
+                String line;
+                StringBuffer responsee = new StringBuffer();
+                while((line = rd.readLine()) != null) {
+                    responsee.append(line);
+                    responsee.append('\r');
+                }
+                rd.close();
+                System.out.println("Image Content : " + responsee.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
