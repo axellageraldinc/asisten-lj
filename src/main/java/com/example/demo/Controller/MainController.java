@@ -8,6 +8,7 @@ import com.example.demo.model.GroupMember;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
+import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.*;
@@ -98,16 +99,11 @@ public class MainController {
 
     public void handleImageContent(String replyToken, String id){
         try {
-            Response<ResponseBody> response =
-                    LineMessagingServiceBuilder
-                    .create(AccessToken)
-                    .build()
+            MessageContentResponse apiResponse = lineMessagingClient
                     .getMessageContent(id)
-                    .execute();
-            if(response.isSuccessful()){
-                ResponseBody content = response.body();
-                InputStream isi = content.byteStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
+                    .get();
+            InputStream isi = apiResponse.getStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
                 String line;
                 StringBuffer responsee = new StringBuffer();
                 while((line = rd.readLine()) != null) {
@@ -116,10 +112,32 @@ public class MainController {
                 }
                 rd.close();
                 System.out.println("Image Content : " + responsee.toString());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
+//        try {
+//            Response<ResponseBody> response =
+//                    LineMessagingServiceBuilder
+//                    .create(AccessToken)
+//                    .build()
+//                    .getMessageContent(id)
+//                    .execute();
+//            if(response.isSuccessful()){
+//                ResponseBody content = response.body();
+//                InputStream isi = content.byteStream();
+//                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
+//                String line;
+//                StringBuffer responsee = new StringBuffer();
+//                while((line = rd.readLine()) != null) {
+//                    responsee.append(line);
+//                    responsee.append('\r');
+//                }
+//                rd.close();
+//                System.out.println("Image Content : " + responsee.toString());
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
