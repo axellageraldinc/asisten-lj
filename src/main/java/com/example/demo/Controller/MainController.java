@@ -34,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -92,6 +93,7 @@ public class MainController {
         ImageMessageContent content = img.getMessage();
         String id = content.getId();
         handleImageContent(img.getReplyToken(), id);
+        System.out.println("ID MESSAGE IMAGE : " + id);
     }
 
     public void handleImageContent(String replyToken, String id){
