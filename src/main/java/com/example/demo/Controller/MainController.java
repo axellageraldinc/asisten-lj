@@ -111,6 +111,7 @@ public class MainController {
                     responsee.append('\r');
                 }
                 rd.close();
+            System.out.println("API RESPONSE : " + apiResponse.toString());
                 System.out.println("Image Content : " + responsee.toString());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
