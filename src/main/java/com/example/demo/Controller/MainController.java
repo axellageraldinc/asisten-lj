@@ -111,38 +111,32 @@ public class MainController {
                     .execute();
             if(response.isSuccessful()){
                 ResponseBody content = response.body();
-                InputStream isi = content.byteStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
-                String line;
-                StringBuffer responsee = new StringBuffer();
-                while((line = rd.readLine()) != null) {
-                    responsee.append(line);
-                    responsee.append('\r');
-                }
+                Files.copy(content.byteStream(),
+                        Files.createTempFile("foo", ".JPG"));
+//                InputStream isi = content.byteStream();
+//                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
+//                String line;
+//                StringBuffer responsee = new StringBuffer();
+//                while((line = rd.readLine()) != null) {
+//                    responsee.append(line);
+//                    responsee.append('\r');
+//                }
+//                rd.close();
 //                File file = new File("src/res/AXELL.JPG");
 //                byte[] buff = getBytesFromFile(file);
-                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                int nRead;
-                byte[] data = new byte[1024];
-                while ((nRead = isi.read(data, 0, data.length)) != -1) {
-                    buffer.write(data, 0, nRead);
-                }
-
-                buffer.flush();
-                byte[] buff = buffer.toByteArray();
-                String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
-                HashMap<String, String> map = new HashMap<>();
-                HashMap<String, byte[]> byteMap = new HashMap<>();
-                map.put("api_key", api_key);
-                map.put("api_secret", api_secret);
-                byteMap.put("image_file", buff);
-                try{
-                    byte[] bacd = post(url, map, byteMap);
-                    String str = new String(bacd);
-                    System.out.println(str);
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
+//                HashMap<String, String> map = new HashMap<>();
+//                HashMap<String, byte[]> byteMap = new HashMap<>();
+//                map.put("api_key", api_key);
+//                map.put("api_secret", api_secret);
+//                byteMap.put("image_file", buff);
+//                try{
+//                    byte[] bacd = post(url, map, byteMap);
+//                    String str = new String(bacd);
+//                    System.out.println(str);
+//                }catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
