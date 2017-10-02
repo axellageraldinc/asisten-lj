@@ -119,7 +119,6 @@ public class MainController {
                     responsee.append(line);
                     responsee.append('\r');
                 }
-                rd.close();
 //                File file = new File("src/res/AXELL.JPG");
 //                byte[] buff = getBytesFromFile(file);
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
