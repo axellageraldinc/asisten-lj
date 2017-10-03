@@ -763,6 +763,7 @@ public class MainController {
                 try{
                     getInstaPhoto(replyToken, username);
                 } catch (Exception e) {
+                    KirimPesan(replyToken, new TextMessage("Username tidak ditemukan atau profil di private"));
                     e.printStackTrace();
                 }
             }
