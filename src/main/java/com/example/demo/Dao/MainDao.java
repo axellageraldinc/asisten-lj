@@ -144,6 +144,7 @@ public class MainDao {
             );
             if(preparedStatement.executeUpdate()==1)
                 System.out.println("Berhasil create table img detect status");
+            DeleteItemImgStatus(group_id);
             insertImgStatus(group_id);
         } catch (Exception ex){
             System.out.println("Gagal create table img detect status : " + ex.toString());
@@ -151,6 +152,26 @@ public class MainDao {
             DbConnection.ClosePreparedStatement(preparedStatement);
             DbConnection.CloseConnection(connection);
         }
+    }
+
+    public static int DeleteItemImgStatus(String groupId){
+        int status = 0;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try{
+            connection = DbConnection.getConnection();
+            ps = connection.prepareStatement(
+                    "DELETE FROM " + "img_detect_status" + " WHERE " + group_id + "=?"
+            );
+            ps.setString(1, groupId);
+            status = ps.executeUpdate();
+        } catch (Exception ex){
+            System.out.println("Gagal delete item : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return status;
     }
 
     public static void insertImgStatus(String group_id){
