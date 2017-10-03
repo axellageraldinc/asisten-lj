@@ -139,8 +139,9 @@ public class MainController {
         JSONObject jsonObject = new JSONObject(str);
         JSONArray jsonArray = jsonObject.getJSONArray("faces");
         JSONObject face_attributes = jsonArray.getJSONObject(0); //index ke-1 adalah face_attributes
-        String gender = face_attributes.getString("gender");
-        System.out.println("GENDER : " + gender);
+        JSONObject gender = face_attributes.getJSONObject("gender");
+        String gender_value = gender.getString("value");
+        System.out.println("GENDER : " + gender_value);
         String age = face_attributes.getString("age");
         String ethnic = face_attributes.getString("ethnicity");
 //        try {
