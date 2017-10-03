@@ -2,7 +2,6 @@ package com.example.demo.Creator;
 
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
 
 import java.util.Arrays;
 
