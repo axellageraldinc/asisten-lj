@@ -440,6 +440,10 @@ public class MainController {
                                 new CarouselColumn(null, "LJ AJAIB v3", "LJ Ajaib Wajah", Arrays.asList(
                                         new PostbackAction("How to LJ Ajaib v3",
                                                 "/CARA-PAKAI-WAJAH")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Cinta", Arrays.asList(
+                                        new PostbackAction("How to LJ Ajaib v4",
+                                                "/CARA-PAKAI-CINTA")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -1002,6 +1006,12 @@ public class MainController {
                     "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
                     "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
                     "Jika sudah selesai bermain-main, ketikkan command /STOP");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-CINTA")){
+            messageList.clear();
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
+                    "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
+                    "untuk menghitung kadar cinta mereka.");
             messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
