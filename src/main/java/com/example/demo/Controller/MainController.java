@@ -49,6 +49,7 @@ public class MainController {
 
     int status_waiting_game=0;
     List<String> playerList = new ArrayList<>();
+    int detect_img_status=0;
 
     private static final String api_key = "NlDLxQN3giFSs1AI899WNnZTtCuy-mt7";
     private static final String api_secret = "3W95_8wUGxaiKvcmxDCEciBsTgkTl0E1";
@@ -98,15 +99,16 @@ public class MainController {
 
     @EventMapping
     public void handleImage(MessageEvent<ImageMessageContent> img){
-        ImageMessageContent content = img.getMessage();
-        String id = content.getId();
-        handleImageContent(img.getReplyToken(), id);
-        System.out.println("ID MESSAGE IMAGE : " + id);
+        if(detect_img_status==1){
+            ImageMessageContent content = img.getMessage();
+            String id = content.getId();
+            handleImageContent(img.getReplyToken(), id);
+            System.out.println("ID MESSAGE IMAGE : " + id);
+        }
     }
 
     public void handleImageContent(String replyToken, String id){
-        // File disimpan dengan nama downloaded.jpg
-        // Apabila sudah ada, maka di-overwrite
+        TextMessage textMessage;
         File file = new File("downloaded.jpg");
         try {
             URL urlP = new URL("https://api.line.me/v2/bot/message/" + id + "/content");
@@ -136,58 +138,66 @@ public class MainController {
         }
         JSONObject jsonObject = new JSONObject(str);
         JSONArray jsonArray = jsonObject.getJSONArray("faces");
-        JSONObject array_content = jsonArray.getJSONObject(0); //index ke-1 adalah face_attributes
-        JSONObject face_attributes = array_content.getJSONObject("attributes");
-        JSONObject gender = face_attributes.getJSONObject("gender");
-        String gender_value = gender.getString("value");
-        System.out.println("GENDER : " + gender_value);
-        JSONObject age = face_attributes.getJSONObject("age");
-        int age_value = age.getInt("value");
-        System.out.println("AGE : " + age_value);
-        JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
-        String ethnic_value = ethnic.getString("value");
-        System.out.println("ETHNIC : " + ethnic_value);
-        JSONObject emotion = face_attributes.getJSONObject("emotion");
-        double sadness = emotion.getDouble("sadness");
-        double neutral = emotion.getDouble("neutral");
-        double disgust = emotion.getDouble("disgust");
-        double anger = emotion.getDouble("anger");
-        double surprise = emotion.getDouble("surprise");
-        double fear = emotion.getDouble("fear");
-        double happiness = emotion.getDouble("happiness");
-        Map<String, Double> emotionMap = new HashMap<>();
-        emotionMap.put("Kesedihan", sadness); emotionMap.put("Netral", neutral); emotionMap.put("Jijik", disgust);
-        emotionMap.put("Marah", anger); emotionMap.put("Terkejut", surprise); emotionMap.put("Takut", fear); emotionMap.put("Bahagia", happiness);
-        System.out.println("Sadness : " + sadness + "\nNeutral : " + neutral + "\nDisgust : " + disgust + "\nAnger : " + anger
-         + "\nSurprise : " + surprise + "\nFear : " + fear + "\nHappiness : " + happiness);
-        JSONObject beauty = face_attributes.getJSONObject("beauty");
-        double beauty_value=0;
-        if (gender_value.toUpperCase().equals("MALE"))
-            beauty_value = beauty.getDouble("male_score");
-        else
-            beauty_value = beauty.getDouble("female_score");
-        System.out.println("Beauty Score : " + beauty_value);
-        double largestEmotion=0;
-        String rautWajah=null;
-        for (Map.Entry<String, Double> entry:emotionMap.entrySet()
-             ) {
-            if(entry.getValue()>largestEmotion){
-                largestEmotion = entry.getValue();
-                rautWajah = entry.getKey();
+        int jsonArraySize = jsonArray.length();
+        if(jsonArraySize>1){
+            textMessage = new TextMessage("tolong kirim foto dengan 1 wajah saja.");
+        } else if(jsonArraySize==0)
+        {
+            textMessage = new TextMessage("Wajah tidak terdeteksi");
+        } else{
+            JSONObject array_content = jsonArray.getJSONObject(0); //index ke-1 adalah face_attributes
+            JSONObject face_attributes = array_content.getJSONObject("attributes");
+            JSONObject gender = face_attributes.getJSONObject("gender");
+            String gender_value = gender.getString("value");
+            System.out.println("GENDER : " + gender_value);
+            JSONObject age = face_attributes.getJSONObject("age");
+            int age_value = age.getInt("value");
+            System.out.println("AGE : " + age_value);
+            JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
+            String ethnic_value = ethnic.getString("value");
+            System.out.println("ETHNIC : " + ethnic_value);
+            JSONObject emotion = face_attributes.getJSONObject("emotion");
+            double sadness = emotion.getDouble("sadness");
+            double neutral = emotion.getDouble("neutral");
+            double disgust = emotion.getDouble("disgust");
+            double anger = emotion.getDouble("anger");
+            double surprise = emotion.getDouble("surprise");
+            double fear = emotion.getDouble("fear");
+            double happiness = emotion.getDouble("happiness");
+            Map<String, Double> emotionMap = new HashMap<>();
+            emotionMap.put("Kesedihan", sadness); emotionMap.put("Netral", neutral); emotionMap.put("Jijik", disgust);
+            emotionMap.put("Marah", anger); emotionMap.put("Terkejut", surprise); emotionMap.put("Takut", fear); emotionMap.put("Bahagia", happiness);
+            System.out.println("Sadness : " + sadness + "\nNeutral : " + neutral + "\nDisgust : " + disgust + "\nAnger : " + anger
+                    + "\nSurprise : " + surprise + "\nFear : " + fear + "\nHappiness : " + happiness);
+            JSONObject beauty = face_attributes.getJSONObject("beauty");
+            double beauty_value=0;
+            if (gender_value.toUpperCase().equals("MALE"))
+                beauty_value = beauty.getDouble("male_score");
+            else
+                beauty_value = beauty.getDouble("female_score");
+            System.out.println("Beauty Score : " + beauty_value);
+            double largestEmotion=0;
+            String rautWajah=null;
+            for (Map.Entry<String, Double> entry:emotionMap.entrySet()
+                    ) {
+                if(entry.getValue()>largestEmotion){
+                    largestEmotion = entry.getValue();
+                    rautWajah = entry.getKey();
+                }
             }
+            String tampanCantik=null;
+            if (gender_value.toUpperCase().equals("MALE"))
+                tampanCantik = "ketampanan";
+            else
+                tampanCantik = "kecantikan";
+            textMessage = new TextMessage(
+                    "Gender : " + gender_value + "\n" +
+                            "Umur : " + age_value + " tahun\n" +
+                            "Kebangsaan : " + ethnic_value + "\n" +
+                            "Raut wajah yang paling terpancar : " + rautWajah + "\n" +
+                            "Tingkat " + tampanCantik + " : " + String.format("%.2f", beauty_value) + "%"
+            );
         }
-        String tampanCantik=null;
-        if (gender_value.toUpperCase().equals("MALE"))
-            tampanCantik = "ketampanan";
-        else
-            tampanCantik = "kecantikan";
-        TextMessage textMessage = new TextMessage(
-                "Gender : " + gender_value + "\n" +
-                "Umur : " + age_value + " tahun\n" +
-                "Kebangsaan : " + ethnic_value + "\n" +
-                "Raut wajah yang paling terpancar : " + rautWajah + "\n" +
-                "Tingkat " + tampanCantik + " : " + String.format("%.2f", beauty_value) + "%"
-        );
         KirimPesan(replyToken, textMessage);
 
     }
@@ -290,9 +300,6 @@ public class MainController {
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
-//        String apakah = pesan.substring(0,6);
-//        String game_siapakah = pesan.substring(0,14);
-//        String join = pesan.substring(0,5);
         Source sourcee = event.getSource();
         String user_id = event.getSource().getUserId();
         String idd = getId(sourcee);
@@ -354,6 +361,10 @@ public class MainController {
                 pesan.contains("HEY") ||
                 pesan.contains("HI")) && pesan.contains("LJ BOT")){
             command = "/HAI";
+        } else if((command + "E-DETECT").equals("/FACE-DETECT")){
+            command = "/FACE";
+        } else if((command + "E-STOP").equals("/FACE-STOP")){
+            command = "/FACE-STOP";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -417,6 +428,10 @@ public class MainController {
                                 new CarouselColumn(null, "LJ AJAIB v2", "LJ Ajaib Siapakah", Arrays.asList(
                                         new PostbackAction("How to LJ Ajaib v2",
                                                 "/CARA-PAKAI-SIAPAKAH")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v3", "LJ Ajaib Wajah", Arrays.asList(
+                                        new PostbackAction("How to LJ Ajaib v3",
+                                                "/CARA-PAKAI-WAJAH")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -702,6 +717,19 @@ public class MainController {
                 } else if(type.equals("room")){
                     LeaveRoom(id);
                 }
+                break;
+            }
+            case "/FACE" : {
+                detect_img_status = 1;
+                textMessage = new TextMessage("MULAI");
+                KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/FACE-STOP" : {
+                detect_img_status = 0;
+                textMessage = new TextMessage("Face detection sudah dihentikan");
+                KirimPesan(replyToken, textMessage);
+                break;
             }
         }
     }
@@ -842,15 +870,24 @@ public class MainController {
             messageList.add(textMessage);
         } else if(data.equals("/CARA-PAKAI-APAKAH")){
             messageList.clear();
-            textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\nKetikkan command dengan format :\n" +
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
+                    "Ketikkan command dengan format :\n" +
                     "Apakah .......\n" +
                     "Contoh : Apakah dedy tampan?");
             messageList.add(textMessage);
         } else if(data.equals("/CARA-PAKAI-SIAPAKAH")){
             messageList.clear();
-            textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\nKetikkan command dengan format :\n" +
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\n" +
+                    "Ketikkan command dengan format :\n" +
                     "Siapakah diantara [nama 1] dan [nama 2] yang ......\n" +
                     "Contoh : Siapakah diantara Dedy dan Kepok yang paling tampan?");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-WAJAH")){
+            messageList.clear();
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
+                    "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
+                    "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
+                    "Jika sudah selesai bermain-main, ketikkan command /FACE-STOP");
             messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
