@@ -8,7 +8,6 @@ import com.example.demo.model.GroupMember;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
-import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.*;
@@ -25,7 +24,8 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import okhttp3.ResponseBody;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import retrofit2.Response;
@@ -49,6 +49,7 @@ public class MainController {
 
     int status_waiting_game=0;
     List<String> playerList = new ArrayList<>();
+    int detect_img_status=0;
 
     private static final String api_key = "NlDLxQN3giFSs1AI899WNnZTtCuy-mt7";
     private static final String api_secret = "3W95_8wUGxaiKvcmxDCEciBsTgkTl0E1";
@@ -98,15 +99,20 @@ public class MainController {
 
     @EventMapping
     public void handleImage(MessageEvent<ImageMessageContent> img){
-        ImageMessageContent content = img.getMessage();
-        String id = content.getId();
-        handleImageContent(img.getReplyToken(), id);
-        System.out.println("ID MESSAGE IMAGE : " + id);
+//        if(detect_img_status==1){
+        String group_id = getId(img.getSource());
+        System.out.println("STATUS : " + MainDao.getStatus(group_id));
+        if(MainDao.getStatus(group_id)==1){
+            ImageMessageContent content = img.getMessage();
+            String id = content.getId();
+            handleImageContent(img.getReplyToken(), id);
+            System.out.println("ID MESSAGE IMAGE : " + id);
+        }
+//        }
     }
 
     public void handleImageContent(String replyToken, String id){
-        // File disimpan dengan nama downloaded.jpg
-        // Apabila sudah ada, maka di-overwrite
+        TextMessage textMessage;
         File file = new File("downloaded.jpg");
         try {
             URL urlP = new URL("https://api.line.me/v2/bot/message/" + id + "/content");
@@ -124,52 +130,79 @@ public class MainController {
         HashMap<String, byte[]> byteMap = new HashMap<>();
         map.put("api_key", api_key);
         map.put("api_secret", api_secret);
-        map.put("return_attributes", "age,gender,ethnicity,emotion");
+        map.put("return_attributes", "age,gender,ethnicity,emotion,beauty");
         byteMap.put("image_file", buff);
+        String str = null;
         try{
             byte[] bacd = post(url, map, byteMap);
-            String str = new String(bacd);
-            System.out.println(str);
+            str = new String(bacd);
+            System.out.println(str); //json
         }catch (Exception e) {
             e.printStackTrace();
         }
-//        try {
-//            Response<ResponseBody> response =
-//                    LineMessagingServiceBuilder
-//                    .create(AccessToken)
-//                    .build()
-//                    .getMessageContent(id)
-//                    .execute();
-//            if(response.isSuccessful()){
-//                ResponseBody content = response.body();
-//                InputStream isi = content.byteStream();
-//                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
-//                String line;
-//                StringBuffer responsee = new StringBuffer();
-//                while((line = rd.readLine()) != null) {
-//                    responsee.append(line);
-//                    responsee.append('\r');
-//                }
-//                rd.close();
-//                File file = new File("src/res/AXELL.JPG");
-//                byte[] buff = getBytesFromFile(file);
-//                String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
-//                HashMap<String, String> map = new HashMap<>();
-//                HashMap<String, byte[]> byteMap = new HashMap<>();
-//                map.put("api_key", api_key);
-//                map.put("api_secret", api_secret);
-//                byteMap.put("image_file", buff);
-//                try{
-//                    byte[] bacd = post(url, map, byteMap);
-//                    String str = new String(bacd);
-//                    System.out.println(str);
-//                }catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        JSONObject jsonObject = new JSONObject(str);
+        JSONArray jsonArray = jsonObject.getJSONArray("faces");
+        int jsonArraySize = jsonArray.length();
+        if(jsonArraySize>1){
+            textMessage = new TextMessage("tolong kirim foto dengan 1 wajah saja.");
+        } else if(jsonArraySize==0)
+        {
+            textMessage = new TextMessage("Wajah tidak terdeteksi");
+        } else{
+            JSONObject array_content = jsonArray.getJSONObject(0); //index ke-1 adalah face_attributes
+            JSONObject face_attributes = array_content.getJSONObject("attributes");
+            JSONObject gender = face_attributes.getJSONObject("gender");
+            String gender_value = gender.getString("value");
+            System.out.println("GENDER : " + gender_value);
+            JSONObject age = face_attributes.getJSONObject("age");
+            int age_value = age.getInt("value");
+            System.out.println("AGE : " + age_value);
+            JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
+            String ethnic_value = ethnic.getString("value");
+            System.out.println("ETHNIC : " + ethnic_value);
+            JSONObject emotion = face_attributes.getJSONObject("emotion");
+            double sadness = emotion.getDouble("sadness");
+            double neutral = emotion.getDouble("neutral");
+            double disgust = emotion.getDouble("disgust");
+            double anger = emotion.getDouble("anger");
+            double surprise = emotion.getDouble("surprise");
+            double fear = emotion.getDouble("fear");
+            double happiness = emotion.getDouble("happiness");
+            Map<String, Double> emotionMap = new HashMap<>();
+            emotionMap.put("Kesedihan", sadness); emotionMap.put("Netral", neutral); emotionMap.put("Jijik", disgust);
+            emotionMap.put("Marah", anger); emotionMap.put("Terkejut", surprise); emotionMap.put("Takut", fear); emotionMap.put("Bahagia", happiness);
+            System.out.println("Sadness : " + sadness + "\nNeutral : " + neutral + "\nDisgust : " + disgust + "\nAnger : " + anger
+                    + "\nSurprise : " + surprise + "\nFear : " + fear + "\nHappiness : " + happiness);
+            JSONObject beauty = face_attributes.getJSONObject("beauty");
+            double beauty_value=0;
+            if (gender_value.toUpperCase().equals("MALE"))
+                beauty_value = beauty.getDouble("male_score");
+            else
+                beauty_value = beauty.getDouble("female_score");
+            System.out.println("Beauty Score : " + beauty_value);
+            double largestEmotion=0;
+            String rautWajah=null;
+            for (Map.Entry<String, Double> entry:emotionMap.entrySet()
+                    ) {
+                if(entry.getValue()>largestEmotion){
+                    largestEmotion = entry.getValue();
+                    rautWajah = entry.getKey();
+                }
+            }
+            String tampanCantik=null;
+            if (gender_value.toUpperCase().equals("MALE"))
+                tampanCantik = "ketampanan";
+            else
+                tampanCantik = "kecantikan";
+            textMessage = new TextMessage(
+                    "Gender : " + gender_value + "\n" +
+                            "Umur : " + age_value + " tahun\n" +
+                            "Kebangsaan : " + ethnic_value + "\n" +
+                            "Raut wajah yang paling terpancar : " + rautWajah + "\n" +
+                            "Tingkat " + tampanCantik + " : " + String.format("%.2f", beauty_value) + "%"
+            );
+        }
+        KirimPesan(replyToken, textMessage);
 
     }
 
@@ -271,9 +304,6 @@ public class MainController {
 
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
-//        String apakah = pesan.substring(0,6);
-//        String game_siapakah = pesan.substring(0,14);
-//        String join = pesan.substring(0,5);
         Source sourcee = event.getSource();
         String user_id = event.getSource().getUserId();
         String idd = getId(sourcee);
@@ -335,6 +365,14 @@ public class MainController {
                 pesan.contains("HEY") ||
                 pesan.contains("HI")) && pesan.contains("LJ BOT")){
             command = "/HAI";
+        } else if((command + "E-DETECT").equals("/FACE-DETECT")){
+            command = "/FACE-DETECT";
+        } else if((command + "P").equals("/STOP")){
+            command = "/FACE-STOP";
+        } else if((command + "WAL-SHOLAT").equals("/JADWAL-SHOLAT")){
+            command = "/JADWAL-SHOLAT";
+        } else if((command + "E").equals("/LOVE")){
+            command = "/LOVE";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -398,6 +436,14 @@ public class MainController {
                                 new CarouselColumn(null, "LJ AJAIB v2", "LJ Ajaib Siapakah", Arrays.asList(
                                         new PostbackAction("How to LJ Ajaib v2",
                                                 "/CARA-PAKAI-SIAPAKAH")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v3", "LJ Ajaib Wajah", Arrays.asList(
+                                        new PostbackAction("How to LJ Ajaib v3",
+                                                "/CARA-PAKAI-WAJAH")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Cinta", Arrays.asList(
+                                        new PostbackAction("How to LJ Ajaib v4",
+                                                "/CARA-PAKAI-CINTA")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -683,8 +729,100 @@ public class MainController {
                 } else if(type.equals("room")){
                     LeaveRoom(id);
                 }
+                break;
+            }
+            case "/FACE-DETECT" : {
+                MainDao.CreateTableImageDetectStatus(group_id);
+                MainDao.UpdateImgStatus(group_id, 1);
+                System.out.println("STATUS AFTER MULAI : " + MainDao.getStatus(group_id));
+                textMessage = new TextMessage("MULAI");
+                KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/FACE-STOP" : {
+                MainDao.UpdateImgStatus(group_id, 0);
+                System.out.println("STATUS AFTER STOP : " + MainDao.getStatus(group_id));
+                textMessage = new TextMessage("Face detection sudah dihentikan");
+                KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/JADWAL-SHOLAT" : {
+                String[] kata = pesan.split(" ");
+                String lokasi = kata[1];
+                System.out.println("Lokasi : " + lokasi);
+                try {
+                    jadwalSholat(replyToken, lokasi);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case "/LOVE" : {
+                String[] kata = pesan.split(" ");
+                if(kata.length<3){
+                    textMessage = new TextMessage("Harus ada 2 nama yaaaa");
+                    KirimPesan(replyToken, textMessage);
+                } else if(kata.length>3){
+                    textMessage = new TextMessage("Hayoooo, gak boleh ada orang ketiga atau lebih. Maksimal 2 orang aja ya");
+                    KirimPesan(replyToken, textMessage);
+                } else{
+                    String nama1 = kata[1];
+                    String nama2 = kata[2];
+                    LoveCalculator(replyToken, nama1, nama2);
+                }
+                break;
             }
         }
+    }
+
+    // HTTP GET request
+    private void jadwalSholat(String replyToken, String lokasi) throws Exception {
+
+        String url = "https://time.siswadi.com/pray/?address=" + lokasi;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        int responseCode = con.getResponseCode();
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+        JSONObject jsonObject = new JSONObject(response.toString());
+        JSONObject data = jsonObject.getJSONObject("data");
+        String Fajr = data.getString("Fajr");
+        String Dhuhr = data.getString("Dhuhr");
+        String Asr = data.getString("Asr");
+        String Maghrib = data.getString("Maghrib");
+        String Isha = data.getString("Isha");
+        String SepertigaMalam = data.getString("SepertigaMalam");
+        String TengahMalam = data.getString("TengahMalam");
+        String DuapertigaMalam = data.getString("DuapertigaMalam");
+        TextMessage textMessage = new TextMessage("Jadwal sholat wilayah " + lokasi + "\n\n" +
+                "Fajr : " + Fajr + "\n" +
+                "Dhuhr : " + Dhuhr + "\n" +
+                "Asr : " + Asr + "\n" +
+                "Maghrib : " + Maghrib + "\n" +
+                "Isha : " + Isha + "\n" +
+                "Sepertiga Malam : " + SepertigaMalam + "\n" +
+                "Tengah Malam : " + TengahMalam + "\n" +
+                "Duapertiga Malam : " + DuapertigaMalam);
+        KirimPesan(replyToken, textMessage);
     }
 
     public void LeaveGroup(String id){
@@ -725,6 +863,41 @@ public class MainController {
 
     private void KirimPesan(String replyToken, Message message) {
         KirimPesan(replyToken, Collections.singletonList(message));
+    }
+
+    public void LoveCalculator(String replyToken, String name1, String name2){
+        String concat = String.valueOf(name1).concat(String.valueOf(name2)).toUpperCase();
+        int sum = 0;
+        for (int i = 0; i < concat.length(); i++) {
+            char character = concat.charAt(i);
+            int ascii = (int) character;
+            sum += ascii;
+        }
+        double loveRate = sum%100;
+        String kataKata=null;
+        if (loveRate>=0 && loveRate <=10)
+            kataKata = name1 + " dan " + name2 + " sepertinya kurang cocok ya, mending cari yang lain aja..";
+        else if(loveRate>10 && loveRate<=20)
+            kataKata = name1 + " dan " + name2 + ", cinta kalian kurang kuat, butuh perbaikan lagi untuk dapat menjadi cinta yang sejati..";
+        else if(loveRate>20 && loveRate<=30)
+            kataKata = name1 + " dan " + name2 + " memiliki potensi untuk menjadi pasangan sejati, namun masih butuh usaha lebih untuk mencapai itu..";
+        else if (loveRate>30 && loveRate<=40)
+            kataKata = name1 + " dan " + name2 + " jangan menyerah, ada banyak cara untuk menumbuhkan kembali rasa cinta kalian..";
+        else if(loveRate>40 && loveRate<=50)
+            kataKata = name1 + " dan " + name2 + ", cinta kalian ada di batas antara cinta dan tidak cinta. Kalian perlu melakukan hal yang dulu sering kalian lakukan untuk menumbuhkan cinta kalian kembali..";
+        else if(loveRate>50 && loveRate<=60)
+            kataKata = name1 + " dan " + name2 + ", hubungan kalian masih bisa dibilang aman, namun hati-hati, bisa jadi ada orang ketiga yang dapat merusak semuanya..";
+        else if(loveRate>60 && loveRate<=70)
+            kataKata = name1 + " dan " + name2 + " memiliki kadar cinta yang terbilang besar, tetap pertahankan hal itu, maka kalian dapat menjadi pasangan sejati kelak..";
+        else if(loveRate>70 && loveRate<=80)
+            kataKata = name1 + " dan " + name2 + " memiliki hubungan yang teramat sangat mesra, membuat pasangan-pasangan lain iri pada kalian..";
+        else if(loveRate>80 && loveRate<=90)
+            kataKata = name1 + " dan " + name2 + " mencintai satu sama lain sepenuh hati, hampir tidak mungkin untuk mengganggu hubungan mereka berdua..";
+        else if(loveRate>90 && loveRate<=100)
+            kataKata = name1 + " dan " + name2 + ", kalian adalah arti sesungguhnya dari CINTA SEJATI. Tidak ada hal di dunia ini yang mampu memisahkan kalian.";
+        TextMessage textMessage = new TextMessage("Kadar cinta : " + loveRate + "%\n" +
+                kataKata);
+        KirimPesan(replyToken, textMessage);
     }
 
     @EventMapping
@@ -823,15 +996,30 @@ public class MainController {
             messageList.add(textMessage);
         } else if(data.equals("/CARA-PAKAI-APAKAH")){
             messageList.clear();
-            textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\nKetikkan command dengan format :\n" +
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
+                    "Ketikkan command dengan format :\n" +
                     "Apakah .......\n" +
                     "Contoh : Apakah dedy tampan?");
             messageList.add(textMessage);
         } else if(data.equals("/CARA-PAKAI-SIAPAKAH")){
             messageList.clear();
-            textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\nKetikkan command dengan format :\n" +
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\n" +
+                    "Ketikkan command dengan format :\n" +
                     "Siapakah diantara [nama 1] dan [nama 2] yang ......\n" +
                     "Contoh : Siapakah diantara Dedy dan Kepok yang paling tampan?");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-WAJAH")){
+            messageList.clear();
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
+                    "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
+                    "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
+                    "Jika sudah selesai bermain-main, ketikkan command /STOP");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-CINTA")){
+            messageList.clear();
+            textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
+                    "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
+                    "untuk menghitung kadar cinta mereka.");
             messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
