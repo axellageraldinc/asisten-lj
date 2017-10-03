@@ -124,7 +124,7 @@ public class MainController {
         HashMap<String, byte[]> byteMap = new HashMap<>();
         map.put("api_key", api_key);
         map.put("api_secret", api_secret);
-        map.put("return_attributes", "age,gender,ethnicity,emotion");
+        map.put("return_attributes", "age,gender,ethnicity,emotion,beauty");
         byteMap.put("image_file", buff);
         String str = null;
         try{
@@ -155,6 +155,9 @@ public class MainController {
         double surprise = emotion.getDouble("surprise");
         double fear = emotion.getDouble("fear");
         double happiness = emotion.getDouble("happiness");
+        Map<String, Double> emotionMap = new HashMap<>();
+        emotionMap.put("Kesedihan", sadness); emotionMap.put("Netral", neutral); emotionMap.put("Jijik", disgust);
+        emotionMap.put("Marah", anger); emotionMap.put("Terkejut", surprise); emotionMap.put("Takut", fear); emotionMap.put("Bahagia", happiness);
         System.out.println("Sadness : " + sadness + "\nNeutral : " + neutral + "\nDisgust : " + disgust + "\nAnger : " + anger
          + "\nSurprise : " + surprise + "\nFear : " + fear + "\nHappiness : " + happiness);
         JSONObject beauty = face_attributes.getJSONObject("beauty");
@@ -164,43 +167,28 @@ public class MainController {
         else
             beauty_value = beauty.getDouble("female_score");
         System.out.println("Beauty Score : " + beauty_value);
-//        try {
-//            Response<ResponseBody> response =
-//                    LineMessagingServiceBuilder
-//                    .create(AccessToken)
-//                    .build()
-//                    .getMessageContent(id)
-//                    .execute();
-//            if(response.isSuccessful()){
-//                ResponseBody content = response.body();
-//                InputStream isi = content.byteStream();
-//                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
-//                String line;
-//                StringBuffer responsee = new StringBuffer();
-//                while((line = rd.readLine()) != null) {
-//                    responsee.append(line);
-//                    responsee.append('\r');
-//                }
-//                rd.close();
-//                File file = new File("src/res/AXELL.JPG");
-//                byte[] buff = getBytesFromFile(file);
-//                String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
-//                HashMap<String, String> map = new HashMap<>();
-//                HashMap<String, byte[]> byteMap = new HashMap<>();
-//                map.put("api_key", api_key);
-//                map.put("api_secret", api_secret);
-//                byteMap.put("image_file", buff);
-//                try{
-//                    byte[] bacd = post(url, map, byteMap);
-//                    String str = new String(bacd);
-//                    System.out.println(str);
-//                }catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        double largestEmotion=0;
+        String rautWajah=null;
+        for (Map.Entry<String, Double> entry:emotionMap.entrySet()
+             ) {
+            if(entry.getValue()>largestEmotion){
+                largestEmotion = entry.getValue();
+                rautWajah = entry.getKey();
+            }
+        }
+        String tampanCantik=null;
+        if (gender_value.toUpperCase().equals("MALE"))
+            tampanCantik = "ketampanan";
+        else
+            tampanCantik = "kecantikan";
+        TextMessage textMessage = new TextMessage(
+                "Gender : " + gender_value + "\n" +
+                "Umur : " + age_value + " tahun\n" +
+                "Kebangsaan : " + ethnic_value + "\n" +
+                "Raut wajah yang paling terpancar : " + rautWajah + "\n" +
+                "Tingkat " + tampanCantik + " : " + String.format("%.2f", beauty_value) + "%"
+        );
+        KirimPesan(replyToken, textMessage);
 
     }
 
