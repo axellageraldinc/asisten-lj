@@ -142,27 +142,27 @@ public class MainController {
         String gender_value = gender.getString("value");
         System.out.println("GENDER : " + gender_value);
         JSONObject age = face_attributes.getJSONObject("age");
-        String age_value = age.getString("value");
+        int age_value = age.getInt("value");
         System.out.println("AGE : " + age_value);
         JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
         String ethnic_value = ethnic.getString("value");
         System.out.println("ETHNIC : " + ethnic_value);
         JSONObject emotion = face_attributes.getJSONObject("emotion");
-        String sadness = emotion.getString("sadness");
-        String neutral = emotion.getString("neutral");
-        String disgust = emotion.getString("disgust");
-        String anger = emotion.getString("anger");
-        String surprise = emotion.getString("surprise");
-        String fear = emotion.getString("fear");
-        String happiness = emotion.getString("happiness");
+        double sadness = emotion.getDouble("sadness");
+        double neutral = emotion.getDouble("neutral");
+        double disgust = emotion.getDouble("disgust");
+        double anger = emotion.getDouble("anger");
+        double surprise = emotion.getDouble("surprise");
+        double fear = emotion.getDouble("fear");
+        double happiness = emotion.getDouble("happiness");
         System.out.println("Sadness : " + sadness + "\nNeutral : " + neutral + "\nDisgust : " + disgust + "\nAnger : " + anger
          + "\nSurprise : " + surprise + "\nFear : " + fear + "\nHappiness : " + happiness);
         JSONObject beauty = face_attributes.getJSONObject("beauty");
-        String beauty_value=null;
+        double beauty_value=0;
         if (gender_value.toUpperCase().equals("MALE"))
-            beauty_value = beauty.getString("male_score");
+            beauty_value = beauty.getDouble("male_score");
         else
-            beauty_value = beauty.getString("female_score");
+            beauty_value = beauty.getDouble("female_score");
         System.out.println("Beauty Score : " + beauty_value);
 //        try {
 //            Response<ResponseBody> response =
