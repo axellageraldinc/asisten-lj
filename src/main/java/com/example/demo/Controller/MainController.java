@@ -26,6 +26,8 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import okhttp3.ResponseBody;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import retrofit2.Response;
@@ -126,13 +128,21 @@ public class MainController {
         map.put("api_secret", api_secret);
         map.put("return_attributes", "age,gender,ethnicity,emotion");
         byteMap.put("image_file", buff);
+        String str = null;
         try{
             byte[] bacd = post(url, map, byteMap);
-            String str = new String(bacd);
-            System.out.println(str);
+            str = new String(bacd);
+            System.out.println(str); //json
         }catch (Exception e) {
             e.printStackTrace();
         }
+        JSONObject jsonObject = new JSONObject(str);
+        JSONArray jsonArray = jsonObject.getJSONArray("faces");
+        JSONObject face_attributes = jsonArray.getJSONObject(1); //index ke-1 adalah face_attributes
+        String gender = face_attributes.getString("gender");
+        System.out.println("GENDER : " + gender);
+        String age = face_attributes.getString("age");
+        String ethnic = face_attributes.getString("ethnicity");
 //        try {
 //            Response<ResponseBody> response =
 //                    LineMessagingServiceBuilder
