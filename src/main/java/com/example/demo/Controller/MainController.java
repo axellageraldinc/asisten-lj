@@ -124,6 +124,7 @@ public class MainController {
         HashMap<String, byte[]> byteMap = new HashMap<>();
         map.put("api_key", api_key);
         map.put("api_secret", api_secret);
+        map.put("return_attributes", "age,gender,ethnicity,emotion");
         byteMap.put("image_file", buff);
         try{
             byte[] bacd = post(url, map, byteMap);
