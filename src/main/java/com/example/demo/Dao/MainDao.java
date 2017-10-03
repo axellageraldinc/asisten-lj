@@ -193,6 +193,7 @@ public class MainDao {
             );
             ps.setString(1, group_id);
             ps.setInt(2, 0);
+            ps.executeUpdate();
         } catch (SQLException ex){
             System.out.println("Gagal insert grup img status : " + ex.toString());
         } finally {
@@ -216,7 +217,9 @@ public class MainDao {
             );
             ps.setInt(1, status);
             ps.setString(2, group_id);
-            ps.executeUpdate();
+            if(ps.executeUpdate()==1){
+                System.out.println("Berhasil update imd status : " + status);
+            }
         } catch (SQLException ex){
             System.out.println("Gagal update status img detect : " + ex.toString());
         } finally {
