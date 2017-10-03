@@ -31,10 +31,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import retrofit2.Response;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.net.ssl.SSLException;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.*;
@@ -102,17 +105,42 @@ public class MainController {
     }
 
     public void handleImageContent(String replyToken, String id){
+        // File disimpan dengan nama downloaded.jpg
+        // Apabila sudah ada, maka di-overwrite
+        File file = new File("downloaded.jpg");
         try {
-            Response<ResponseBody> response =
-                    LineMessagingServiceBuilder
-                    .create(AccessToken)
-                    .build()
-                    .getMessageContent(id)
-                    .execute();
-            if(response.isSuccessful()){
-                ResponseBody content = response.body();
-                Files.copy(content.byteStream(),
-                        Files.createTempFile("foo", ".JPG"));
+            URL urlP = new URL("https://api.line.me/v2/bot/message/" + id + "/content");
+            URLConnection conn = urlP.openConnection();
+            conn.setRequestProperty("Authorization", "Bearer {u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=}");
+            conn.setConnectTimeout(5 * 1000); // Tak tambahin sendiri
+            BufferedImage img = ImageIO.read(conn.getInputStream());
+            ImageIO.write(img, "jpg", file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        byte[] buff = getBytesFromFile(file);
+        String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
+        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, byte[]> byteMap = new HashMap<>();
+        map.put("api_key", api_key);
+        map.put("api_secret", api_secret);
+        byteMap.put("image_file", buff);
+        try{
+            byte[] bacd = post(url, map, byteMap);
+            String str = new String(bacd);
+            System.out.println(str);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+//        try {
+//            Response<ResponseBody> response =
+//                    LineMessagingServiceBuilder
+//                    .create(AccessToken)
+//                    .build()
+//                    .getMessageContent(id)
+//                    .execute();
+//            if(response.isSuccessful()){
+//                ResponseBody content = response.body();
 //                InputStream isi = content.byteStream();
 //                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
 //                String line;
@@ -137,10 +165,10 @@ public class MainController {
 //                }catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
