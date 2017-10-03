@@ -1,6 +1,7 @@
 package com.example.demo.Dao;
 
 import com.example.demo.model.GroupMember;
+import com.example.demo.model.ImgDetectStatus;
 import com.example.demo.model.Main;
 
 import java.net.URISyntaxException;
@@ -23,6 +24,8 @@ public class MainDao {
     private static final String tipe_data = "tipe_data";
     private static final String tipe_tugas = "tugas";
     private static final String tipe_ujian = "ujian";
+
+    private static final String status = "status";
 
     public static void CreateType(){
         PreparedStatement ps_tipe = null;
@@ -123,6 +126,110 @@ public class MainDao {
             DbConnection.ClosePreparedStatement(preparedStatement);
             DbConnection.CloseConnection(connection);
         }
+    }
+
+    public static void CreateTableImageDetectStatus(String group_id){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String groupMemberTableName = "img_detect_status";
+        try{
+            connection = DbConnection.getConnection();
+            preparedStatement = connection.prepareStatement(
+                    "CREATE TABLE IF NOT EXISTS " + groupMemberTableName +
+                            "(" +
+                            id + " SERIAL PRIMARY KEY, " +
+                            "group_id TEXT, " +
+                            status + " INT NOT NULL " +
+                            ")"
+            );
+            if(preparedStatement.executeUpdate()==1)
+                System.out.println("Berhasil create table img detect status");
+            insertImgStatus(group_id);
+        } catch (Exception ex){
+            System.out.println("Gagal create table img detect status : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(preparedStatement);
+            DbConnection.CloseConnection(connection);
+        }
+    }
+
+    public static void insertImgStatus(String group_id){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        String groupMemberTableName = "img_detect_status";
+        try{
+            try {
+                connection = DbConnection.getConnection();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            ps = connection.prepareStatement(
+                    "INSERT INTO " + groupMemberTableName +
+                            "(" +
+                            "group_id" + "," +
+                            status +
+                            ") VALUES(?,?)"
+            );
+            ps.setString(1, group_id);
+            ps.setInt(2, 0);
+        } catch (SQLException ex){
+            System.out.println("Gagal insert grup member : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+    }
+
+    public static void UpdateImgStatus(String group_id, int status){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        String groupMemberTableName = "img_detect_status";
+        try{
+            try {
+                connection = DbConnection.getConnection();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            ps = connection.prepareStatement(
+                    "UPDATE " + groupMemberTableName + " SET status=?" + " WHERE group_id=?"
+            );
+            ps.setInt(1, status);
+            ps.setString(2, group_id);
+            ps.executeUpdate();
+        } catch (SQLException ex){
+            System.out.println("Gagal update status img detect : " + ex.toString());
+        } finally {
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+    }
+
+    public static int getStatus(String group_id){
+        int statuss=0;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String groupMemberTableName = "img_detect_status";
+        try{
+            connection = DbConnection.getConnection();
+            ps = connection.prepareStatement(
+                    "SELECT " + status +  " FROM " + groupMemberTableName + " WHERE group_id=?"
+            );
+            ps.setString(1, group_id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                ImgDetectStatus imgDetectStatus = new ImgDetectStatus();
+                imgDetectStatus.setStatus(rs.getInt(status));
+                statuss = imgDetectStatus.getStatus();
+            }
+        } catch (Exception ex){
+            System.out.println("Gagal get status : " + ex.toString());
+        } finally {
+            DbConnection.CloseResultSet(rs);
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+        return statuss;
     }
 
     public static int InsertGroupMemberId(String groupId, String user_idd){
