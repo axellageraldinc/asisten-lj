@@ -363,7 +363,7 @@ public class MainController {
             command = "/HAI";
         } else if((command + "E-DETECT").equals("/FACE-DETECT")){
             command = "/FACE-DETECT";
-        } else if((command + "E-STOP").equals("/FACE-STOP")){
+        } else if((command + "P").equals("/STOP")){
             command = "/FACE-STOP";
         }
 //        if(command.equals("/HAP")) {
@@ -887,7 +887,7 @@ public class MainController {
             textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
                     "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
                     "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
-                    "Jika sudah selesai bermain-main, ketikkan command /FACE-STOP");
+                    "Jika sudah selesai bermain-main, ketikkan command /STOP");
             messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
