@@ -365,6 +365,8 @@ public class MainController {
             command = "/FACE-DETECT";
         } else if((command + "P").equals("/STOP")){
             command = "/FACE-STOP";
+        } else if((command + "WAL-SHOLAT").equals("/JADWAL-SHOLAT")){
+            command = "/JADWAL-SHOLAT";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -731,7 +733,68 @@ public class MainController {
                 KirimPesan(replyToken, textMessage);
                 break;
             }
+            case "/JADWAL-SHOLAT" : {
+                String[] kata = pesan.split(" ");
+                String lokasi = kata[1];
+                System.out.println("Lokasi : " + lokasi);
+                try {
+                    jadwalSholat(replyToken, lokasi);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
+    }
+
+    // HTTP GET request
+    private void jadwalSholat(String replyToken, String lokasi) throws Exception {
+
+        String url = "https://time.siswadi.com/pray/?address=" + lokasi;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        int responseCode = con.getResponseCode();
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+        JSONObject jsonObject = new JSONObject(response.toString());
+        JSONObject data = jsonObject.getJSONObject("data");
+        String Fajr = data.getString("Fajr");
+        String Dhuhr = data.getString("Dhuhr");
+        String Asr = data.getString("Asr");
+        String Maghrib = data.getString("Maghrib");
+        String Isha = data.getString("Isha");
+        String SepertigaMalam = data.getString("SepertigaMalam");
+        String TengahMalam = data.getString("TengahMalam");
+        String DuapertigaMalam = data.getString("DuapertigaMalam");
+        TextMessage textMessage = new TextMessage("Jadwal sholat wilayah " + lokasi + "\n\n" +
+                "Fajr : " + Fajr + "\n" +
+                "Dhuhr : " + Dhuhr + "\n" +
+                "Asr : " + Asr + "\n" +
+                "Maghrib : " + Maghrib + "\n" +
+                "Isha : " + Isha + "\n" +
+                "Sepertiga Malam : " + SepertigaMalam + "\n" +
+                "Tengah Malam : " + TengahMalam + "\n" +
+                "Duapertiga Malam : " + DuapertigaMalam);
+        KirimPesan(replyToken, textMessage);
     }
 
     public void LeaveGroup(String id){
