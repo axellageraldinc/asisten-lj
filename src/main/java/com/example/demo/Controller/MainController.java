@@ -24,6 +24,9 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import me.postaddict.instagram.scraper.Instagram;
+import me.postaddict.instagram.scraper.domain.Media;
+import okhttp3.OkHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +42,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 
 @LineMessageHandler
 public class MainController {
@@ -371,8 +374,8 @@ public class MainController {
             command = "/FACE-STOP";
         } else if((command + "WAL-SHOLAT").equals("/JADWAL-SHOLAT")){
             command = "/JADWAL-SHOLAT";
-        } else if((command + "E").equals("/LOVE")){
-            command = "/LOVE";
+        } else if((command + "LK").equals("/STALK")) {
+            command = "/STALK";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -440,10 +443,6 @@ public class MainController {
                                 new CarouselColumn(null, "LJ AJAIB v3", "LJ Ajaib Wajah", Arrays.asList(
                                         new PostbackAction("How to LJ Ajaib v3",
                                                 "/CARA-PAKAI-WAJAH")
-                                )),
-                                new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Cinta", Arrays.asList(
-                                        new PostbackAction("How to LJ Ajaib v4",
-                                                "/CARA-PAKAI-CINTA")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -514,15 +513,15 @@ public class MainController {
             case "/APAKAH" : {
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
-                    if(randInt%2==0){
-                        textMessage = new TextMessage("Nggak");
-                        messageList.add(textMessage);
-                    }
-                    else if(randInt%2!=0){
-                        textMessage = new TextMessage("Ya");
-                        messageList.add(textMessage);
-                    }
-                    KirimPesan(replyToken, messageList);
+                if(randInt%2==0){
+                    textMessage = new TextMessage("Nggak");
+                    messageList.add(textMessage);
+                }
+                else if(randInt%2!=0){
+                    textMessage = new TextMessage("Ya");
+                    messageList.add(textMessage);
+                }
+                KirimPesan(replyToken, messageList);
                 break;
             }
             case "/SIAPAKAH" : {
@@ -757,20 +756,15 @@ public class MainController {
                 }
                 break;
             }
-            case "/LOVE" : {
+            case "/STALK" : {
                 String[] kata = pesan.split(" ");
-                if(kata.length<3){
-                    textMessage = new TextMessage("Harus ada 2 nama yaaaa");
-                    KirimPesan(replyToken, textMessage);
-                } else if(kata.length>3){
-                    textMessage = new TextMessage("Hayoooo, gak boleh ada orang ketiga atau lebih. Maksimal 2 orang aja ya");
-                    KirimPesan(replyToken, textMessage);
-                } else{
-                    String nama1 = kata[1];
-                    String nama2 = kata[2];
-                    LoveCalculator(replyToken, nama1, nama2);
+                String username = kata[1];
+                System.out.println("Username: " + username);
+                try{
+                    getInstaPhoto(replyToken, username);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                break;
             }
         }
     }
@@ -863,41 +857,6 @@ public class MainController {
 
     private void KirimPesan(String replyToken, Message message) {
         KirimPesan(replyToken, Collections.singletonList(message));
-    }
-
-    public void LoveCalculator(String replyToken, String name1, String name2){
-        String concat = String.valueOf(name1).concat(String.valueOf(name2)).toUpperCase();
-        int sum = 0;
-        for (int i = 0; i < concat.length(); i++) {
-            char character = concat.charAt(i);
-            int ascii = (int) character;
-            sum += ascii;
-        }
-        double loveRate = sum%100;
-        String kataKata=null;
-        if (loveRate>=0 && loveRate <=10)
-            kataKata = name1 + " dan " + name2 + " sepertinya kurang cocok ya, mending cari yang lain aja..";
-        else if(loveRate>10 && loveRate<=20)
-            kataKata = name1 + " dan " + name2 + ", cinta kalian kurang kuat, butuh perbaikan lagi untuk dapat menjadi cinta yang sejati..";
-        else if(loveRate>20 && loveRate<=30)
-            kataKata = name1 + " dan " + name2 + " memiliki potensi untuk menjadi pasangan sejati, namun masih butuh usaha lebih untuk mencapai itu..";
-        else if (loveRate>30 && loveRate<=40)
-            kataKata = name1 + " dan " + name2 + " jangan menyerah, ada banyak cara untuk menumbuhkan kembali rasa cinta kalian..";
-        else if(loveRate>40 && loveRate<=50)
-            kataKata = name1 + " dan " + name2 + ", cinta kalian ada di batas antara cinta dan tidak cinta. Kalian perlu melakukan hal yang dulu sering kalian lakukan untuk menumbuhkan cinta kalian kembali..";
-        else if(loveRate>50 && loveRate<=60)
-            kataKata = name1 + " dan " + name2 + ", hubungan kalian masih bisa dibilang aman, namun hati-hati, bisa jadi ada orang ketiga yang dapat merusak semuanya..";
-        else if(loveRate>60 && loveRate<=70)
-            kataKata = name1 + " dan " + name2 + " memiliki kadar cinta yang terbilang besar, tetap pertahankan hal itu, maka kalian dapat menjadi pasangan sejati kelak..";
-        else if(loveRate>70 && loveRate<=80)
-            kataKata = name1 + " dan " + name2 + " memiliki hubungan yang teramat sangat mesra, membuat pasangan-pasangan lain iri pada kalian..";
-        else if(loveRate>80 && loveRate<=90)
-            kataKata = name1 + " dan " + name2 + " mencintai satu sama lain sepenuh hati, hampir tidak mungkin untuk mengganggu hubungan mereka berdua..";
-        else if(loveRate>90 && loveRate<=100)
-            kataKata = name1 + " dan " + name2 + ", kalian adalah arti sesungguhnya dari CINTA SEJATI. Tidak ada hal di dunia ini yang mampu memisahkan kalian.";
-        TextMessage textMessage = new TextMessage("Kadar cinta : " + loveRate + "%\n" +
-                kataKata);
-        KirimPesan(replyToken, textMessage);
     }
 
     @EventMapping
@@ -1015,12 +974,6 @@ public class MainController {
                     "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
                     "Jika sudah selesai bermain-main, ketikkan command /STOP");
             messageList.add(textMessage);
-        } else if(data.equals("/CARA-PAKAI-CINTA")){
-            messageList.clear();
-            textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
-                    "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
-                    "untuk menghitung kadar cinta mereka.");
-            messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
     }
@@ -1073,10 +1026,10 @@ public class MainController {
         try{
             Response<UserProfileResponse> response =
                     LineMessagingServiceBuilder
-                    .create(AccessToken)
-                    .build()
-                    .getMemberProfile(type, senderId, userId)
-                    .execute();
+                            .create(AccessToken)
+                            .build()
+                            .getMemberProfile(type, senderId, userId)
+                            .execute();
             if (response.isSuccessful()){
                 UserProfileResponse profileResponse = response.body();
                 userName = profileResponse.getDisplayName();
@@ -1111,10 +1064,10 @@ public class MainController {
         try {
             Response<UserProfileResponse> response =
                     LineMessagingServiceBuilder
-                    .create(AccessToken)
-                    .build()
-                    .getProfile(userId)
-                    .execute();
+                            .create(AccessToken)
+                            .build()
+                            .getProfile(userId)
+                            .execute();
             if (response.isSuccessful()){
                 UserProfileResponse profileResponse = response.body();
                 name = profileResponse.getDisplayName();
@@ -1125,6 +1078,20 @@ public class MainController {
             e.printStackTrace();
         }
         return name;
+    }
+
+    public void getInstaPhoto(String replyToken, String username) throws IOException {
+        Instagram instagram = new Instagram(new OkHttpClient());
+        List<Media> medias = instagram.getMedias(username, 10);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 10 + 1);
+        for (Media m : medias) {
+            System.out.println(m.caption);
+        }
+        ImageMessage message =  new ImageMessage(medias.get(randomNum).imageUrls.high,
+                medias.get(randomNum).imageUrls.thumbnail);
+        String urlMedia = medias.get(randomNum).link;
+        KirimPesan(replyToken, message);
+        KirimPesan(replyToken, new TextMessage(urlMedia));
     }
 
 //    public String getName2(String userId){
