@@ -8,17 +8,16 @@ import com.example.demo.model.GroupMember;
 import com.example.demo.model.Main;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingServiceBuilder;
+import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.*;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.GroupSource;
 import com.linecorp.bot.model.event.source.RoomSource;
 import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.StickerMessage;
-import com.linecorp.bot.model.message.TemplateMessage;
-import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.*;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.profile.MembersIdsResponse;
@@ -26,12 +25,21 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import okhttp3.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import retrofit2.Response;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.net.ssl.SSLException;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -41,6 +49,9 @@ public class MainController {
 
     int status_waiting_game=0;
     List<String> playerList = new ArrayList<>();
+
+    private static final String api_key = "NlDLxQN3giFSs1AI899WNnZTtCuy-mt7";
+    private static final String api_secret = "3W95_8wUGxaiKvcmxDCEciBsTgkTl0E1";
 
     @Resource
     AsyncServices services;
@@ -56,8 +67,6 @@ public class MainController {
         TextMessage textMessage = null;
         Source source = joinEvent.getSource();
         String id = getId(source);
-        MainDao.CreateTableData(id);
-        MainDao.CreateTableGroupMember(id);
         StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
         textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
@@ -87,6 +96,179 @@ public class MainController {
         handleContent(msg.getReplyToken(), msg, msg.getMessage());
     }
 
+    @EventMapping
+    public void handleImage(MessageEvent<ImageMessageContent> img){
+        ImageMessageContent content = img.getMessage();
+        String id = content.getId();
+        handleImageContent(img.getReplyToken(), id);
+        System.out.println("ID MESSAGE IMAGE : " + id);
+    }
+
+    public void handleImageContent(String replyToken, String id){
+        // File disimpan dengan nama downloaded.jpg
+        // Apabila sudah ada, maka di-overwrite
+        File file = new File("downloaded.jpg");
+        try {
+            URL urlP = new URL("https://api.line.me/v2/bot/message/" + id + "/content");
+            URLConnection conn = urlP.openConnection();
+            conn.setRequestProperty("Authorization", "Bearer {u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=}");
+            conn.setConnectTimeout(5 * 1000); // Tak tambahin sendiri
+            BufferedImage img = ImageIO.read(conn.getInputStream());
+            ImageIO.write(img, "jpg", file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        byte[] buff = getBytesFromFile(file);
+        String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
+        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, byte[]> byteMap = new HashMap<>();
+        map.put("api_key", api_key);
+        map.put("api_secret", api_secret);
+        map.put("return_attributes", "age,gender,ethnicity,emotion");
+        byteMap.put("image_file", buff);
+        try{
+            byte[] bacd = post(url, map, byteMap);
+            String str = new String(bacd);
+            System.out.println(str);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+//        try {
+//            Response<ResponseBody> response =
+//                    LineMessagingServiceBuilder
+//                    .create(AccessToken)
+//                    .build()
+//                    .getMessageContent(id)
+//                    .execute();
+//            if(response.isSuccessful()){
+//                ResponseBody content = response.body();
+//                InputStream isi = content.byteStream();
+//                BufferedReader rd = new BufferedReader(new InputStreamReader(isi));
+//                String line;
+//                StringBuffer responsee = new StringBuffer();
+//                while((line = rd.readLine()) != null) {
+//                    responsee.append(line);
+//                    responsee.append('\r');
+//                }
+//                rd.close();
+//                File file = new File("src/res/AXELL.JPG");
+//                byte[] buff = getBytesFromFile(file);
+//                String url = "https://api-us.faceplusplus.com/facepp/v3/detect";
+//                HashMap<String, String> map = new HashMap<>();
+//                HashMap<String, byte[]> byteMap = new HashMap<>();
+//                map.put("api_key", api_key);
+//                map.put("api_secret", api_secret);
+//                byteMap.put("image_file", buff);
+//                try{
+//                    byte[] bacd = post(url, map, byteMap);
+//                    String str = new String(bacd);
+//                    System.out.println(str);
+//                }catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+    }
+
+    private final static int CONNECT_TIME_OUT = 30000;
+    private final static int READ_OUT_TIME = 50000;
+    private static String boundaryString = getBoundary();
+    protected static byte[] post(String url, HashMap<String, String> map, HashMap<String, byte[]> fileMap) throws Exception {
+        HttpURLConnection conne;
+        URL url1 = new URL(url);
+        conne = (HttpURLConnection) url1.openConnection();
+        conne.setDoOutput(true);
+        conne.setUseCaches(false);
+        conne.setRequestMethod("POST");
+        conne.setConnectTimeout(CONNECT_TIME_OUT);
+        conne.setReadTimeout(READ_OUT_TIME);
+        conne.setRequestProperty("accept", "*/*");
+        conne.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundaryString);
+        conne.setRequestProperty("connection", "Keep-Alive");
+        conne.setRequestProperty("user-agent", "Mozilla/4.0 (compatible;MSIE 6.0;Windows NT 5.1;SV1)");
+        DataOutputStream obos = new DataOutputStream(conne.getOutputStream());
+        Iterator iter = map.entrySet().iterator();
+        while(iter.hasNext()){
+            Map.Entry<String, String> entry = (Map.Entry) iter.next();
+            String key = entry.getKey();
+            String value = entry.getValue();
+            obos.writeBytes("--" + boundaryString + "\r\n");
+            obos.writeBytes("Content-Disposition: form-data; name=\"" + key
+                    + "\"\r\n");
+            obos.writeBytes("\r\n");
+            obos.writeBytes(value + "\r\n");
+        }
+        if(fileMap != null && fileMap.size() > 0){
+            Iterator fileIter = fileMap.entrySet().iterator();
+            while(fileIter.hasNext()){
+                Map.Entry<String, byte[]> fileEntry = (Map.Entry<String, byte[]>) fileIter.next();
+                obos.writeBytes("--" + boundaryString + "\r\n");
+                obos.writeBytes("Content-Disposition: form-data; name=\"" + fileEntry.getKey()
+                        + "\"; filename=\"" + encode(" ") + "\"\r\n");
+                obos.writeBytes("\r\n");
+                obos.write(fileEntry.getValue());
+                obos.writeBytes("\r\n");
+            }
+        }
+        obos.writeBytes("--" + boundaryString + "--" + "\r\n");
+        obos.writeBytes("\r\n");
+        obos.flush();
+        obos.close();
+        InputStream ins = null;
+        int code = conne.getResponseCode();
+        try{
+            if(code == 200){
+                ins = conne.getInputStream();
+            }else{
+                ins = conne.getErrorStream();
+            }
+        }catch (SSLException e){
+            e.printStackTrace();
+            return new byte[0];
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buff = new byte[4096];
+        int len;
+        while((len = ins.read(buff)) != -1){
+            baos.write(buff, 0, len);
+        }
+        byte[] bytes = baos.toByteArray();
+        ins.close();
+        return bytes;
+    }
+    private static String getBoundary() {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for(int i = 0; i < 32; ++i) {
+            sb.append("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-".charAt(random.nextInt("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_".length())));
+        }
+        return sb.toString();
+    }
+    private static String encode(String value) throws Exception{
+        return URLEncoder.encode(value, "UTF-8");
+    }
+    public static byte[] getBytesFromFile(File f) {
+        if (f == null) {
+            return null;
+        }
+        try {
+            FileInputStream stream = new FileInputStream(f);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = stream.read(b)) != -1)
+                out.write(b, 0, n);
+            stream.close();
+            out.close();
+            return out.toByteArray();
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
     public void handleContent(String replyToken, Event event, TextMessageContent content){
         String pesan = content.getText().toUpperCase();
 //        String apakah = pesan.substring(0,6);
@@ -94,19 +276,26 @@ public class MainController {
 //        String join = pesan.substring(0,5);
         Source sourcee = event.getSource();
         String user_id = event.getSource().getUserId();
+        String idd = getId(sourcee);
+        MainDao.CreateTableData(idd);
+        MainDao.CreateTableGroupMember(idd);
         System.out.println("user_id : " + user_id);
         String group_id = getId(sourcee);
         System.out.println("group_id : " + group_id);
         GroupMember groupMember = new GroupMember();
         groupMember.setUserId(user_id);
+        List<GroupMember> groupMembers = new ArrayList<>();
         int status_insert_memberId = MainDao.InsertGroupMemberId(group_id, user_id);
-        if (status_insert_memberId==1){
-            List<GroupMember> groupMembers = MainDao.getAllMemberIds(group_id);
-            for (GroupMember item:groupMembers
-                 ) {
-                int i=1;
-                System.out.println("USER ID ke-" + i  +" : " + item.getUserId());
-            }
+        if (status_insert_memberId==1)
+            System.out.println("ID user baru berhasil di insert database : " + user_id);
+        else
+            System.out.println("USER ID : " + user_id + " SUDAH ADA DI DB");
+        groupMembers = MainDao.getAllMemberIds(group_id);
+        int idKe=1;
+        for (GroupMember item:groupMembers
+                ) {
+            System.out.println("USER ID ke-" + idKe  +" : " + item.getUserId());
+            idKe++;
         }
 
         String command = content.getText().toUpperCase().substring(0,4);
@@ -279,14 +468,6 @@ public class MainController {
             case "/APAKAH" : {
                 Random random = new Random();
                 int randInt = random.nextInt(10) + 1;
-                if (pesan.contains("DAMAS") ||
-                        pesan.contains("SULIS") ||
-                        pesan.contains("SIMBAH") ||
-                        pesan.contains("SDP")){
-                    textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
-                    messageList.add(textMessage);
-                    KirimPesan(replyToken, messageList);
-                } else{
                     if(randInt%2==0){
                         textMessage = new TextMessage("Nggak");
                         messageList.add(textMessage);
@@ -296,31 +477,40 @@ public class MainController {
                         messageList.add(textMessage);
                     }
                     KirimPesan(replyToken, messageList);
-                }
                 break;
             }
             case "/SIAPAKAH" : {
                 String[] kata = pesan.split(" ");
-                if (pesan.contains("DAMAS") ||
-                        pesan.contains("SULIS") ||
-                        pesan.contains("SIMBAH") ||
-                        pesan.contains("SDP")){
-                    textMessage = new TextMessage("Heh gak boleh bawa-bawa Damas, nanti kualat lho...");
-                    messageList.add(textMessage);
-                    KirimPesan(replyToken, messageList);
-                } else if(kata[1].equals("YANG")){
+                List<GroupMember> groupMemberList = new ArrayList<>();
+                if(kata[1].equals("YANG")){
                     int indexDann=0, indexYangg=0;
-                    List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
-                    int banyakMember = groupMemberList.size();
-                    Random random = new Random();
-                    int randInt = random.nextInt(banyakMember-1);
-                    for (int i =0; i<kata.length; i++){
-                        if (kata[i].equals("YANG")){
-                            indexYangg=i;
-                        }
+                    try{
+                        groupMemberList = MainDao.getAllMemberIds(group_id);
+                    } catch (Exception ex){
+                        System.out.println("Gagal get all member id : " + ex.toString());
                     }
+                    int banyakMember=0;
+                    try{
+                        banyakMember = groupMemberList.size();
+                    } catch (Exception ex){
+                        System.out.println("gagal get banyak member : " + ex.toString());
+                    }
+//                    Random random = new Random();
+//                    int randInt = random.nextInt(banyakMember-1);
+                    int randInt = 0;
+                    try{
+                        randInt = (int) (Math.random() * ((banyakMember-1)-0));
+                    } catch (Exception ex){
+                        System.out.println("Gagal random : " + ex.toString());
+                    }
+                    System.out.println("Random int : " + randInt);
+//                    for (int i =0; i<kata.length; i++){
+//                        if (kata[i].equals("YANG")){
+//                            indexYangg=i;
+//                        }
+//                    }
                     StringBuilder kataYang=new StringBuilder();
-                    for (int i=indexYangg; i<kata.length-1; i++){
+                    for (int i=1; i<kata.length-1; i++){
                         kataYang.append(kata[i] + " ");
                     }
                     char[] kataTerakhirr;
@@ -333,8 +523,12 @@ public class MainController {
                     } else{
                         kataTerakhirTanpaTanyaa.append(kata[kata.length-1]);
                     }
+                    String senderId = event.getSource().getSenderId();
+                    String type  = getType(sourcee);
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
-                    String user_name_beruntung = getName(user_id_beruntung.getUserId());
+                    System.out.println("USER ID GroupMemberGetList : " + user_id_beruntung.getUserId());
+//                    String user_name_beruntung = getName(user_id_beruntung.getUserId());
+                    String user_name_beruntung = getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
                     System.out.println("username beruntung : " + user_name_beruntung);
                     textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(kataYang).toLowerCase() + String.valueOf(kataTerakhirTanpaTanyaa).toLowerCase());
                     KirimPesan(replyToken, textMessage);
@@ -362,6 +556,16 @@ public class MainController {
                             indexYang=i;
                     }
                     System.out.println("index dan : " + indexDan + " index yang : " + indexYang);
+                    //SIAPAKAH ANTARA
+                    if(kata[1].equals("ANTARA")){
+                        for(int i=2; i<indexDan;i++){
+                            nama1.append(kata[i] + " ");
+                        }
+                        for(int i=indexDan+1; i<indexYang;i++){
+                            nama2.append(kata[i] + " ");
+                        }
+                    }
+                    //SIAPAKAH DI ANTARA
                     if (kata[2].equals("ANTARA")){
                         for(int i=3; i<indexDan;i++){
                             nama1.append(kata[i] + " ");
@@ -372,6 +576,7 @@ public class MainController {
 //                    nama1 = kata[3];
 //                    nama2 = kata[5];
                     }
+                    //SIAPAKAH DIANTARA
                     if(kata[1].equals("DIANTARA")){
                         for(int i=2; i<indexDan;i++){
                             nama1.append(kata[i] + " ");
@@ -673,6 +878,27 @@ public class MainController {
             e.printStackTrace();
         }
         return memberIds;
+    }
+
+    public String getGroupMemberName(String type, String senderId, String userId){
+        String userName = "";
+        try{
+            Response<UserProfileResponse> response =
+                    LineMessagingServiceBuilder
+                    .create(AccessToken)
+                    .build()
+                    .getMemberProfile(type, senderId, userId)
+                    .execute();
+            if (response.isSuccessful()){
+                UserProfileResponse profileResponse = response.body();
+                userName = profileResponse.getDisplayName();
+            } else{
+                System.out.println(response.code() + " " + response.message());
+            }
+        } catch (Exception ex){
+            System.out.println("Gagal get Group Member Name : " + ex.toString());
+        }
+        return userName;
     }
 
     public void StartGame(String replyToken){
