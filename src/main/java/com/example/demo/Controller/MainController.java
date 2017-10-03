@@ -377,6 +377,8 @@ public class MainController {
             command = "/JADWAL-SHOLAT";
         } else if((command + "E").equals("/LOVE")){
             command = "/LOVE";
+        } else if((command + "LK").equals("/STALK")) {
+            command = "/STALK";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
