@@ -759,9 +759,17 @@ public class MainController {
             }
             case "/LOVE" : {
                 String[] kata = pesan.split(" ");
-                String nama1 = kata[1];
-                String nama2 = kata[2];
-                LoveCalculator(replyToken, nama1, nama2);
+                if(kata.length<3){
+                    textMessage = new TextMessage("Harus ada 2 nama yaaaa");
+                    KirimPesan(replyToken, textMessage);
+                } else if(kata.length>3){
+                    textMessage = new TextMessage("Hayoooo, gak boleh ada orang ketiga atau lebih. Maksimal 2 orang aja ya");
+                    KirimPesan(replyToken, textMessage);
+                } else{
+                    String nama1 = kata[1];
+                    String nama2 = kata[2];
+                    LoveCalculator(replyToken, nama1, nama2);
+                }
                 break;
             }
         }
