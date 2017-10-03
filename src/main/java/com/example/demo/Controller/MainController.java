@@ -100,7 +100,9 @@ public class MainController {
     @EventMapping
     public void handleImage(MessageEvent<ImageMessageContent> img){
 //        if(detect_img_status==1){
-        if(MainDao.getStatus(getId(img.getSource()))==1){
+        String group_id = getId(img.getSource());
+        System.out.println("STATUS : " + MainDao.getStatus(group_id));
+        if(MainDao.getStatus(group_id)==1){
             ImageMessageContent content = img.getMessage();
             String id = content.getId();
             handleImageContent(img.getReplyToken(), id);
@@ -726,12 +728,14 @@ public class MainController {
             case "/FACE-DETECT" : {
                 MainDao.CreateTableImageDetectStatus(group_id);
                 MainDao.UpdateImgStatus(group_id, 1);
+                System.out.println("STATUS AFTER MULAI : " + MainDao.getStatus(group_id));
                 textMessage = new TextMessage("MULAI");
                 KirimPesan(replyToken, textMessage);
                 break;
             }
             case "/FACE-STOP" : {
                 MainDao.UpdateImgStatus(group_id, 0);
+                System.out.println("STATUS AFTER STOP : " + MainDao.getStatus(group_id));
                 textMessage = new TextMessage("Face detection sudah dihentikan");
                 KirimPesan(replyToken, textMessage);
                 break;
