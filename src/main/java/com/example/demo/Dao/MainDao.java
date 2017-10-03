@@ -173,7 +173,7 @@ public class MainDao {
             ps.setString(1, group_id);
             ps.setInt(2, 0);
         } catch (SQLException ex){
-            System.out.println("Gagal insert grup member : " + ex.toString());
+            System.out.println("Gagal insert grup img status : " + ex.toString());
         } finally {
             DbConnection.ClosePreparedStatement(ps);
             DbConnection.CloseConnection(connection);

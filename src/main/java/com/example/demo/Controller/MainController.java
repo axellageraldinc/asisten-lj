@@ -100,7 +100,7 @@ public class MainController {
     @EventMapping
     public void handleImage(MessageEvent<ImageMessageContent> img){
 //        if(detect_img_status==1){
-        if(MainDao.getStatus(getId(img.getSource()))==0){
+        if(MainDao.getStatus(getId(img.getSource()))==1){
             ImageMessageContent content = img.getMessage();
             String id = content.getId();
             handleImageContent(img.getReplyToken(), id);
