@@ -25,6 +25,7 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import netscape.javascript.JSObject;
 import okhttp3.ResponseBody;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -143,8 +144,29 @@ public class MainController {
         JSONObject gender = face_attributes.getJSONObject("gender");
         String gender_value = gender.getString("value");
         System.out.println("GENDER : " + gender_value);
-        String age = face_attributes.getString("age");
-        String ethnic = face_attributes.getString("ethnicity");
+        JSONObject age = face_attributes.getJSONObject("age");
+        String age_value = age.getString("value");
+        System.out.println("AGE : " + age_value);
+        JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
+        String ethnic_value = ethnic.getString("value");
+        System.out.println("ETHNIC : " + ethnic_value);
+        JSONObject emotion = face_attributes.getJSONObject("emotion");
+        String sadness = emotion.getString("sadness");
+        String neutral = emotion.getString("neutral");
+        String disgust = emotion.getString("disgust");
+        String anger = emotion.getString("anger");
+        String surprise = emotion.getString("surprise");
+        String fear = emotion.getString("fear");
+        String happiness = emotion.getString("happiness");
+        System.out.println("Sadness : " + sadness + "\nNeutral : " + neutral + "\nDisgust : " + disgust + "\nAnger : " + anger
+         + "\nSurprise : " + surprise + "\nFear : " + fear + "\nHappiness : " + happiness);
+        JSONObject beauty = face_attributes.getJSONObject("beauty");
+        String beauty_value=null;
+        if (gender_value.toUpperCase().equals("MALE"))
+            beauty_value = beauty.getString("male_score");
+        else
+            beauty_value = beauty.getString("female_score");
+        System.out.println("Beauty Score : " + beauty_value);
 //        try {
 //            Response<ResponseBody> response =
 //                    LineMessagingServiceBuilder
