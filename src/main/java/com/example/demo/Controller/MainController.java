@@ -362,7 +362,7 @@ public class MainController {
                 pesan.contains("HI")) && pesan.contains("LJ BOT")){
             command = "/HAI";
         } else if((command + "E-DETECT").equals("/FACE-DETECT")){
-            command = "/FACE";
+            command = "/FACE-DETECT";
         } else if((command + "E-STOP").equals("/FACE-STOP")){
             command = "/FACE-STOP";
         }
@@ -719,7 +719,7 @@ public class MainController {
                 }
                 break;
             }
-            case "/FACE" : {
+            case "/FACE-DETECT" : {
                 detect_img_status = 1;
                 textMessage = new TextMessage("MULAI");
                 KirimPesan(replyToken, textMessage);
