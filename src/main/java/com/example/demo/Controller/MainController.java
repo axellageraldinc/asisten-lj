@@ -299,6 +299,8 @@ public class MainController {
             command = "/STALK";
         } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
             command = "/LEAVE-GROUP";
+        } else if(pesan.equals("/SOURCE-CODE")){
+            command = "/SOURCE-CODE";
         }
 
         source = event.getSource();
@@ -312,7 +314,9 @@ public class MainController {
                 textMessage = new TextMessage(
                         "FITUR-FITUR LJ BOT\n\n" +
                         "1. /PERKULIAHAN\n" +
-                        "2. /HIBURAN");
+                        "2. /HIBURAN\n" +
+                        "3. /JADWAL-SHOLAT [spasi] [nama kota]\n" +
+                        "4. /SOURCE-CODE");
                 KirimPesan(replyToken, textMessage);
                 break;
             }
@@ -326,6 +330,14 @@ public class MainController {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateHiburan();
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
                 KirimPesan(replyToken, templateMessage);
+                break;
+            }
+            case "/SOURCE-CODE" : {
+                textMessage = new TextMessage("SOURCE CODE LJ BOT\n\n" +
+                        "Silakan pergi ke link ini https://github.com/axellageraldinc/lj-line-bot.\n" +
+                        "Lalu baca README.md untuk penjelasan singkat mengenai LJ BOT.\n" +
+                        "Jika ingin berkontribusi, baca CONTRIBUTING.md");
+                KirimPesan(replyToken, textMessage);
                 break;
             }
             case "/TUGAS" : {
