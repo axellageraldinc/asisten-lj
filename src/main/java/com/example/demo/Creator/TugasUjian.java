@@ -17,7 +17,7 @@ public class TugasUjian {
     StringBuilder sb = new StringBuilder();
 
     public int AddTugas(String desc){
-        main.setId("TUGAS-" + desc.substring(random.nextInt(sb.length()),random.nextInt(sb.length())) + "-" + random.nextInt(999));
+        main.setId("TUGAS-" + desc.substring(0,3) + "-" + random.nextInt(999));
         main.setDeskripsi(desc);
         main.setTipe("tugas");
 
@@ -26,7 +26,7 @@ public class TugasUjian {
     }
 
     public int AddUjian(String desc){
-        main.setId("UJIAN-" + desc.substring(random.nextInt(sb.length()),random.nextInt(sb.length())) + "-" + random.nextInt(999));
+        main.setId("UJIAN-" + desc.substring(0,3) + "-" + random.nextInt(999));
         main.setDeskripsi(desc);
         main.setTipe("ujian");
 

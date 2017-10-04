@@ -33,14 +33,6 @@ public class MainController {
 
     private static String AccessToken = "u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=";
 
-    private String id_umum, user_id, room_id, group_id;
-    private Source source;
-
-    List<Message> messageList = new ArrayList<>();
-    TextMessage textMessage;
-    StickerMessage stickerMessage;
-    ImageMessageContent imageMessageContent;
-    StringBuilder sb = new StringBuilder();
     Random random = new Random();
 
     CarouselTemplate carouselTemplate = new CarouselTemplate();
@@ -48,10 +40,11 @@ public class MainController {
 
     @EventMapping
     public void handleJoinNewGroup(JoinEvent joinEvent) {
-        source = joinEvent.getSource();
-        stickerMessage = new StickerMessage("1", "2");
+        List<Message> messageList = new ArrayList<>();
+        Source source = joinEvent.getSource();
+        StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
-        textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
+        TextMessage textMessage = new TextMessage("Nuwun yo aku wes entuk join grup iki\n" +
                 "Silakan ketik /fitur untuk melihat fitur-fitur yang ada.");
         messageList.add(textMessage);
         KirimPesan(joinEvent.getReplyToken(), messageList);
@@ -59,12 +52,13 @@ public class MainController {
 
     @EventMapping
     public void handleNewFollower(FollowEvent followEvent){
-        source = followEvent.getSource();
-        id_umum = getter.getId(source);
+        List<Message> messageList = new ArrayList<>();
+        Source source = followEvent.getSource();
+        String id_umum = getter.getId(source);
         MainDao.CreateTableData(id_umum);
-        stickerMessage = new StickerMessage("1", "2");
+        StickerMessage stickerMessage = new StickerMessage("1", "2");
         messageList.add(stickerMessage);
-        textMessage = new TextMessage("Nuwun yo aku wes di-add dadi friend\n" +
+        TextMessage textMessage = new TextMessage("Nuwun yo aku wes di-add dadi friend\n" +
                 "Silakan ketik /fitur untuk melihat fitur-fitur yang ada.\n" +
                 "Aku di invite ning group yo iso lhoooo");
         messageList.add(textMessage);
@@ -78,12 +72,12 @@ public class MainController {
 
     @EventMapping
     public void handleImage(MessageEvent<ImageMessageContent> img){
-        group_id = getter.getId(img.getSource());
+        String group_id = getter.getId(img.getSource());
         if(MainDao.getStatus(group_id)==1){
-            imageMessageContent = img.getMessage();
-            id_umum = imageMessageContent.getId();
+            ImageMessageContent imageMessageContent = img.getMessage();
+            String id_umum = imageMessageContent.getId();
             FaceDetector faceDetector = new FaceDetector();
-            textMessage = faceDetector.handleImageContent(id_umum);
+            TextMessage textMessage = faceDetector.handleImageContent(id_umum);
             KirimPesan(img.getReplyToken(), textMessage);
             System.out.println("ID MESSAGE IMAGE : " + id_umum);
         }
@@ -91,13 +85,14 @@ public class MainController {
 
     @EventMapping
     public void handlePostback(PostbackEvent event){
-        source = event.getSource();
+        List<Message> messageList = new ArrayList<>();
+        Source source = event.getSource();
         String postback_response = event.getPostbackContent().getData();
-        id_umum = getter.getId(source);
+        String id_umum = getter.getId(source);
         switch (postback_response){
             case "/ADD-TUGAS" : {
                 messageList.clear();
-                textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
+                TextMessage textMessage = new TextMessage("Kirim deskripsi tugas selengkap mungkin (makul, disuruh ngapain, deadline, dikumpul kemana, dll)");
                 messageList.add(textMessage);
                 textMessage = new TextMessage("Perhatian!\n" +
                         "Kirim deskripsi tugas dengan format /tugas [spasi] [deskripsi]\n" +
@@ -106,6 +101,7 @@ public class MainController {
                 break;
             }
             case "/SHOW-TUGAS" : {
+                TextMessage textMessage;
                 messageList.clear();
                 List<Main> mainList = MainDao.GetAll(id_umum, "tugas");
                 StringBuilder sb = new StringBuilder();
@@ -125,6 +121,7 @@ public class MainController {
                 break;
             }
             case "/ADD-UJIAN" : {
+                TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Kirim deskripsi ujian selengkap mungkin (makul, sifat ujian, materi apa aja, dll)");
                 messageList.add(textMessage);
@@ -135,6 +132,7 @@ public class MainController {
                 break;
             }
             case "/SHOW-UJIAN" : {
+                TextMessage textMessage;
                 messageList.clear();
                 List<Main> mainList = MainDao.GetAll(id_umum, "ujian");
                 StringBuilder sb = new StringBuilder();
@@ -154,6 +152,7 @@ public class MainController {
                 break;
             }
             case "/HAPUS-TUGAS" : {
+                TextMessage textMessage;
                 messageList.clear();
                 List<Main> mainList = MainDao.GetAll(id_umum, "tugas");
                 StringBuilder sb = new StringBuilder();
@@ -173,6 +172,7 @@ public class MainController {
                 break;
             }
             case "/HAPUS-UJIAN" : {
+                TextMessage textMessage;
                 messageList.clear();
                 List<Main> mainList = MainDao.GetAll(id_umum, "ujian");
                 StringBuilder sb = new StringBuilder();
@@ -192,6 +192,7 @@ public class MainController {
                 break;
             }
             case "/CARA-PAKAI-APAKAH" : {
+                TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
                         "Ketikkan command dengan format :\n" +
@@ -201,6 +202,7 @@ public class MainController {
                 break;
             }
             case "/CARA-PAKAI-SIAPAKAH" : {
+                TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\n" +
                         "Ketikkan command dengan format :\n" +
@@ -213,6 +215,7 @@ public class MainController {
                 break;
             }
             case "/CARA-PAKAI-WAJAH" : {
+                TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
                         "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
@@ -222,6 +225,7 @@ public class MainController {
                 break;
             }
             case "/CARA-PAKAI-CINTA" : {
+                TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
                         "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
@@ -230,6 +234,7 @@ public class MainController {
                 break;
             }
             case "/CARA-PAKAI-INSTAGRAM" : {
+                TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("CaraPakai LJ Ajaib v5\n\n" +
                         "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
@@ -246,10 +251,10 @@ public class MainController {
         String[] pesan_split = pesan.split(" ");
         int pesan_split_length = pesan_split.length;
 
-        source = event.getSource();
-        id_umum = getter.getId(source);
-        user_id = event.getSource().getUserId();
-        group_id = getter.getId(source);
+        Source source = event.getSource();
+        String id_umum = getter.getId(source);
+        String user_id = event.getSource().getUserId();
+        String group_id = getter.getId(source);
 
         MainDao.CreateTableData(id_umum);
         MainDao.CreateTableGroupMember(id_umum);
@@ -294,7 +299,7 @@ public class MainController {
             command = "/STALK";
         }
 
-        Source source = event.getSource();
+        source = event.getSource();
         List<Message> messageList = new ArrayList<>();
         TextMessage textMessage = null;
         id_umum = getter.getId(source);
@@ -322,6 +327,7 @@ public class MainController {
                 break;
             }
             case "/TUGAS" : {
+                StringBuilder sb = new StringBuilder();
                 for (int i=1; i<pesan_split_length; i++){
                     sb.append(pesan_split[i] + " ");
                 }
@@ -342,6 +348,7 @@ public class MainController {
                 break;
             }
             case "/UJIAN" : {
+                StringBuilder sb = new StringBuilder();
                 for (int i=1; i<pesan_split_length; i++){
                     sb.append(pesan_split[i] + " ");
                 }
@@ -405,6 +412,7 @@ public class MainController {
                 break;
             }
             case "/SIAPAKAH" : {
+                StringBuilder sb = new StringBuilder();
                 List<GroupMember> groupMemberList = new ArrayList<>();
                 if(pesan_split[1].equals("YANG")){ //jika teks yang diinputkan pengguna adalah siapakah yang paling ......
                     groupMemberList = MainDao.getAllMemberIds(group_id);
@@ -512,7 +520,6 @@ public class MainController {
                 String lokasi = pesan_split[1];
                 System.out.println("Lokasi : " + lokasi);
                 try {
-//                    jadwalSholat(replyToken, lokasi);
                     JadwalSholat jadwalSholat = new JadwalSholat();
                     textMessage = jadwalSholat.jadwalSholat(lokasi);
                     KirimPesan(replyToken, textMessage);
