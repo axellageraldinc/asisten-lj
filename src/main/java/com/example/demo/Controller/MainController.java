@@ -444,6 +444,9 @@ public class MainController {
 
                     String user_name_beruntung = getter.getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
 
+                    System.out.println("ID BERUNTUNG : " + user_id_beruntung);
+                    System.out.println("USERNAME BERUNTUNG " + user_name_beruntung);
+
                     textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(sb).toLowerCase() + String.valueOf(kataTerakhirTanpaTanya).toLowerCase());
                     KirimPesan(replyToken, textMessage);
                 } else{
