@@ -26,3 +26,6 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 * [Almantera Tiantana Al Faruqi](https://github.com/almanalfaruq)
   1. Generating jpg files from inputstream for face detection
   2. Instagram photo stalk based on username
+
+# License
+MIT, All right reserved.
