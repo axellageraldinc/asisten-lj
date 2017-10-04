@@ -294,7 +294,7 @@ public class MainController {
         } else if((pesan.contains("HAI") ||
                 pesan.contains("HEI") ||
                 pesan.contains("HEY") ||
-                pesan.contains("HI")) && pesan.contains("Asisten LJ")){
+                pesan.contains("HI")) && pesan.contains("ASISTEN LJ")){
             command = "/HAI";
         } else if((pesan_split[0].equals("/STALK"))) {
             command = "/STALK";
