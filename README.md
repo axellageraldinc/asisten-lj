@@ -7,6 +7,10 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 * [POSTGRESQL DATABASE](https://www.postgresql.org)
 * [FACE++](https://faceplusplus.com) - API untuk face detection
 * [API JADWAL SHOLAT](https://gist.github.com/siswadi/b24f13ddc80eb92e0b01a8a595c32433)
+* [Gson](https://github.com/google/gson)
+* [OkHttp](http://square.github.io/okhttp/)
+* [Okio](https://github.com/square/okio)
+* [Instagram Java Scrapper](https://github.com/postaddictme/instagram-java-scraper)
 
 # Cara pakai LJ BOT
 1. Add LJ BOT dengan cara scan QR-CODE ini
