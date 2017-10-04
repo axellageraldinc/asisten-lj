@@ -433,6 +433,11 @@ public class MainController {
                     int banyakMember=groupMemberList.size();
                     int randInt = (int) (Math.random() * ((banyakMember-1)-0));
 
+                    for (GroupMember item:groupMemberList
+                         ) {
+                        System.out.println("ID : " + item.getUserId());
+                    }
+
                     for (int i=1; i<pesan_split.length-1; i++){
                         sb.append(pesan_split[i] + " "); //Men-generate kalimat yang paling .......
                     }
