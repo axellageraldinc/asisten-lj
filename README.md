@@ -10,7 +10,7 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 
 # Cara pakai LJ BOT
 1. Add LJ BOT dengan cara scan QR-CODE ini
-![QR CODE LJ BOT](http://qr-official.line.me/M/sQY9xUkQbY.png)
+![QR CODE LJ BOT](https://github.com/axellageraldinc/lj-line-bot/blob/master/sQY9xUkQbY.png)
 2. LJ BOT bisa digunakan perseorangan maupun di-invite ke grup.
 3. Untuk melihat fitur-fitur LJ BOT silakan ketik command /fitur.
 
