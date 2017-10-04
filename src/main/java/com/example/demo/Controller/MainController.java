@@ -218,8 +218,8 @@ public class MainController {
                 TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
-                        "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
-                        "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
+                        "Ketikkan command /FACE-DETECT lalu tunggu sampai Asisten LJ membalas 'MULAI'.\n" +
+                        "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh Asisten LJ.\n\n" +
                         "Jika sudah selesai bermain-main, ketikkan command /STOP");
                 messageList.add(textMessage);
                 break;
@@ -283,6 +283,8 @@ public class MainController {
             command = "/FACE-STOP";
         } else if(pesan_split[0].equals("SIAPAKAH") || pesan_split[0].equals("MANAKAH")){
             command = "/SIAPAKAH";
+        } else if(pesan.equals("APAKAH Asisten LJ TAKUT SAMA DEDY?")){
+            command = "/LEAVE-GROUP";
         } else if(pesan_split[0].equals("APAKAH")){
             command = "/APAKAH";
         } else if(pesan_split[0].equals("/JADWAL-SHOLAT")){
@@ -292,14 +294,10 @@ public class MainController {
         } else if((pesan.contains("HAI") ||
                 pesan.contains("HEI") ||
                 pesan.contains("HEY") ||
-                pesan.contains("HI")) && pesan.contains("LJ BOT")){
+                pesan.contains("HI")) && pesan.contains("Asisten LJ")){
             command = "/HAI";
-        } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
-            command = "/LEAVE-GROUP";
         } else if((pesan_split[0].equals("/STALK"))) {
             command = "/STALK";
-        } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
-            command = "/LEAVE-GROUP";
         } else if(pesan.equals("/SOURCE-CODE")){
             command = "/SOURCE-CODE";
         }
@@ -313,7 +311,7 @@ public class MainController {
         switch (command){
             case "/FITUR" :{
                 textMessage = new TextMessage(
-                        "FITUR-FITUR LJ BOT\n\n" +
+                        "FITUR-FITUR Asisten LJ\n\n" +
                         "1. /PERKULIAHAN\n" +
                         "2. /HIBURAN\n" +
                         "3. /JADWAL-SHOLAT [spasi] [nama kota]\n" +
@@ -323,20 +321,20 @@ public class MainController {
             }
             case "/PERKULIAHAN" : {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateKuliah();
-                templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
                 KirimPesan(replyToken, templateMessage);
                 break;
             }
             case "/HIBURAN" : {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateHiburan();
-                templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
                 KirimPesan(replyToken, templateMessage);
                 break;
             }
             case "/SOURCE-CODE" : {
-                textMessage = new TextMessage("SOURCE CODE LJ BOT\n\n" +
+                textMessage = new TextMessage("SOURCE CODE Asisten LJ\n\n" +
                         "Silakan pergi ke link ini https://github.com/axellageraldinc/lj-line-bot\n" +
-                        "Lalu baca README.md untuk penjelasan singkat mengenai LJ BOT.\n" +
+                        "Lalu baca README.md untuk penjelasan singkat mengenai Asisten LJ.\n" +
                         "Jika ingin berkontribusi, baca CONTRIBUTING.md");
                 KirimPesan(replyToken, textMessage);
                 break;
