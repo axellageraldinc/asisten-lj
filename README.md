@@ -19,4 +19,6 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 2. Jika ingin berkontribusi, silakan baca file [ini](https://github.com/axellageraldinc/lj-line-bot/blob/master/CONTRIBUTING.md).
 
 # Thanks to
-* [Almantera Tiantana Al Faruqi](https://github.com/almanalfaruq) - Generating jpg files from inputstream for face detection
+* [Almantera Tiantana Al Faruqi](https://github.com/almanalfaruq)
+  1. Generating jpg files from inputstream for face detection
+  2. Instagram photo stalk based on username
