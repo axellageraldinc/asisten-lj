@@ -10,7 +10,7 @@ public class DbConnection {
 
     public static Connection getConnection() throws URISyntaxException {
         URI dbUri = null;
-        dbUri = new URI("postgres://mwxpvstycpecyl:c7c7af5dc2616038129cfbb6fe27196110b407761b238a2ee1e24d33bdc0a3d5@ec2-54-225-88-191.compute-1.amazonaws.com:5432/d1i4t9jupnoehd");
+        dbUri = new URI("postgres://zmygtmuyqsoyzj:268f98d0a2e5a5f3f9b57d5f99d14a116e6bcad0eec08078faeb2c821c8e143d@ec2-107-22-235-167.compute-1.amazonaws.com:5432/d7nbmgm92matum");
         try{
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://" +
