@@ -450,6 +450,10 @@ public class MainController {
                                 new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Cinta", Arrays.asList(
                                         new PostbackAction("How to LJ Ajaib v4",
                                                 "/CARA-PAKAI-CINTA")
+                                )),
+                                new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Instagram", Arrays.asList(
+                                        new PostbackAction("How to LJ Ajaib v5",
+                                                "/CARA-PAKAI-INSTAGRAM")
                                 ))
                         ));
                 templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
@@ -1038,6 +1042,12 @@ public class MainController {
             textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
                     "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
                     "untuk menghitung kadar cinta mereka.");
+            messageList.add(textMessage);
+        } else if(data.equals("/CARA-PAKAI-INSTAGRAM")){
+            messageList.clear();
+            textMessage = new TextMessage("CaraPakai LJ Ajaib v5\n\n" +
+                    "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
+                    "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
             messageList.add(textMessage);
         }
         KirimPesan(event.getReplyToken(), messageList);
