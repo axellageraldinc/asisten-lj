@@ -283,7 +283,7 @@ public class MainController {
             command = "/FACE-STOP";
         } else if(pesan_split[0].equals("SIAPAKAH") || pesan_split[0].equals("MANAKAH")){
             command = "/SIAPAKAH";
-        } else if(pesan.equals("APAKAH Asisten LJ TAKUT SAMA DEDY?")){
+        } else if(pesan.equals("APAKAH ASISTEN LJ TAKUT SAMA DEDY?")){
             command = "/LEAVE-GROUP";
         } else if(pesan_split[0].equals("APAKAH")){
             command = "/APAKAH";
