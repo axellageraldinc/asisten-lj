@@ -24,6 +24,9 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import me.postaddict.instagram.scraper.Instagram;
+import me.postaddict.instagram.scraper.domain.Media;
+import okhttp3.OkHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 
 @LineMessageHandler
 public class MainController {
@@ -373,6 +377,8 @@ public class MainController {
             command = "/JADWAL-SHOLAT";
         } else if((command + "E").equals("/LOVE")){
             command = "/LOVE";
+        } else if((command + "LK").equals("/STALK")) {
+            command = "/STALK";
         }
 //        if(command.equals("/HAP")) {
 //            if (pesan.substring(7, 12).equals("TUGAS")) {
@@ -772,6 +778,18 @@ public class MainController {
                 }
                 break;
             }
+            case "/STALK" : {
+                String[] kata = pesan.split(" ");
+                String username = kata[1];
+                System.out.println("Username : " + username);
+                try {
+                    getInstaPhoto(replyToken, username);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    KirimPesan(replyToken, new TextMessage("Username tidak tersedia atau di private"));
+                }
+                break;
+            }
         }
     }
 
@@ -1125,6 +1143,17 @@ public class MainController {
             e.printStackTrace();
         }
         return name;
+    }
+
+    private void getInstaPhoto(String replyToken, String username) throws IOException {
+        Instagram instagram = new Instagram(new OkHttpClient());
+        List<Media> media = instagram.getMedias(username, 10);
+        int randInt = ThreadLocalRandom.current().nextInt(0, 10+1);
+        ImageMessage message = new ImageMessage(media.get(randInt).imageUrls.high,
+                media.get(randInt).imageUrls.thumbnail);
+        String urlMedia = media.get(randInt).link;
+        KirimPesan(replyToken, message);
+        KirimPesan(replyToken, new TextMessage(urlMedia));
     }
 
 //    public String getName2(String userId){
