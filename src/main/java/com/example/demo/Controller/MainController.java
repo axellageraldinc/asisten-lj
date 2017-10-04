@@ -300,6 +300,8 @@ public class MainController {
             command = "/STALK";
         } else if(pesan.equals("/SOURCE-CODE")){
             command = "/SOURCE-CODE";
+        } else if(pesan.equals("/ABOUT")) {
+            command = "/ABOUT";
         }
 
         source = event.getSource();
@@ -577,6 +579,12 @@ public class MainController {
                 }
                 break;
             }
+            case "/ABOUT" : {
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateAbout();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
+                KirimPesan(replyToken, templateMessage);
+                break;
+            }
         }
     }
 
@@ -610,12 +618,15 @@ public class MainController {
 
     private void getInstaPhoto(String replyToken, String username) throws IOException {
         Instagram instagram = new Instagram(new OkHttpClient());
-        List<Media> media = instagram.getMedias(username, 10);
-        int randInt = ThreadLocalRandom.current().nextInt(0, 10+1);
-        ImageMessage message = new ImageMessage(media.get(randInt).imageUrls.high,
-                media.get(randInt).imageUrls.thumbnail);
-        String urlMedia = media.get(randInt).link;
-        KirimPesan(replyToken, message);
-        KirimPesan(replyToken, new TextMessage(urlMedia));
+        List<Media> media = instagram.getMedias(username, 20);
+        int randInt = ThreadLocalRandom.current().nextInt(0, 20+1);
+        Media med = media.get(randInt);
+        ImageMessage message = new ImageMessage(med.imageUrls.high,
+                med.imageUrls.thumbnail);
+        TextMessage urlMedia = new TextMessage(med.link);
+        List<Message> instaMessage = new ArrayList<>();
+        instaMessage.add(message);
+        instaMessage.add(urlMedia);
+        KirimPesan(replyToken, instaMessage);
     }
 }
