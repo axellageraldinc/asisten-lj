@@ -48,6 +48,10 @@ public class CarouselTemplate {
                         new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Cinta", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v4",
                                         "/CARA-PAKAI-CINTA")
+                        )),
+                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Instagram", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v5",
+                                        "/CARA-PAKAI-INSTAGRAM")
                         ))
                 ));
         return carouselTemplate;
