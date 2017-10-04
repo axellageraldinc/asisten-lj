@@ -56,4 +56,31 @@ public class CarouselTemplate {
                 ));
         return carouselTemplate;
     }
+
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout() {
+        String imgDefault = "http://www.freeiconspng.com/uploads/profile-icon-9.png";
+        String imgAlman = "https://avatars0.githubusercontent.com/u/17737346?v=4&s=460";
+        String imgAxell = "https://avatars1.githubusercontent.com/u/19605159?v=4&s=460";
+        com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
+                Arrays.asList(
+                        new CarouselColumn(imgAxell, "Axellageraldinc A.", "Creator Asisten LJ", null),
+                        new CarouselColumn(imgAlman, "Almantera T. A. F.", "Contributor Asisten LJ", null),
+                        new CarouselColumn(imgDefault, "Aditya L. S.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Aditya N. U.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Alexander J. H.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Bayu Adin H", "Sponsor Asisten LJ", null),
+                        new CarouselColumn(imgDefault, "Bless Ramadewa", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Dedy K. S.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Farras Aulia Muhammad", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Faturrahman", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Hera Prasetia", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Mahendra T. S.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Moh. Azzum J. W.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Raufi Musaddiq", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Rio Armando M.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Samuel P.", "Member LJ", null),
+                        new CarouselColumn(imgDefault, "Sulistyo D. P.", "Member LJ", null)
+                ));
+        return carouselTemplate;
+    }
 }
