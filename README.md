@@ -16,7 +16,7 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 
 # FEEL FREE TO LEARN!
 1. Jika ingin melihat-lihat source code nya, silakan klik "FORK" yang ada di kanan atas. Lalu clone repository yang sudah kamu fork tadi.
-2. Jika ingin berkontribusi, silakan baca file ini.
+2. Jika ingin berkontribusi, silakan baca file [ini](https://github.com/axellageraldinc/lj-line-bot/blob/master/CONTRIBUTING.md).
 
 # Thanks to
 * [Almantera Tiantana Al Faruqi](https://github.com/almanalfaruq) - Generating jpg files for face detection
