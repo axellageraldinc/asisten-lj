@@ -280,7 +280,7 @@ public class MainController {
             command = "/FACE-DETECT";
         } else if(pesan.equals("/STOP")){
             command = "/FACE-STOP";
-        } else if(pesan_split[0].equals("SIAPAKAH")){
+        } else if(pesan_split[0].equals("SIAPAKAH") || pesan_split[0].equals("MANAKAH")){
             command = "/SIAPAKAH";
         } else if(pesan_split[0].equals("APAKAH")){
             command = "/APAKAH";
