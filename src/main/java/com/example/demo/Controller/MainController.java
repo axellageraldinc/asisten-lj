@@ -258,6 +258,7 @@ public class MainController {
 
         MainDao.CreateTableData(id_umum);
         MainDao.CreateTableGroupMember(id_umum);
+        MainDao.InsertGroupMemberId(group_id, user_id);
 
         String command = null;
         if(pesan.equals("/FITUR")){
