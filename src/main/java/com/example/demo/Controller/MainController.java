@@ -334,7 +334,7 @@ public class MainController {
             }
             case "/SOURCE-CODE" : {
                 textMessage = new TextMessage("SOURCE CODE LJ BOT\n\n" +
-                        "Silakan pergi ke link ini https://github.com/axellageraldinc/lj-line-bot.\n" +
+                        "Silakan pergi ke link ini https://github.com/axellageraldinc/lj-line-bot\n" +
                         "Lalu baca README.md untuk penjelasan singkat mengenai LJ BOT.\n" +
                         "Jika ingin berkontribusi, baca CONTRIBUTING.md");
                 KirimPesan(replyToken, textMessage);
