@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Creator.*;
 import com.example.demo.Dao.MainDao;
 import com.example.demo.Getter.Getter;
+import com.example.demo.model.GroupMember;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.*;
@@ -234,6 +235,8 @@ public class MainController {
             command = "/LEAVE-GROUP";
         } else if(pesan.equals("/SOURCE-CODE")){
             command = "/SOURCE-CODE";
+        } else if(pesan.equals("/DBANYAR")){
+            command = "/DBANYAR";
         }
 
         source = event.getSource();
@@ -249,6 +252,14 @@ public class MainController {
                         "Setelah itu invite aja Asisten LJ ke grup ini lagi..\n" +
                         "Fitur2nya sama kok :)");
                 KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/DBANYAR" : {
+                List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
+                for (GroupMember item: groupMemberList
+                     ) {
+                    System.out.println("ID USER : " + item.getUserId());
+                }
                 break;
             }
             case "/PERKULIAHAN" : {
