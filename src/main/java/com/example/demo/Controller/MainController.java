@@ -236,9 +236,19 @@ public class MainController {
             case "/CARA-PAKAI-INSTAGRAM" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("CaraPakai LJ Ajaib v5\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v5\n\n" +
                         "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
                         "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
+                messageList.add(textMessage);
+                break;
+            }
+            case "/CARA-PAKAI-DOSA" : {
+                TextMessage textMessage;
+                messageList.clear();
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v6\n\n" +
+                        "Ketikkan command dengan format /dosa [spasi] [nama orang]\n" +
+                        "Maka akan dibalas dengan berapa persen dosa orang tersebut\n" +
+                        "*ingat, ini cuma bercandaan doang yaaaa");
                 messageList.add(textMessage);
                 break;
             }
@@ -300,6 +310,8 @@ public class MainController {
             command = "/STALK";
         } else if(pesan.equals("/SOURCE-CODE")){
             command = "/SOURCE-CODE";
+        } else if (pesan_split[0].equals("/DOSA")){
+            command = "/DOSA";
         }
 
         source = event.getSource();
@@ -575,6 +587,27 @@ public class MainController {
                     e.printStackTrace();
                     KirimPesan(replyToken, new TextMessage("Username tidak tersedia atau di private"));
                 }
+                break;
+            }
+            case "/DOSA" : {
+                StringBuilder nama = new StringBuilder();
+                for (int i=1; i<pesan_split.length; i++){
+                    nama.append(pesan_split[i] + " ");
+                }
+                String katakata = null;
+                int randInt = random.nextInt(99);
+                if(randInt>=0 && randInt<40){
+                    katakata = "Bagus sekali ya " + String.valueOf(nama).toLowerCase() + ", pertahankan!";
+                } else if(randInt>=40 && randInt<65){
+                    katakata = "Dosanya " + String.valueOf(nama).toLowerCase() + "masih batas wajar tapi sudah mulai nakal nih...";
+                } else if(randInt>=65 && randInt<80){
+                    katakata = String.valueOf(nama).toLowerCase() + "harus bertobat sesegara mungkin! Ingatlah Tuhan nak!!!";
+                } else if(randInt>=80 && randInt<=100){
+                    katakata = "Sudah tidak bisa dipungkiri bahwa " + String.valueOf(nama).toLowerCase() + "adalah sumber kejahatan di dunia ini.\nSegera jauhi dia!";
+                }
+                textMessage = new TextMessage("Dosa " + String.valueOf(nama).toLowerCase() + "adalah sebanyak " + randInt + "%\n" +
+                        katakata);
+                KirimPesan(replyToken, textMessage);
                 break;
             }
         }
