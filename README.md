@@ -12,11 +12,10 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 * [Okio](https://github.com/square/okio)
 * [Instagram Java Scrapper](https://github.com/postaddictme/instagram-java-scraper)
 
-# Cara pakai LJ BOT
-1. Add LJ BOT dengan cara scan QR-CODE ini
-![QR CODE LJ BOT](https://github.com/axellageraldinc/lj-line-bot/blob/master/sQY9xUkQbY.png)
-2. LJ BOT bisa digunakan perseorangan maupun di-invite ke grup.
-3. Untuk melihat fitur-fitur LJ BOT silakan ketik command /fitur.
+# Cara pakai ASISTEN LJ
+1. Add LJ BOT dengan cara add by ID : @doy7181p
+2. Asisten LJ bisa digunakan perseorangan maupun di-invite ke grup.
+3. Untuk melihat fitur-fitur Asisten LJ silakan ketik command /fitur.
 
 # FEEL FREE TO LEARN!
 1. Jika ingin melihat-lihat source code nya, silakan klik "FORK" yang ada di kanan atas. Lalu clone repository yang sudah kamu fork tadi.
