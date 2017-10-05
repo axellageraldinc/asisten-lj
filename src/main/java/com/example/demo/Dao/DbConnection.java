@@ -10,16 +10,11 @@ public class DbConnection {
 
     public static Connection getConnection() throws URISyntaxException {
         URI dbUri = null;
-        dbUri = new URI("postgres://zmygtmuyqsoyzj:268f98d0a2e5a5f3f9b57d5f99d14a116e6bcad0eec08078faeb2c821c8e143d@ec2-107-22-235-167.compute-1.amazonaws.com:5432/d7nbmgm92matum");
         try{
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://" +
-                            dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath(),
-                    dbUri.getUserInfo().split(":")[0],
-                    dbUri.getUserInfo().split(":")[1]
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection("jdbc:postgresql://hostname:port/dbname",
+                    "uname" , "pass"
             );
-            System.out.println("DB connection success : " + "jdbc:postgresql://" +
-                    dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath());
         } catch (Exception ex){
             System.out.println("Error start connection DB : " + ex.toString());
         }

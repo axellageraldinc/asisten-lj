@@ -31,7 +31,7 @@ public class MainController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    private static String AccessToken = "ZzEeHlFeiIA/C4TUvl3E/IuYW8TIBEdAr3xzZCgHuURivuycKWOiPGBp5oFqLyHSh/YkUFgm4eGGkVuo4WkOvhUwKdgCbFnO6ltoV/oMU7uJaZAbgM+RqeTo8LAbdjlId0TGTdPe6H0QyfzzoJyppgdB04t89/1O/w1cDnyilFU=";
+    private static String AccessToken = "Access token channel here";
 
     Random random = new Random();
 
