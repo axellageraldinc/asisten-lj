@@ -19,15 +19,15 @@ import java.util.Random;
 
 public class FaceDetector {
     File file;
-    private static final String api_key = "NlDLxQN3giFSs1AI899WNnZTtCuy-mt7";
-    private static final String api_secret = "3W95_8wUGxaiKvcmxDCEciBsTgkTl0E1";
+    private static final String api_key = "nui9Ik_mtSFClhPwoISk4FEE6HxGY7uj";
+    private static final String api_secret = "EPHGK3INCcX8MsFWo-9mOe1iroUX65Dm";
 
     public TextMessage handleImageContent(String id){
         file = new File("downloaded.jpg");
         try {
             URL urlP = new URL("https://api.line.me/v2/bot/message/" + id + "/content");
             URLConnection conn = urlP.openConnection();
-            conn.setRequestProperty("Authorization", "Bearer {u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=}");
+            conn.setRequestProperty("Authorization", "Bearer {ZzEeHlFeiIA/C4TUvl3E/IuYW8TIBEdAr3xzZCgHuURivuycKWOiPGBp5oFqLyHSh/YkUFgm4eGGkVuo4WkOvhUwKdgCbFnO6ltoV/oMU7uJaZAbgM+RqeTo8LAbdjlId0TGTdPe6H0QyfzzoJyppgdB04t89/1O/w1cDnyilFU=}");
             conn.setConnectTimeout(5 * 1000); // Tak tambahin sendiri
             BufferedImage img = ImageIO.read(conn.getInputStream());
             ImageIO.write(img, "jpg", file);

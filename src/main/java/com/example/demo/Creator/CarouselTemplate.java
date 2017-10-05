@@ -52,6 +52,10 @@ public class CarouselTemplate {
                         new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Instagram", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v5",
                                         "/CARA-PAKAI-INSTAGRAM")
+                        )),
+                        new CarouselColumn(null, "LJ AJAIB v6", "LJ Ajaib Dosa", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v6",
+                                        "/CARA-PAKAI-DOSA")
                         ))
                 ));
         return carouselTemplate;

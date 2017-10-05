@@ -31,7 +31,7 @@ public class MainController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    private static String AccessToken = "u/jyVKXsD5N/OfmNIvEjnI+NffMIhzcFFjIZ3Whm4Gu9/LTL4y7WjWhWehHjYIO+aG6QUKw5991HFzs7i8c1PAZP07r1LIGun6o8X53yZflIk/Th0W8JkY9G/2IpWkL59subrXO5cOQCxJqjemzHvwdB04t89/1O/w1cDnyilFU=";
+    private static String AccessToken = "ZzEeHlFeiIA/C4TUvl3E/IuYW8TIBEdAr3xzZCgHuURivuycKWOiPGBp5oFqLyHSh/YkUFgm4eGGkVuo4WkOvhUwKdgCbFnO6ltoV/oMU7uJaZAbgM+RqeTo8LAbdjlId0TGTdPe6H0QyfzzoJyppgdB04t89/1O/w1cDnyilFU=";
 
     Random random = new Random();
 
@@ -218,8 +218,8 @@ public class MainController {
                 TextMessage textMessage;
                 messageList.clear();
                 textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
-                        "Ketikkan command /FACE-DETECT lalu tunggu sampai LJ BOT membalas 'MULAI'.\n" +
-                        "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh LJ BOT.\n\n" +
+                        "Ketikkan command /FACE-DETECT lalu tunggu sampai Asisten LJ membalas 'MULAI'.\n" +
+                        "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh Asisten LJ.\n\n" +
                         "Jika sudah selesai bermain-main, ketikkan command /STOP");
                 messageList.add(textMessage);
                 break;
@@ -236,9 +236,19 @@ public class MainController {
             case "/CARA-PAKAI-INSTAGRAM" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("CaraPakai LJ Ajaib v5\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v5\n\n" +
                         "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
                         "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
+                messageList.add(textMessage);
+                break;
+            }
+            case "/CARA-PAKAI-DOSA" : {
+                TextMessage textMessage;
+                messageList.clear();
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v6\n\n" +
+                        "Ketikkan command dengan format /dosa [spasi] [nama orang]\n" +
+                        "Maka akan dibalas dengan berapa persen dosa orang tersebut\n" +
+                        "*ingat, ini cuma bercandaan doang yaaaa");
                 messageList.add(textMessage);
                 break;
             }
@@ -258,6 +268,7 @@ public class MainController {
 
         MainDao.CreateTableData(id_umum);
         MainDao.CreateTableGroupMember(id_umum);
+        MainDao.InsertGroupMemberId(group_id, user_id);
 
         String command = null;
         if(pesan.equals("/FITUR")){
@@ -282,6 +293,8 @@ public class MainController {
             command = "/FACE-STOP";
         } else if(pesan_split[0].equals("SIAPAKAH") || pesan_split[0].equals("MANAKAH")){
             command = "/SIAPAKAH";
+        } else if(pesan.equals("APAKAH ASISTEN LJ TAKUT SAMA DEDY?")){
+            command = "/LEAVE-GROUP";
         } else if(pesan_split[0].equals("APAKAH")){
             command = "/APAKAH";
         } else if(pesan_split[0].equals("/JADWAL-SHOLAT")){
@@ -291,16 +304,14 @@ public class MainController {
         } else if((pesan.contains("HAI") ||
                 pesan.contains("HEI") ||
                 pesan.contains("HEY") ||
-                pesan.contains("HI")) && pesan.contains("LJ BOT")){
+                pesan.contains("HI")) && pesan.contains("ASISTEN LJ")){
             command = "/HAI";
-        } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
-            command = "/LEAVE-GROUP";
         } else if((pesan_split[0].equals("/STALK"))) {
             command = "/STALK";
-        } else if(pesan.equals("APAKAH LJ BOT TAKUT SAMA DEDY?")){
-            command = "/LEAVE-GROUP";
         } else if(pesan.equals("/SOURCE-CODE")){
             command = "/SOURCE-CODE";
+        } else if (pesan_split[0].equals("/DOSA")){
+            command = "/DOSA";
         }
 
         source = event.getSource();
@@ -312,7 +323,7 @@ public class MainController {
         switch (command){
             case "/FITUR" :{
                 textMessage = new TextMessage(
-                        "FITUR-FITUR LJ BOT\n\n" +
+                        "FITUR-FITUR Asisten LJ\n\n" +
                         "1. /PERKULIAHAN\n" +
                         "2. /HIBURAN\n" +
                         "3. /JADWAL-SHOLAT [spasi] [nama kota]\n" +
@@ -322,20 +333,20 @@ public class MainController {
             }
             case "/PERKULIAHAN" : {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateKuliah();
-                templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
                 KirimPesan(replyToken, templateMessage);
                 break;
             }
             case "/HIBURAN" : {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateHiburan();
-                templateMessage = new TemplateMessage("LJ BOT mengirim pesan!", carouselTemplate);
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
                 KirimPesan(replyToken, templateMessage);
                 break;
             }
             case "/SOURCE-CODE" : {
-                textMessage = new TextMessage("SOURCE CODE LJ BOT\n\n" +
+                textMessage = new TextMessage("SOURCE CODE Asisten LJ\n\n" +
                         "Silakan pergi ke link ini https://github.com/axellageraldinc/lj-line-bot\n" +
-                        "Lalu baca README.md untuk penjelasan singkat mengenai LJ BOT.\n" +
+                        "Lalu baca README.md untuk penjelasan singkat mengenai Asisten LJ.\n" +
                         "Jika ingin berkontribusi, baca CONTRIBUTING.md");
                 KirimPesan(replyToken, textMessage);
                 break;
@@ -433,6 +444,11 @@ public class MainController {
                     int banyakMember=groupMemberList.size();
                     int randInt = (int) (Math.random() * ((banyakMember-1)-0));
 
+                    for (GroupMember item:groupMemberList
+                         ) {
+                        System.out.println("ID : " + item.getUserId());
+                    }
+
                     for (int i=1; i<pesan_split.length-1; i++){
                         sb.append(pesan_split[i] + " "); //Men-generate kalimat yang paling .......
                     }
@@ -443,6 +459,9 @@ public class MainController {
                     GroupMember user_id_beruntung = groupMemberList.get(randInt);
 
                     String user_name_beruntung = getter.getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
+
+                    System.out.println("ID BERUNTUNG : " + user_id_beruntung);
+                    System.out.println("USERNAME BERUNTUNG " + user_name_beruntung);
 
                     textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(sb).toLowerCase() + String.valueOf(kataTerakhirTanpaTanya).toLowerCase());
                     KirimPesan(replyToken, textMessage);
@@ -568,6 +587,27 @@ public class MainController {
                     e.printStackTrace();
                     KirimPesan(replyToken, new TextMessage("Username tidak tersedia atau di private"));
                 }
+                break;
+            }
+            case "/DOSA" : {
+                StringBuilder nama = new StringBuilder();
+                for (int i=1; i<pesan_split.length; i++){
+                    nama.append(pesan_split[i] + " ");
+                }
+                String katakata = null;
+                int randInt = random.nextInt(99);
+                if(randInt>=0 && randInt<40){
+                    katakata = "Bagus sekali ya " + String.valueOf(nama).toLowerCase() + ", pertahankan!";
+                } else if(randInt>=40 && randInt<65){
+                    katakata = "Dosanya " + String.valueOf(nama).toLowerCase() + "masih batas wajar tapi sudah mulai nakal nih...";
+                } else if(randInt>=65 && randInt<80){
+                    katakata = String.valueOf(nama).toLowerCase() + "harus bertobat sesegara mungkin! Ingatlah Tuhan nak!!!";
+                } else if(randInt>=80 && randInt<=100){
+                    katakata = "Sudah tidak bisa dipungkiri bahwa " + String.valueOf(nama).toLowerCase() + "adalah sumber kejahatan di dunia ini.\nSegera jauhi dia!";
+                }
+                textMessage = new TextMessage("Dosa " + String.valueOf(nama).toLowerCase() + "adalah sebanyak " + randInt + "%\n" +
+                        katakata);
+                KirimPesan(replyToken, textMessage);
                 break;
             }
         }
