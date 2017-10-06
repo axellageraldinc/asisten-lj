@@ -64,51 +64,51 @@ public class CarouselTemplate {
     public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn("https://www.dropbox.com/s/vwafgm1sq1iqeof/Axel.png?dl=0", "Axellageraldinc A", "Hai sayang..", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/7zhoz5apyn/Axel.png", "Axellageraldinc A", "Hidup seperti Larry..", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/axellageraldinc/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/z21033te9gy3qyd/Alman.png?dl=0", "Almantera T A F", "Gak jelas anjas!", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/2ypm7l7im7/Alman.png", "Almantera T A F", "Gak jelas anjas!", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/almanalfaruq/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/17rb0gyaw5imhzj/Raufi.png?dl=0", "Raufi Musaddiq", "Kenapa harus satu kalau bisa banyak?", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/9nr1wc2xkv/Raufi.png", "Raufi Musaddiq", "Kenapa harus satu kalau bisa banyak?", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/raufimusaddiq/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/s0hrzzmqvfg8gs5/Farras.png?dl=0", "Farras Aulia M", "If you love cats, then we should be friends :3", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/701llzelzz/Farras.png", "Farras Aulia M", "If you love cats, then we should be friends :3", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/simplyfarras/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/xb1em05yv3a1o0z/Adin.png?dl=0", "Bayu Adin H", "Sedikit berbeda lebih baik drpd sedikit lebih baik", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/1ag9ae9inz/Adin.png", "Bayu Adin H", "Sedikit berbeda lebih baik drpd sedikit lebih baik", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/bayuadinh/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/l8pefq1tmlbo4rk/Damas.png?dl=0", "Sulistyo Damas P", "Rapper yang gak jago bahasa inggris", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/4qil2hknqn/Damas.png", "Sulistyo Damas P", "Rapper yang gak jago bahasa inggris", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/sulistyodamas/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/1r5dlm8pgggsugd/Adot.png?dl=0", "Aditya Laksana S", "Fans nya bob dylan", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/1z9iuf01pb/Adot.png", "Aditya Laksana S", "Fans nya bob dylan", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/aditya.suwandi/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/ayu81drc6rtkvtg/Putos.png?dl=0", "Mahendra Tirta S", "Love music, sport, and computer stuff", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/7lb98a2uj3/Putos.png", "Mahendra Tirta S", "Love music, sport, and computer stuff", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/saputer/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/91w4zhu82ymwfc7/Bless.png?dl=0", "Bless Ramadewa", "Saya suka nasi goreng", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/5pyofnr9sf/Bless.png", "Bless Ramadewa", "Asumsi itu membunuhmu", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/blesswastika/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/8l2iz8kkyebmn1i/Rio.png?dl=0", "Rio Armando M", "Pecandu senyuman, a beauty hunter", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/5tiaddq4u7/Rio.png", "Rio Armando M", "Pecandu senyuman, a beauty hunter", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/rioarmandom/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/hj3rw5ai4a9sdci/Azzum.png?dl=0", "Moh Azzum Jordhan W", "Aku paling ganteng", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/54p0tcuw1r/Azzum.png", "Moh Azzum Jordhan W", "Susah gak ada artinya kl bersama keluarga", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/azzumjordhan/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/b1rout864gpbb38/Sam.png?dl=0", "Samuel Tulus P", "Terlahir penjahat", Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/6sydqjolof/Sam.png", "Samuel Tulus P", "pekerjaan berat akan terasa ringan kl gak dikerjakan", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/samuel_tulus/")
                         ))
