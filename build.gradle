@@ -20,6 +20,11 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+    jcenter()
+    maven { url "http://repo.spring.io/libs-snapshot" }
 }
 
 dependencies {
