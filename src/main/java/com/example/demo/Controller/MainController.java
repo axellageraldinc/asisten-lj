@@ -617,15 +617,17 @@ public class MainController {
                 break;
             }
             case "/ABOUT" : {
+                List<Message> messageList2 = new ArrayList<>();
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate1 = this.carouselTemplate.templateAbout1();
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate1);
-                KirimPesan(replyToken, templateMessage);
+                messageList2.add(templateMessage);
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate2 = this.carouselTemplate.templateAbout2();
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate2);
-                KirimPesan(replyToken, templateMessage);
+                messageList2.add(templateMessage);
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate3 = this.carouselTemplate.templateAbout3();
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate3);
-                KirimPesan(replyToken, templateMessage);
+                messageList2.add(templateMessage);
+                KirimPesan(replyToken, messageList2);
                 break;
             }
         }
