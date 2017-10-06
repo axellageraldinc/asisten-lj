@@ -31,7 +31,7 @@ public class MainController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    private static String AccessToken = "Access token channel here";
+    private static String AccessToken = "ZzEeHlFeiIA/C4TUvl3E/IuYW8TIBEdAr3xzZCgHuURivuycKWOiPGBp5oFqLyHSh/YkUFgm4eGGkVuo4WkOvhUwKdgCbFnO6ltoV/oMU7uJaZAbgM+RqeTo8LAbdjlId0TGTdPe6H0QyfzzoJyppgdB04t89/1O/w1cDnyilFU=";
 
     Random random = new Random();
 
@@ -191,33 +191,36 @@ public class MainController {
                 messageList.add(textMessage);
                 break;
             }
-            case "/CARA-PAKAI-APAKAH" : {
-                TextMessage textMessage;
-                messageList.clear();
-                textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
-                        "Ketikkan command dengan format :\n" +
-                        "Apakah .......\n" +
-                        "Contoh : Apakah dedy tampan?");
-                messageList.add(textMessage);
-                break;
-            }
+//            case "/CARA-PAKAI-APAKAH" : {
+//                TextMessage textMessage;
+//                messageList.clear();
+//                textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
+//                        "Ketikkan command dengan format :\n" +
+//                        "Apakah .......\n" +
+//                        "Contoh : Apakah dedy tampan?");
+//                messageList.add(textMessage);
+//                break;
+//            }
             case "/CARA-PAKAI-SIAPAKAH" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
                         "Ketikkan command dengan format :\n" +
                         "Siapakah diantara [nama 1] dan [nama 2] yang ......\n" +
                         "Contoh : Siapakah diantara Dedy dan Kepok yang paling tampan?\n" +
                         "ATAU\n" +
                         "Siapakah yang paling ...." +
-                        "Contoh : Siapakah yang paling tampan?");
+                        "Contoh : Siapakah yang paling tampan?\n" +
+                        "ATAU\n" +
+                        "Apakah .....\n" +
+                        "Contoh : Apakah saya tampan?");
                 messageList.add(textMessage);
                 break;
             }
             case "/CARA-PAKAI-WAJAH" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v2\n\n" +
                         "Ketikkan command /FACE-DETECT lalu tunggu sampai Asisten LJ membalas 'MULAI'.\n" +
                         "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh Asisten LJ.\n\n" +
                         "Jika sudah selesai bermain-main, ketikkan command /STOP");
@@ -227,7 +230,7 @@ public class MainController {
             case "/CARA-PAKAI-CINTA" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v3\n\n" +
                         "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
                         "untuk menghitung kadar cinta mereka.");
                 messageList.add(textMessage);
@@ -236,7 +239,7 @@ public class MainController {
             case "/CARA-PAKAI-INSTAGRAM" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("Cara Pakai LJ Ajaib v5\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
                         "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
                         "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
                 messageList.add(textMessage);
@@ -245,7 +248,7 @@ public class MainController {
             case "/CARA-PAKAI-DOSA" : {
                 TextMessage textMessage;
                 messageList.clear();
-                textMessage = new TextMessage("Cara Pakai LJ Ajaib v6\n\n" +
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v5\n\n" +
                         "Ketikkan command dengan format /dosa [spasi] [nama orang]\n" +
                         "Maka akan dibalas dengan berapa persen dosa orang tersebut\n" +
                         "*ingat, ini cuma bercandaan doang yaaaa");
@@ -614,8 +617,14 @@ public class MainController {
                 break;
             }
             case "/ABOUT" : {
-                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateAbout();
-                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate1 = this.carouselTemplate.templateAbout1();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate1);
+                KirimPesan(replyToken, templateMessage);
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate2 = this.carouselTemplate.templateAbout2();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate2);
+                KirimPesan(replyToken, templateMessage);
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate3 = this.carouselTemplate.templateAbout3();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate3);
                 KirimPesan(replyToken, templateMessage);
                 break;
             }

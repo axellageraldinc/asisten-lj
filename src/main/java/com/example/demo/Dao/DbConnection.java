@@ -12,8 +12,8 @@ public class DbConnection {
         URI dbUri = null;
         try{
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://hostname:port/dbname",
-                    "uname" , "pass"
+            connection = DriverManager.getConnection("jdbc:postgresql://ec2-107-22-235-167.compute-1.amazonaws.com:5432/d7nbmgm92matum",
+                    "zmygtmuyqsoyzj" , "268f98d0a2e5a5f3f9b57d5f99d14a116e6bcad0eec08078faeb2c821c8e143d"
             );
         } catch (Exception ex){
             System.out.println("Error start connection DB : " + ex.toString());

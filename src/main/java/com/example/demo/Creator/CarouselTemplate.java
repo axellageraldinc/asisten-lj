@@ -33,35 +33,31 @@ public class CarouselTemplate {
     public com.linecorp.bot.model.message.template.CarouselTemplate templateHiburan(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn(null, "LJ AJAIB v1", "LJ Ajaib Apakah", Arrays.asList(
+                        new CarouselColumn(null, "LJ AJAIB v1", "LJ Ajaib Apakah Siapakah", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v1",
-                                        "/CARA-PAKAI-APAKAH")
-                        )),
-                        new CarouselColumn(null, "LJ AJAIB v2", "LJ Ajaib Siapakah", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v2",
                                         "/CARA-PAKAI-SIAPAKAH")
                         )),
-                        new CarouselColumn(null, "LJ AJAIB v3", "LJ Ajaib Wajah", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v3",
+                        new CarouselColumn(null, "LJ AJAIB v2", "LJ Ajaib Wajah", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v2",
                                         "/CARA-PAKAI-WAJAH")
                         )),
-                        new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Cinta", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v4",
+                        new CarouselColumn(null, "LJ AJAIB v3", "LJ Ajaib Cinta", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v3",
                                         "/CARA-PAKAI-CINTA")
                         )),
-                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Instagram", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v5",
+                        new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Instagram", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v4",
                                         "/CARA-PAKAI-INSTAGRAM")
                         )),
-                        new CarouselColumn(null, "LJ AJAIB v6", "LJ Ajaib Dosa", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v6",
+                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Dosa", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v5",
                                         "/CARA-PAKAI-DOSA")
                         ))
                 ));
         return carouselTemplate;
     }
 
-    public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout(){
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout1(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
                         new CarouselColumn("https://s1.postimg.org/7zhoz5apyn/Axel.png", "Axellageraldinc A", "Hidup seperti Larry..", Arrays.asList(
@@ -83,7 +79,14 @@ public class CarouselTemplate {
                         new CarouselColumn("https://s1.postimg.org/1ag9ae9inz/Adin.png", "Bayu Adin H", "Sedikit berbeda lebih baik drpd sedikit lebih baik", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/bayuadinh/")
-                        )),
+                        ))
+
+                ));
+        return carouselTemplate;
+    }
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout2(){
+        com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
+                Arrays.asList(
                         new CarouselColumn("https://s1.postimg.org/4qil2hknqn/Damas.png", "Sulistyo Damas P", "Rapper yang gak jago bahasa inggris", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/sulistyodamas/")
@@ -103,7 +106,13 @@ public class CarouselTemplate {
                         new CarouselColumn("https://s1.postimg.org/5tiaddq4u7/Rio.png", "Rio Armando M", "Pecandu senyuman, a beauty hunter", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/rioarmandom/")
-                        )),
+                        ))
+                ));
+        return carouselTemplate;
+    }
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout3(){
+        com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
+                Arrays.asList(
                         new CarouselColumn("https://s1.postimg.org/54p0tcuw1r/Azzum.png", "Moh Azzum Jordhan W", "Susah gak ada artinya kl bersama keluarga", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/azzumjordhan/")
@@ -112,7 +121,6 @@ public class CarouselTemplate {
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/samuel_tulus/")
                         ))
-
                 ));
         return carouselTemplate;
     }
