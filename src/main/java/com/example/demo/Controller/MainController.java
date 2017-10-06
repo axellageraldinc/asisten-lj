@@ -627,6 +627,8 @@ public class MainController {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate3 = this.carouselTemplate.templateAbout3();
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate3);
                 messageList2.add(templateMessage);
+                textMessage = new TextMessage("Data di atas adalah jajaran member LJ original");
+                messageList2.add(textMessage);
                 KirimPesan(replyToken, messageList2);
                 break;
             }
