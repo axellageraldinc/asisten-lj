@@ -64,7 +64,7 @@ public class CarouselTemplate {
     public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn("https://www.dropbox.com/s/vwafgm1sq1iqeof/Axel.png?dl=0", "Axellageraldinc A", "", Arrays.asList(
+                        new CarouselColumn("https://www.dropbox.com/s/vwafgm1sq1iqeof/Axel.png?dl=0", "Axellageraldinc A", "Hai sayang..", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/axellageraldinc/")
                         )),
@@ -80,7 +80,7 @@ public class CarouselTemplate {
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/simplyfarras/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/xb1em05yv3a1o0z/Adin.png?dl=0", "Bayu Adin H", "Sedikit berbeda lebih baik dibanding sedikit lebih baik", Arrays.asList(
+                        new CarouselColumn("https://www.dropbox.com/s/xb1em05yv3a1o0z/Adin.png?dl=0", "Bayu Adin H", "Sedikit berbeda lebih baik drpd sedikit lebih baik", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/bayuadinh/")
                         )),
@@ -96,7 +96,7 @@ public class CarouselTemplate {
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/saputer/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/91w4zhu82ymwfc7/Bless.png?dl=0", "Bless Ramadewa", "Love music, sport, and computer stuff", Arrays.asList(
+                        new CarouselColumn("https://www.dropbox.com/s/91w4zhu82ymwfc7/Bless.png?dl=0", "Bless Ramadewa", "Saya suka nasi goreng", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/blesswastika/")
                         )),
@@ -104,11 +104,11 @@ public class CarouselTemplate {
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/rioarmandom/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/hj3rw5ai4a9sdci/Azzum.png?dl=0", "Moh Azzum Jordhan W", "Love music, sport, and computer stuff", Arrays.asList(
+                        new CarouselColumn("https://www.dropbox.com/s/hj3rw5ai4a9sdci/Azzum.png?dl=0", "Moh Azzum Jordhan W", "Aku paling ganteng", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/azzumjordhan/")
                         )),
-                        new CarouselColumn("https://www.dropbox.com/s/b1rout864gpbb38/Sam.png?dl=0", "Samuel Tulus P", "Jika kampus bukan tempat untuk tidur,\nmaka kamar kost juga bukan tempat untuk belajar", Arrays.asList(
+                        new CarouselColumn("https://www.dropbox.com/s/b1rout864gpbb38/Sam.png?dl=0", "Samuel Tulus P", "Terlahir penjahat", Arrays.asList(
                                 new PostbackAction("INSTAGRAM",
                                         "https://www.instagram.com/samuel_tulus/")
                         ))
