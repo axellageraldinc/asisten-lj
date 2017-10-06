@@ -22,7 +22,6 @@ repositories {
 	mavenCentral()
 }
 
-
 dependencies {
 	compile name: 'instagramscraper-scraper-0.0.1'
 	compile name: 'okhttp-3.9.0'
