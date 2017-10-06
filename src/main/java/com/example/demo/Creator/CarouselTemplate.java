@@ -60,4 +60,60 @@ public class CarouselTemplate {
                 ));
         return carouselTemplate;
     }
+
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout(){
+        com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
+                Arrays.asList(
+                        new CarouselColumn("https://www.dropbox.com/s/vwafgm1sq1iqeof/Axel.png?dl=0", "Axellageraldinc A", "", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/axellageraldinc/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/z21033te9gy3qyd/Alman.png?dl=0", "Almantera T A F", "Gak jelas anjas!", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/almanalfaruq/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/17rb0gyaw5imhzj/Raufi.png?dl=0", "Raufi Musaddiq", "Kenapa harus satu kalau bisa banyak?", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/raufimusaddiq/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/s0hrzzmqvfg8gs5/Farras.png?dl=0", "Farras Aulia M", "If you love cats, then we should be friends :3", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/simplyfarras/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/xb1em05yv3a1o0z/Adin.png?dl=0", "Bayu Adin H", "Sedikit berbeda lebih baik dibanding sedikit lebih baik", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/bayuadinh/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/l8pefq1tmlbo4rk/Damas.png?dl=0", "Sulistyo Damas P", "Rapper yang gak jago bahasa inggris", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/sulistyodamas/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/1r5dlm8pgggsugd/Adot.png?dl=0", "Aditya Laksana S", "Fans nya bob dylan", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/aditya.suwandi/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/ayu81drc6rtkvtg/Putos.png?dl=0", "Mahendra Tirta S", "Love music, sport, and computer stuff", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/saputer/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/91w4zhu82ymwfc7/Bless.png?dl=0", "Bless Ramadewa", "Love music, sport, and computer stuff", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/blesswastika/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/8l2iz8kkyebmn1i/Rio.png?dl=0", "Rio Armando M", "Pecandu senyuman, a beauty hunter", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/rioarmandom/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/hj3rw5ai4a9sdci/Azzum.png?dl=0", "Moh Azzum Jordhan W", "Love music, sport, and computer stuff", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/azzumjordhan/")
+                        )),
+                        new CarouselColumn("https://www.dropbox.com/s/b1rout864gpbb38/Sam.png?dl=0", "Samuel Tulus P", "Jika kampus bukan tempat untuk tidur,\nmaka kamar kost juga bukan tempat untuk belajar", Arrays.asList(
+                                new PostbackAction("INSTAGRAM",
+                                        "https://www.instagram.com/samuel_tulus/")
+                        ))
+
+                ));
+        return carouselTemplate;
+    }
 }

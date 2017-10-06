@@ -312,6 +312,8 @@ public class MainController {
             command = "/SOURCE-CODE";
         } else if (pesan_split[0].equals("/DOSA")){
             command = "/DOSA";
+        } else if(pesan.equals("/ABOUT")){
+            command = "/ABOUT";
         }
 
         source = event.getSource();
@@ -327,7 +329,8 @@ public class MainController {
                         "1. /PERKULIAHAN\n" +
                         "2. /HIBURAN\n" +
                         "3. /JADWAL-SHOLAT [spasi] [nama kota]\n" +
-                        "4. /SOURCE-CODE");
+                        "4. /SOURCE-CODE\n" +
+                        "5. /ABOUT");
                 KirimPesan(replyToken, textMessage);
                 break;
             }
@@ -608,6 +611,12 @@ public class MainController {
                 textMessage = new TextMessage("Dosa " + String.valueOf(nama).toLowerCase() + "adalah sebanyak " + randInt + "%\n" +
                         katakata);
                 KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/ABOUT" : {
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateAbout();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
+                KirimPesan(replyToken, templateMessage);
                 break;
             }
         }
