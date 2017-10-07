@@ -31,7 +31,7 @@ public class MainController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    private static String AccessToken = "access token";
+    private static String AccessToken = "ZzEeHlFeiIA/C4TUvl3E/IuYW8TIBEdAr3xzZCgHuURivuycKWOiPGBp5oFqLyHSh/YkUFgm4eGGkVuo4WkOvhUwKdgCbFnO6ltoV/oMU7uJaZAbgM+RqeTo8LAbdjlId0TGTdPe6H0QyfzzoJyppgdB04t89/1O/w1cDnyilFU=";
 
     Random random = new Random();
 
@@ -48,6 +48,14 @@ public class MainController {
                 "Silakan ketik /fitur untuk melihat fitur-fitur yang ada.");
         messageList.add(textMessage);
         KirimPesan(joinEvent.getReplyToken(), messageList);
+    }
+
+    @EventMapping
+    public void handleLeave(LeaveEvent leaveEvent){
+        Source source = leaveEvent.getSource();
+        String groupId = getter.getId(source);
+        MainDao.DropTable(groupId);
+        MainDao.DropTable(groupId + "_memberIds");
     }
 
     @EventMapping
@@ -145,7 +153,7 @@ public class MainController {
                     nomor++;
                 }
                 if(sb.equals(null))
-                    textMessage = new TextMessage("Belum ada postback_response tugas");
+                    textMessage = new TextMessage("Belum ada postback_response ujian");
                 else
                     textMessage = new TextMessage(String.valueOf(sb));
                 messageList.add(textMessage);
@@ -300,6 +308,10 @@ public class MainController {
             } else if(pesan.substring(7, 12).equals("UJIAN")){
                 command = "/HPJ";
             }
+        } else if(pesan.equals("/LIHAT-UJIAN")){
+            command = "/LHJ";
+        } else if(pesan.equals("/LIHAT-TUGAS")){
+            command = "/LHT";
         } else if(pesan.equals("/FACE-DETECT")){
             command = "/FACE-DETECT";
         } else if(pesan.equals("/STOP")){
@@ -356,9 +368,14 @@ public class MainController {
                 break;
             }
             case "/HIBURAN" : {
+                List<Message> carousel = new ArrayList<>();
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = this.carouselTemplate.templateHiburan();
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
-                KirimPesan(replyToken, templateMessage);
+                carousel.add(templateMessage);
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate2 = this.carouselTemplate.templateHiburan2();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
+                carousel.add(templateMessage);
+                KirimPesan(replyToken, carousel);
                 break;
             }
             case "/SOURCE-CODE" : {
@@ -405,6 +422,44 @@ public class MainController {
                 }
 
                 KirimPesan(replyToken, messageList);
+                break;
+            }
+            case "/LHJ" : {
+                messageList.clear();
+                List<Main> mainList = MainDao.GetAll(id_umum, "ujian");
+                StringBuilder sb = new StringBuilder();
+                int nomor=1;
+                sb.append("LIST UJIAN\n\n");
+                for (Main item: mainList) {
+                    sb.append(nomor + ".\n" +
+                            "ID : " + item.getId() + "\n" +
+                            item.getDeskripsi() + "\n");
+                    nomor++;
+                }
+                if(sb.equals(null))
+                    textMessage = new TextMessage("Belum ada postback_response tugas");
+                else
+                    textMessage = new TextMessage(String.valueOf(sb));
+                KirimPesan(replyToken, textMessage);
+                break;
+            }
+            case "/LHT" : {
+                messageList.clear();
+                List<Main> mainList = MainDao.GetAll(id_umum, "tugas");
+                StringBuilder sb = new StringBuilder();
+                int nomor=1;
+                sb.append("LIST TUGAS\n\n");
+                for (Main item: mainList) {
+                    sb.append(nomor + ".\n" +
+                            "ID : " + item.getId() + "\n" +
+                            item.getDeskripsi() + "\n");
+                    nomor++;
+                }
+                if(sb.equals(null))
+                    textMessage = new TextMessage("Belum ada list tugas");
+                else
+                    textMessage = new TextMessage(String.valueOf(sb));
+                KirimPesan(replyToken, textMessage);
                 break;
             }
             case "/HPT" : {
@@ -647,8 +702,8 @@ public class MainController {
                 String kataTerakhir = GenerateKalimatYang(pesan, pesan_split);
                 StringBuilder katakata = new StringBuilder();
                 String nama = pesan_split[1].toLowerCase();
-                for (int i=2; i<pesan_split_length-2; i++){
-                    katakata.append(pesan_split[i]);
+                for (int i=2; i<pesan_split_length-1; i++){
+                    katakata.append(pesan_split[i] + " ");
                 }
                 int randHariBulanTahun;
                 int randAngka;
@@ -663,7 +718,7 @@ public class MainController {
                             hariBulanTahun = "bulan";
                         else if(randHariBulanTahun%2!=0)
                             hariBulanTahun = "tahun";
-                        textMessage = new TextMessage(nama + " " + String.valueOf(katakata).toLowerCase() + " " + kataTerakhir.toLowerCase() + " " + randAngka + " " + hariBulanTahun + " lagi.");
+                        textMessage = new TextMessage(nama + " " + String.valueOf(katakata).toLowerCase() + kataTerakhir.toLowerCase() + " " + randAngka + " " + hariBulanTahun + " lagi.");
                         break;
                     }
                     case 2 : {
@@ -675,13 +730,13 @@ public class MainController {
                             kata = "tidak akan pernah";
 
                         if(kata.equals("besok"))
-                            textMessage = new TextMessage(nama + " " + String.valueOf(katakata).toLowerCase() + " " + kataTerakhir.toLowerCase() + " " + kata);
+                            textMessage = new TextMessage(nama + " " + String.valueOf(katakata).toLowerCase() + kataTerakhir.toLowerCase() + " " + kata);
                         else
-                            textMessage = new TextMessage(nama + " " + kata + " " + String.valueOf(katakata).toLowerCase() + " " + kataTerakhir.toLowerCase());
+                            textMessage = new TextMessage(nama + " " + kata + " " + String.valueOf(katakata).toLowerCase() + kataTerakhir.toLowerCase());
                         break;
                     }
                     case 3 : {
-                        textMessage = new TextMessage("Ruang dan waktu bukanlah batasan bagi " + nama + ", bagi dia " + String.valueOf(katakata) + " " + kataTerakhir.toLowerCase() + " bisa kapan saja");
+                        textMessage = new TextMessage("Ruang dan waktu bukanlah batasan bagi " + nama + ", bagi dia " + String.valueOf(katakata).toLowerCase() + kataTerakhir.toLowerCase() + " bisa kapan saja");
                         break;
                     }
                 }
@@ -726,7 +781,9 @@ public class MainController {
         ImageMessage message = new ImageMessage(media.get(randInt).imageUrls.high,
                 media.get(randInt).imageUrls.thumbnail);
         String urlMedia = media.get(randInt).link;
-        KirimPesan(replyToken, message);
-        KirimPesan(replyToken, new TextMessage(urlMedia));
+        List<Message> pesan = new ArrayList<>();
+        pesan.add(message);
+        pesan.add(new TextMessage(urlMedia));
+        KirimPesan(replyToken, pesan);
     }
 }

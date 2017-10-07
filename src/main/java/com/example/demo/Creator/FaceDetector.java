@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.SSLException;
+import javax.servlet.ServletContext;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -19,11 +20,12 @@ import java.util.Random;
 
 public class FaceDetector {
     File file;
-    private static final String api_key = "nui9Ik_mtSFClhPwoISk4FEE6HxGY7uj";
-    private static final String api_secret = "EPHGK3INCcX8MsFWo-9mOe1iroUX65Dm";
+    private static final String api_key = "_1j4k5BbRB3smQdRZIaZCe3_On19p_kJ";
+    private static final String api_secret = "sOK9xZzP91QtiIDHKJaHfFaTCF9ACPHQ";
 
     public TextMessage handleImageContent(String id){
-        file = new File("downloaded.jpg");
+        String filepath = new File("/opt/tomcat/webapps/ROOT/downloaded.jpg").getAbsolutePath();
+        file = new File(filepath);
         try {
             URL urlP = new URL("https://api.line.me/v2/bot/message/" + id + "/content");
             URLConnection conn = urlP.openConnection();
