@@ -56,6 +56,16 @@ public class CarouselTemplate {
                 ));
         return carouselTemplate;
     }
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateHiburan2(){
+        com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
+                Arrays.asList(
+                        new CarouselColumn(null, "LJ AJAIB v6", "LJ Ajaib Kapankah", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v6",
+                                        "/CARA-PAKAI-KAPANKAH")
+                        ))
+                ));
+        return carouselTemplate;
+    }
 
     public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout1(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(

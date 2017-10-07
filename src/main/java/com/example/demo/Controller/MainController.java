@@ -255,6 +255,16 @@ public class MainController {
                 messageList.add(textMessage);
                 break;
             }
+            case "/CARA-PAKAI-KAPANKAH" : {
+                TextMessage textMessage;
+                messageList.clear();
+                textMessage = new TextMessage("Cara Pakai LJ Ajaib v6\n\n" +
+                        "Ketikkan command dengan format : \n" +
+                        "Kapankah [nama] .....\n" +
+                        "Contoh : Kapankah dedy lulus?");
+                messageList.add(textMessage);
+                break;
+            }
         }
         KirimPesan(event.getReplyToken(), messageList);
     }
@@ -317,6 +327,8 @@ public class MainController {
             command = "/DOSA";
         } else if(pesan.equals("/ABOUT")){
             command = "/ABOUT";
+        } else if(pesan_split[0].equals("KAPANKAH")){
+            command = "/KAPANKAH";
         }
 
         source = event.getSource();
@@ -363,7 +375,6 @@ public class MainController {
                     sb.append(pesan_split[i] + " ");
                 }
                 String desc = String.valueOf(sb);
-                System.out.println("Deskripsi tugas : " + desc);
                 int status_insert = tugasUjian.AddTugas(desc);
 
                 if(status_insert==1){
@@ -384,7 +395,6 @@ public class MainController {
                     sb.append(pesan_split[i] + " ");
                 }
                 String desc = String.valueOf(sb);
-                System.out.println("Deskripsi ujian : " + desc);
                 int status_insert = tugasUjian.AddUjian(desc);
                 if(status_insert==1){
                     textMessage = new TextMessage("Ujian berhasil dicatat.");
@@ -630,6 +640,52 @@ public class MainController {
                 textMessage = new TextMessage("Data di atas adalah jajaran member LJ original");
                 messageList2.add(textMessage);
                 KirimPesan(replyToken, messageList2);
+                break;
+            }
+            case "/KAPANKAH" : {
+                int randInt = random.nextInt((3 - 1) + 1) + 1;
+                String kataTerakhir = GenerateKalimatYang(pesan, pesan_split);
+                StringBuilder katakata = new StringBuilder();
+                String nama = pesan_split[1].toLowerCase();
+                for (int i=2; i<pesan_split_length-2; i++){
+                    katakata.append(pesan_split[i]);
+                }
+                int randHariBulanTahun;
+                int randAngka;
+                switch (randInt){
+                    case 1 : {
+                        randAngka = random.nextInt((30 - 2) + 1) + 2;
+                        randHariBulanTahun = random.nextInt(3);
+                        String hariBulanTahun = null;
+                        if(randAngka%2==0 && randHariBulanTahun%2==0)
+                            hariBulanTahun = "hari";
+                        else if(randHariBulanTahun%2==0)
+                            hariBulanTahun = "bulan";
+                        else if(randHariBulanTahun%2!=0)
+                            hariBulanTahun = "tahun";
+                        textMessage = new TextMessage(nama + " " + String.valueOf(katakata).toLowerCase() + " " + kataTerakhir.toLowerCase() + " " + randAngka + " " + hariBulanTahun + " lagi.");
+                        break;
+                    }
+                    case 2 : {
+                        String kata = null;
+                        randAngka = random.nextInt(3);
+                        if(randAngka%2==0)
+                            kata = "besok";
+                        else if(randAngka%2==1)
+                            kata = "tidak akan pernah";
+
+                        if(kata.equals("besok"))
+                            textMessage = new TextMessage(nama + " " + String.valueOf(katakata).toLowerCase() + " " + kataTerakhir.toLowerCase() + " " + kata);
+                        else
+                            textMessage = new TextMessage(nama + " " + kata + " " + String.valueOf(katakata).toLowerCase() + " " + kataTerakhir.toLowerCase());
+                        break;
+                    }
+                    case 3 : {
+                        textMessage = new TextMessage("Ruang dan waktu bukanlah batasan bagi " + nama + ", bagi dia " + String.valueOf(katakata) + " " + kataTerakhir.toLowerCase() + " bisa kapan saja");
+                        break;
+                    }
+                }
+                KirimPesan(replyToken, textMessage);
                 break;
             }
         }
