@@ -8,6 +8,38 @@ import java.util.Arrays;
 
 public class CarouselTemplate {
 
+    public com.linecorp.bot.model.message.template.CarouselTemplate templateFitur(){
+        com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
+                Arrays.asList(
+                        new CarouselColumn(null, "PERKULIAHAN", "Serba serbi perkuliahan", Arrays.asList(
+                                new PostbackAction("List Command",
+                                        "/PERKULIAHAN",
+                                        "/PERKULIAHAN")
+                        )),
+                        new CarouselColumn(null, "HIBURAN", "Serba serbi hiburan", Arrays.asList(
+                                new PostbackAction("List Command",
+                                        "/HIBURAN",
+                                        "/HIBURAN")
+                        )),
+                        new CarouselColumn(null, "SOURCE CODE", "Source Code Asisten LJ", Arrays.asList(
+                                new PostbackAction("Lihat SourceCode",
+                                        "/SOURCE-CODE",
+                                        "/SOURCE-CODE")
+                        )),
+                        new CarouselColumn(null, "ABOUT", "About Asisten LJ", Arrays.asList(
+                                new PostbackAction("LIHAT",
+                                        "/ABOUT",
+                                        "/ABOUT")
+                        )),
+                        new CarouselColumn(null, "SPONSOR", "Sponsor Asisten LJ", Arrays.asList(
+                                new PostbackAction("Lihat Sponsor",
+                                        "/SPONSOR",
+                                        "/SPONSOR")
+                        ))
+                ));
+        return carouselTemplate;
+    }
+
     public com.linecorp.bot.model.message.template.CarouselTemplate templateKuliah(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
@@ -49,10 +81,6 @@ public class CarouselTemplate {
                         new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Instagram", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v4",
                                         "/CARA-PAKAI-INSTAGRAM")
-                        )),
-                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Dosa", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v5",
-                                        "/CARA-PAKAI-DOSA")
                         ))
                 ));
         return carouselTemplate;
@@ -60,9 +88,21 @@ public class CarouselTemplate {
     public com.linecorp.bot.model.message.template.CarouselTemplate templateHiburan2(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
+                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Dosa", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v5",
+                                        "/CARA-PAKAI-DOSA")
+                        )),
                         new CarouselColumn(null, "LJ AJAIB v6", "LJ Ajaib Kapankah", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v6",
                                         "/CARA-PAKAI-KAPANKAH")
+                        )),
+                        new CarouselColumn(null, "LJ Ajaib v7", "LJ Ajaib Dimanakah", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v7",
+                                        "/CARA-PAKAI-DIMANAKAH")
+                        )),
+                        new CarouselColumn(null, "LJ ISLAMI", "LJ ISLAMI", Arrays.asList(
+                                new PostbackAction("How to LJ ISLAMI",
+                                        "/CARA-PAKAI-ISLAMI")
                         ))
                 ));
         return carouselTemplate;
@@ -71,6 +111,10 @@ public class CarouselTemplate {
     public com.linecorp.bot.model.message.template.CarouselTemplate templateAbout1(){
         com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate = new com.linecorp.bot.model.message.template.CarouselTemplate(
                 Arrays.asList(
+                        new CarouselColumn("https://s1.postimg.org/2oftwfysgb/Dedy.png", "Dedy Kurniawan S", "Backfiring Underdog", Arrays.asList(
+                                new URIAction("INSTAGRAM",
+                                        "https://www.instagram.com/dedykur.s/")
+                        )),
                         new CarouselColumn("https://s1.postimg.org/9nr1wc2xkv/Raufi.png", "Raufi Musaddiq", "Kenapa harus satu kalau bisa banyak?", Arrays.asList(
                                 new URIAction("INSTAGRAM",
                                         "https://www.instagram.com/raufimusaddiq/")
@@ -97,6 +141,10 @@ public class CarouselTemplate {
                         new CarouselColumn("https://s1.postimg.org/4qil2hknqn/Damas.png", "Sulistyo Damas P", "Rapper yang gak jago bahasa inggris", Arrays.asList(
                                 new URIAction("INSTAGRAM",
                                         "https://www.instagram.com/sulistyodamas/")
+                        )),
+                        new CarouselColumn("https://s1.postimg.org/9kkhgmlxgr/Fatur.png", "Ramadhan Faturrahman", "Ryuu ga waga teki wo kurau!!!", Arrays.asList(
+                                new URIAction("INSTAGRAM",
+                                        "https://www.instagram.com/rmdhnfatur/")
                         )),
                         new CarouselColumn("https://s1.postimg.org/1z9iuf01pb/Adot.png", "Aditya Laksana S", "Fans nya bob dylan", Arrays.asList(
                                 new URIAction("INSTAGRAM",
@@ -127,6 +175,10 @@ public class CarouselTemplate {
                         new CarouselColumn("https://s1.postimg.org/54p0tcuw1r/Azzum.png", "Moh Azzum Jordhan W", "Susah gak ada artinya kl bersama keluarga", Arrays.asList(
                                 new URIAction("INSTAGRAM",
                                         "https://www.instagram.com/azzumjordhan/")
+                        )),
+                        new CarouselColumn("https://s1.postimg.org/4cp6tmtknv/Hera.png", "Hera Prasetia", "Kehidupan yang menyenangkan di Mozambique", Arrays.asList(
+                                new URIAction("INSTAGRAM",
+                                        "https://www.instagram.com/heraprasetia")
                         )),
                         new CarouselColumn("https://s1.postimg.org/6sydqjolof/Sam.png", "Samuel Tulus P", "Pekerjaan berat akan terasa ringan kl gak dikerjakan", Arrays.asList(
                                 new URIAction("INSTAGRAM",

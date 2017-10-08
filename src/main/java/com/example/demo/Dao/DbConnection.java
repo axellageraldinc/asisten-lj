@@ -12,8 +12,8 @@ public class DbConnection {
         URI dbUri = null;
         try{
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://host:port/dbname",
-                    "uname" , "pass"
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/asistenlj",
+                    "ljbot" , "ljbot12345"
             );
         } catch (Exception ex){
             System.out.println("Error start connection DB : " + ex.toString());
