@@ -400,4 +400,21 @@ public class MainDao {
         }
         return status;
     }
+
+    public static void DropTable(String tablename){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = DbConnection.getConnection();
+            ps = connection.prepareStatement(
+                    "DROP TABLE " + tablename
+            );
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DbConnection.ClosePreparedStatement(ps);
+            DbConnection.CloseConnection(connection);
+        }
+    }
 }

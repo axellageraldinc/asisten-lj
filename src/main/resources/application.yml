@@ -18,7 +18,7 @@
 
 line.bot:
   channel-token: 'token'
-  channel-secret: 'secret token'
+  channel-secret: 'secret'
   handler.path: /callback
 
 # To remove Client wire logs. Please comment out following lines.
