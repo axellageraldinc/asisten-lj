@@ -18,7 +18,7 @@ public class Dimanakah {
 
         int randTempat = random.nextInt((5 - 0) + 1) + 0;
         if(randTempat==3 || randTempat==4 || randTempat==5){
-            name2 = null;
+            name2 = "";
         }
         textMessage = new TextMessage(name1 + "sedang " + arrayTempat[randTempat] + name2);
         return textMessage;

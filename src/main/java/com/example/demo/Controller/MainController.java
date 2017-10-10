@@ -31,8 +31,8 @@ public class MainController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    private static String AccessToken = "ZzEeHlFeiIA/C4TUvl3E/IuYW8TIBEdAr3xzZCgHuURivuycKWOiPGBp5oFqLyHSh/YkUFgm4eGGkVuo4WkOvhUwKdgCbFnO6ltoV/oMU7uJaZAbgM+RqeTo8LAbdjlId0TGTdPe6H0QyfzzoJyppgdB04t89/1O/w1cDnyilFU=";
 
+    private static String AccessToken = "token here";
     Random random = new Random();
 
     CarouselTemplate carouselTemplate = new CarouselTemplate();
@@ -290,6 +290,7 @@ public class MainController {
                         "Ketikkan command dengan format : \n" +
                         "Dimanakah [nama] berada?\n" +
                         "Contoh : Dimanakah dio berada?");
+                messageList.add(textMessage);
                 break;
             }
         }
@@ -362,6 +363,8 @@ public class MainController {
             command = "/KAPANKAH";
         } else if(pesan_split[0].equals("DIMANAKAH")){
             command = "/DIMANAKAH";
+        } else if(pesan.equals("/SPONSOR") || pesan.equals("/DAISERVER")){
+            command = "/SPONSOR";
         }
 
         source = event.getSource();
@@ -396,7 +399,7 @@ public class MainController {
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
                 carousel.add(templateMessage);
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate2 = this.carouselTemplate.templateHiburan2();
-                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate);
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate2);
                 carousel.add(templateMessage);
                 KirimPesan(replyToken, carousel);
                 break;
@@ -410,10 +413,8 @@ public class MainController {
                 break;
             }
             case "/SPONSOR" : {
-                textMessage = new TextMessage("SPONSOR UTAMA ASISTEN LJ\n\n" +
+                textMessage = new TextMessage("SPONSOR TUNGGAL ASISTEN LJ\n\n" +
                         "www.daiserver.com\n" +
-                        "Quality & Reliable Web Hosting Solution\n" +
-                        "Solusi Cloud Server Indonesia untuk E-Comerce, Bisnis,dan Company.\n\n" +
                         "Daiserver adalah alasan utama kenapa Asisten LJ tidak pernah down lagi meskipun kalian masih suka ngirim foto wajah tidak bermutu dan tidak enak dipandang itu.");
                 KirimPesan(replyToken, textMessage);
                 break;
@@ -557,15 +558,15 @@ public class MainController {
                     }
                     String kataTerakhirTanpaTanya = GenerateKalimatYang(pesan, pesan_split);
 
-//                    String senderId = event.getSource().getSenderId();
-//                    String type  = getter.getType(source);
-//                    GroupMember user_id_beruntung = groupMemberList.get(randInt);
-//
-//                    String user_name_beruntung = getter.getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
+                    String senderId = event.getSource().getSenderId();
+                    String type  = getter.getType(source);
+                    GroupMember user_id_beruntung = groupMemberList.get(randInt);
 
-//                    System.out.println("ID BERUNTUNG : " + user_id_beruntung);
-                    RandomUsernameFromGroup randomUsernameFromGroup = new RandomUsernameFromGroup(AccessToken);
-                    String user_name_beruntung = randomUsernameFromGroup.randomName(event, source, group_id);
+                    String user_name_beruntung = getter.getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
+
+                    System.out.println("ID BERUNTUNG : " + user_id_beruntung);
+//                    RandomUsernameFromGroup randomUsernameFromGroup = new RandomUsernameFromGroup(AccessToken);
+//                    String user_name_beruntung = randomUsernameFromGroup.randomName(event, source, group_id);
                     System.out.println("USERNAME BERUNTUNG " + user_name_beruntung);
 
                     textMessage = new TextMessage(user_name_beruntung + " " + String.valueOf(sb).toLowerCase() + String.valueOf(kataTerakhirTanpaTanya).toLowerCase());
@@ -719,6 +720,9 @@ public class MainController {
                 com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate3 = this.carouselTemplate.templateAbout3();
                 templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate3);
                 messageList2.add(templateMessage);
+                com.linecorp.bot.model.message.template.CarouselTemplate carouselTemplate4 = this.carouselTemplate.templateAbout4();
+                templateMessage = new TemplateMessage("Asisten LJ mengirim pesan!", carouselTemplate4);
+                messageList2.add(templateMessage);
                 textMessage = new TextMessage("Data di atas adalah jajaran member LJ original");
                 messageList2.add(textMessage);
                 KirimPesan(replyToken, messageList2);
@@ -791,9 +795,17 @@ public class MainController {
                 else if(nama.equals("kami") || nama.equals("kita")){
                     nama.append("kalian ");
                 }
-                RandomUsernameFromGroup randomUsernameFromGroup = new RandomUsernameFromGroup(AccessToken);
-                String name2 = randomUsernameFromGroup.randomName(event, source, group_id);
-                textMessage = dimanakah.randomTempat(String.valueOf(nama).toLowerCase().substring(0,1).toUpperCase(), name2);
+//                RandomUsernameFromGroup randomUsernameFromGroup = new RandomUsernameFromGroup(AccessToken);
+//                String name2 = randomUsernameFromGroup.randomName(event, source, group_id);
+                List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
+                int banyakMember=groupMemberList.size();
+                int randInt = (int) (Math.random() * ((banyakMember-1)-0));
+                String senderId = event.getSource().getSenderId();
+                String type  = getter.getType(source);
+                GroupMember user_id_beruntung = groupMemberList.get(randInt);
+
+                String name2 = getter.getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
+                textMessage = dimanakah.randomTempat(String.valueOf(nama).toLowerCase(), name2);
                 KirimPesan(replyToken, textMessage);
                 break;
             }
