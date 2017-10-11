@@ -842,14 +842,24 @@ public class MainController {
 
     private void getInstaPhoto(String replyToken, String username) throws IOException {
         Instagram instagram = new Instagram(new OkHttpClient());
-        List<Media> media = instagram.getMedias(username, 10);
-        int randInt = ThreadLocalRandom.current().nextInt(0, 10+1);
-        ImageMessage message = new ImageMessage(media.get(randInt).imageUrls.high,
-                media.get(randInt).imageUrls.thumbnail);
-        String urlMedia = media.get(randInt).link;
+        List<Media> medias = instagram.getMedias(username, 20);
+        int randInt = ThreadLocalRandom.current().nextInt(0, 20+1);
+        Media media = medias.get(randInt);
+        String urlMedia = media.link;
         List<Message> pesan = new ArrayList<>();
-        pesan.add(message);
-        pesan.add(new TextMessage(urlMedia));
+        if (media.type.equals("image")) {
+            ImageMessage message = new ImageMessage(media.imageUrls.high, media.imageUrls.thumbnail);
+            pesan.add(message);
+            pesan.add(new TextMessage("Tipe: Gambar | " + urlMedia));
+        } else if (media.type.equals("video")) {
+            VideoMessage message = new VideoMessage(media.videoUrls.low, media.imageUrls.thumbnail);
+            pesan.add(message);
+            pesan.add(new TextMessage("Tipe: Video | " + urlMedia));
+        } else {
+            ImageMessage message = new ImageMessage(media.imageUrls.high, media.imageUrls.thumbnail);
+            pesan.add(message);
+            pesan.add(new TextMessage("Tipe: Carousel | " + urlMedia));
+        }
         KirimPesan(replyToken, pesan);
     }
 }
