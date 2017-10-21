@@ -20,8 +20,8 @@ import java.util.Random;
 
 public class FaceDetector {
     File file;
-    private static final String api_key = "api key";
-    private static final String api_secret = "api_secret";
+    private static final String api_key = "API KEY";
+    private static final String api_secret = "Secret Api Key";
 
     public TextMessage handleImageContent(String id){
         String filepath = new File("/opt/tomcat/webapps/ROOT/downloaded.jpg").getAbsolutePath();

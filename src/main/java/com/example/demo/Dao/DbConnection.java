@@ -12,7 +12,7 @@ public class DbConnection {
         URI dbUri = null;
         try{
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://host:port/dbname",
+            connection = DriverManager.getConnection("jdbc:postgresql://hostname:port/dbname",
                     "uname" , "pass"
             );
         } catch (Exception ex){

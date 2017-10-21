@@ -20,7 +20,7 @@ public class Dimanakah {
         if(randTempat==3 || randTempat==4 || randTempat==5){
             name2 = "";
         }
-        textMessage = new TextMessage(name1 + "sedang " + arrayTempat[randTempat] + name2);
+        textMessage = new TextMessage(name1 + " " + arrayTempat[randTempat] + name2);
         return textMessage;
     }
 }
