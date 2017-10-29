@@ -13,7 +13,7 @@ public class DbConnection {
         try{
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://hostname:port/dbname",
-                    "uname" , "pass"
+                    "username" , "password"
             );
         } catch (Exception ex){
             System.out.println("Error start connection DB : " + ex.toString());

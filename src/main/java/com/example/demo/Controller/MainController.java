@@ -338,7 +338,7 @@ public class MainController {
             command = "/FACE-STOP";
         } else if(pesan_split[0].equals("SIAPAKAH") || pesan_split[0].equals("MANAKAH")){
             command = "/SIAPAKAH";
-        } else if(pesan.equals("APAKAH ASISTEN LJ TAKUT SAMA DEDY?")){
+        } else if(pesan.equals("SAYA PERCAYA BAHWA SAYA ADALAH ORANG YANG JELEK")){
             command = "/LEAVE-GROUP";
         } else if(pesan_split[0].equals("APAKAH")){
             command = "/APAKAH";
@@ -376,6 +376,7 @@ public class MainController {
                         pesan.contains("JANCOK") ||
                         pesan.contains("JUANCUK") ||
                         pesan.contains("JIANCUK") ||
+                        pesan.contains("ANCUK") ||
                         pesan.contains("KONTOL") ||
                         pesan.contains("ANJING") ||
                         pesan.contains("ANJENG") ||
@@ -389,6 +390,7 @@ public class MainController {
                 pesan.contains("JANCOK") ||
                 pesan.contains("JUANCUK") ||
                 pesan.contains("JIANCUK") ||
+                pesan.contains("ANCUK") ||
                 pesan.contains("KONTOL") ||
                 pesan.contains("ANJING") ||
                 pesan.contains("ANJENG") ||
@@ -656,14 +658,26 @@ public class MainController {
                 break;
             }
             case "/LEAVE-GROUP" : {
-                textMessage = new TextMessage("Wah kabur kalo ada dedy kepok~");
-                KirimPesan(replyToken, textMessage);
-                String type = getter.getType(source);
-                Leave leave = new Leave(AccessToken);
-                if (type.equals("group")){
-                    leave.LeaveGroup(id_umum);
-                } else if(type.equals("room")){
-                    leave.LeaveRoom(id_umum);
+                int randInt = random.nextInt(10);
+                if(randInt%2==0){
+                    textMessage = new TextMessage("Terima kasih sudah mengakui dan menerima dirimu apa adanya");
+                    messageList.add(textMessage);
+                    textMessage = new TextMessage("Tapi maaf kamu belum beruntung, coba lagi untuk kick aku :p");
+                    messageList.add(textMessage);
+                    KirimPesan(replyToken, messageList);
+                } else if(randInt%2==1){
+                    textMessage = new TextMessage("Terima kasih sudah mengakui dan menerima dirimu apa adanya");
+                    messageList.add(textMessage);
+                    textMessage = new TextMessage("Bye " + getter.getName(user_id) + " yang jelek");
+                    messageList.add(textMessage);
+                    KirimPesan(replyToken, messageList);
+                    String type = getter.getType(source);
+                    Leave leave = new Leave(AccessToken);
+                    if (type.equals("group")){
+                        leave.LeaveGroup(id_umum);
+                    } else if(type.equals("room")){
+                        leave.LeaveRoom(id_umum);
+                    }
                 }
                 break;
             }
@@ -762,8 +776,11 @@ public class MainController {
                     nama = "kamu";
                 } else if(nama.equals("kami") || nama.equals("kita")){
                     nama = "kalian";
-                } else if(nama.equals("kamu") || nama.equals("anda"))
+                } else if(nama.equals("kamu") || nama.equals("anda")){
                     nama = "aku";
+                } else if(nama.equals("kalian")){
+                    nama = "mereka";
+                }
                 for (int i=2; i<pesan_split_length-1; i++){
                     katakata.append(pesan_split[i] + " ");
                 }
@@ -800,7 +817,7 @@ public class MainController {
                         break;
                     }
                     case 3 : {
-                        textMessage = new TextMessage("Ruang dan waktu bukanlah batasan bagi " + nama + ", bagi dia " + String.valueOf(katakata).toLowerCase() + kataTerakhir.toLowerCase() + " bisa kapan saja");
+                        textMessage = new TextMessage("Ruang dan waktu bukanlah batasan bagi " + nama + ", " + String.valueOf(katakata).toLowerCase() + kataTerakhir.toLowerCase() + " bisa kapan saja");
                         break;
                     }
                 }
@@ -809,17 +826,17 @@ public class MainController {
             }
             case "/DIMANAKAH" : {
                 Dimanakah dimanakah = new Dimanakah();
-                StringBuilder nama = new StringBuilder();
-                for (int i=1; i<pesan_split_length-1; i++){
-                    nama.append(pesan_split[i] + " ");
-                }
-                if (nama.equals("SAYA ") || nama.equals("AKU ") || nama.equals("GUE ") || nama.equals("GUA ") || nama.equals("GW "))
-                    nama.append("kamu ");
-                else if(nama.equals("KAMU ") || nama.equals("ANDA "))
-                    nama.append("aku ");
-                else if(nama.equals("kami") || nama.equals("kita")){
-                    nama.append("kalian ");
-                }
+//                StringBuilder nama = new StringBuilder();
+//                for (int i=1; i<pesan_split_length-1; i++){
+//                    nama.append(pesan_split[i] + " ");
+//                }
+//                if (nama.equals("SAYA ") || nama.equals("AKU ") || nama.equals("GUE ") || nama.equals("GUA ") || nama.equals("GW "))
+//                    nama.append("kamu ");
+//                else if(nama.equals("KAMU ") || nama.equals("ANDA "))
+//                    nama.append("aku ");
+//                else if(nama.equals("kami") || nama.equals("kita")){
+//                    nama.append("kalian ");
+//                }
                 List<GroupMember> groupMemberList = MainDao.getAllMemberIds(group_id);
                 int banyakMember=groupMemberList.size();
                 int randInt = (int) (Math.random() * ((banyakMember-1)-0));
@@ -828,7 +845,7 @@ public class MainController {
                 GroupMember user_id_beruntung = groupMemberList.get(randInt);
 
                 String name2 = getter.getGroupMemberName(type, senderId, user_id_beruntung.getUserId());
-                textMessage = dimanakah.randomTempat(String.valueOf(nama).toLowerCase(), name2);
+                textMessage = dimanakah.randomTempat(name2);
                 KirimPesan(replyToken, textMessage);
                 break;
             }
@@ -855,7 +872,8 @@ public class MainController {
                     else if(pesan.contains("JANCUK") ||
                             pesan.contains("JANCOK") ||
                             pesan.contains("JUANCUK") ||
-                            pesan.contains("JIANCUK"))
+                            pesan.contains("JIANCUK") ||
+                            pesan.contains("ANCUK"))
                         misuh = "jancuk";
                     else if(pesan.contains("PANTEK"))
                         misuh = "pantek";
