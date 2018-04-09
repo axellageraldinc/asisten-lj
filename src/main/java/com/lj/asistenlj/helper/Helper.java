@@ -86,4 +86,18 @@ public class Helper {
         return userName;
     }
 
+    public String generateKataTerakhirTanpaTandaTanya(String pesan, String[] pesanSplit){
+        char[] kataTerakhir;
+        StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
+        if(pesan.contains("?")){
+            kataTerakhir = String.valueOf(pesanSplit[pesanSplit.length-1]).toCharArray(); //kata terakhir dipecah-pecah jadi perhuruf
+            for (int i=0;i<kataTerakhir.length-1; i++){
+                kataTerakhirTanpaTanya.append(kataTerakhir[i]); //menggabungkan huruf2 yang dipecah tadi jadi satu tapi minus tanda tanya
+            }
+        } else{
+            kataTerakhirTanpaTanya.append(pesanSplit[pesanSplit.length-1]);
+        }
+        return String.valueOf(kataTerakhirTanpaTanya);
+    }
+
 }
