@@ -28,4 +28,4 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk HIBURAN ya
   2. Instagram photo stalk based on username
 * [Bayu Adin Hartomo](https://www.linkedin.com/in/bayu-adin/)
   1. VPS yang diberikan secara cuma-cuma
-  2. Kunjungi [Daiserver](www.daiserver.com) untuk melihat lapaknya
+  2. Kunjungi [Daiserver](https://www.daiserver.com) untuk melihat lapaknya
