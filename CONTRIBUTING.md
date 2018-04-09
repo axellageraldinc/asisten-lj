@@ -4,7 +4,8 @@ Jika kamu ingin berkontribusi ke repository ini, harap diskusikan terlebih dulu 
 # Cara Kontribusi
 1. Fork repository ini dengan cara klik "Fork" yang ada di kanan atas.
 2. Clone repository yang sudah kamu fork tadi.
-3. Lakukan pull request ke branch DEVELOPMENT jika ada perubahan (tentunya setelah didiskusikan terlebih dahulu melalui issues/email)
+3. Buat branch sendiri
+4. Lakukan pull request ke branch DEVELOPMENT jika ada perubahan (tentunya setelah didiskusikan terlebih dahulu melalui issues/email)
 
 # Cara menambah fitur
 1. Tambahkan interface fitur di service > fitur
