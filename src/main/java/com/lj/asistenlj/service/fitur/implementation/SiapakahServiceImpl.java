@@ -34,7 +34,7 @@ public class SiapakahServiceImpl implements SiapakahService {
             String senderId = source.getSenderId();
             String usernameBeruntung = helper.getGroupMemberName(type, senderId, groupMemberBeruntung.getMemberId());
             String kalimatYangPaling = generateKalimatYangPaling(pesanSplit, 1);
-            String kataTerakhirTanpaTandaTanya = generateKataTerakhirTanpaTandaTanya(pesan, pesanSplit);
+            String kataTerakhirTanpaTandaTanya = helper.generateKataTerakhirTanpaTandaTanya(pesan, pesanSplit);
             textMessage = new TextMessage(usernameBeruntung + " " + String.valueOf(kalimatYangPaling).toLowerCase() + String.valueOf(kataTerakhirTanpaTandaTanya).toLowerCase());
         } else{
             int indexDan = getIndexDan(pesanSplit);
@@ -49,7 +49,7 @@ public class SiapakahServiceImpl implements SiapakahService {
             }
             String nama2 = getSecondName(pesanSplit, indexDan, indexYang);
             String kalimatYangPaling = generateKalimatYangPaling(pesanSplit, indexYang);
-            String kataTerakhirTanpaTandaTanya = generateKataTerakhirTanpaTandaTanya(pesan, pesanSplit);
+            String kataTerakhirTanpaTandaTanya = helper.generateKataTerakhirTanpaTandaTanya(pesan, pesanSplit);
             if(randInt%2==0){
                 textMessage = new TextMessage(nama1 + kalimatYangPaling + kataTerakhirTanpaTandaTanya);
             } else{
@@ -72,19 +72,6 @@ public class SiapakahServiceImpl implements SiapakahService {
             kalimatYangPaling.append(pesanSplit[i] + " "); //Men-generate kalimat yang paling .......
         }
         return String.valueOf(kalimatYangPaling);
-    }
-    private String generateKataTerakhirTanpaTandaTanya(String pesan, String[] pesanSplit){
-        char[] kataTerakhir;
-        StringBuilder kataTerakhirTanpaTanya = new StringBuilder();
-        if(pesan.contains("?")){
-            kataTerakhir = String.valueOf(pesanSplit[pesanSplit.length-1]).toCharArray(); //kata terakhir dipecah-pecah jadi perhuruf
-            for (int i=0;i<kataTerakhir.length-1; i++){
-                kataTerakhirTanpaTanya.append(kataTerakhir[i]); //menggabungkan huruf2 yang dipecah tadi jadi satu tapi minus tanda tanya
-            }
-        } else{
-            kataTerakhirTanpaTanya.append(pesanSplit[pesanSplit.length-1]);
-        }
-        return String.valueOf(kataTerakhirTanpaTanya);
     }
 
     private int getIndexDan(String[] pesanSplit){

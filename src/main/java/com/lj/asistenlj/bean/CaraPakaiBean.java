@@ -30,11 +30,17 @@ public class CaraPakaiBean {
                 "Ketikkan command dengan format /love [spasi] [nama1] [spasi] [nama2]\n" +
                 "untuk menghitung kadar cinta mereka.");
     }
+
+    // TODO : Uncomment the commented codes if the feature's already implemented
     @Bean
     public TextMessage caraPakaiInstagram(){
-        return new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
-                "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
-                "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
+//        return new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
+//                "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
+//                "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
+        return new TextMessage("Hallo!\n\n" +
+                "Maaf ya fitur stalk instagram masih dalam proses..\n" +
+                "Harap maklum ya kami juga gak dibayar untuk mengerjakan ini :(\n" +
+                "Cuma mau menghibur kalian aja..");
     }
     @Bean
     public TextMessage caraPakaiDosa(){
@@ -50,12 +56,18 @@ public class CaraPakaiBean {
                 "Kapankah [nama] .....\n" +
                 "Contoh : Kapankah dedy lulus?");
     }
+
+    // TODO : Uncomment the commented codes if the feature's already implemented
     @Bean
     public TextMessage caraPakaiIslami(){
-        return new TextMessage("Cara Pakai LJ Islami\n\n" +
-                "Ketikkan command dengan format : \n" +
-                "/jadwal-sholat [spasi][nama kota]\n" +
-                "untuk melihat jadwal sholat kotamu");
+//        return new TextMessage("Cara Pakai LJ Islami\n\n" +
+//                "Ketikkan command dengan format : \n" +
+//                "/jadwal-sholat [spasi][nama kota]\n" +
+//                "untuk melihat jadwal sholat kotamu");
+        return new TextMessage("Hallo!\n\n" +
+                "Maaf ya fitur jadwal sholat masih dalam proses..\n" +
+                "Harap maklum ya kami juga gak dibayar untuk mengerjakan ini :(\n" +
+                "Cuma mau menghibur kalian aja..");
     }
     @Bean
     public TextMessage caraPakaiDimanakah(){
