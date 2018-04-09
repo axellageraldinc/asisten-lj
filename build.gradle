@@ -1,58 +1,47 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.7.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'war'
 
-war {
-	baseName = 'bot'
-	version = '1.0.0'
-}
-
-group = 'com.example'
+group = 'com.lj'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
-    jcenter()
-    maven { url "http://repo.spring.io/libs-snapshot" }
+    mavenCentral()
 }
 
+
 dependencies {
-	compile name: 'instagramscraper-scraper-0.0.1'
-	compile name: 'okhttp-3.9.0'
-	compile name: 'okio-1.13.0'
-	compile name: 'gson-2.6.2'
-	compile('org.springframework.boot:spring-boot-starter')
-	compile("org.springframework.boot:spring-boot-starter-web")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-	// jsoup HTML parser library @ https://jsoup.org/
-	compile 'org.jsoup:jsoup:1.10.3'
-	compile ('com.linecorp.bot:line-bot-spring-boot:1.10.0')
-	compile ('com.linecorp.bot:line-bot-servlet:1.10.0')
-	compile ('com.linecorp.bot:line-bot-model:1.10.0')
-	compile ('com.linecorp.bot:line-bot-api-client:1.10.0')
-	// https://mvnrepository.com/artifact/postgresql/postgresql
-	compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
-	// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
-	// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
-	compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.11.RELEASE'
-	// https://mvnrepository.com/artifact/org.json/json
-	compile group: 'org.json', name: 'json', version: '20170516'
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    implementation('org.springframework.boot:spring-boot-starter')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.0.6.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.1.RELEASE'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+
+    implementation 'com.linecorp.bot:line-bot-spring-boot:1.15.0'
+    implementation 'com.linecorp.bot:line-bot-servlet:1.15.0'
+    implementation 'com.linecorp.bot:line-bot-model:1.15.0'
+    implementation 'com.linecorp.bot:line-bot-api-client:1.15.0'
+
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.10.0'
+    implementation group: 'com.squareup.okio', name: 'okio', version: '1.14.0'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    implementation group: 'org.json', name: 'json', version: '20180130'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
