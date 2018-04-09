@@ -76,8 +76,10 @@ public class KapankahServiceImpl implements KapankahService {
                     kata = "tidak akan pernah";
                 else if(randAngka%2==0)
                     kata = "hari ini";
+                else
+                    kata = "sudah dari kemarin";
 
-                if(kata.equals("besok") || kata.equals("hari ini"))
+                if(kata.equals("besok") || kata.equals("hari ini") || kata.equals("sudah dari kemarin"))
                     result = nama + " " + String.valueOf(predikat).toLowerCase() + kataTerakhirTanpaTandaTanya.toLowerCase() + " " + kata;
                 else
                     result = nama + " " + kata + " " + String.valueOf(predikat).toLowerCase() + kataTerakhirTanpaTandaTanya.toLowerCase();
