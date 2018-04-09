@@ -1,5 +1,5 @@
 # What is this?
-Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat tugas-tugas kuliah dan serba-serbi ujian di kampus sehingga SEMUA ORANG bisa menjadi mahasiswa yang lebih baik lagi. Selain itu, juga banyak HIBURAN yang menyenangkan dan bermanfaat.
+Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk HIBURAN yang menyenangkan dan bermanfaat.
 
 # Technology
 * [SPRING JAVA FRAMEWORK](https://spring.io)
@@ -26,3 +26,6 @@ Sebuah BOT LINE untuk gap ku terkasih LJ. Fungsi BOT ini adalah untuk mencatat t
 * [Almantera Tiantana Al Faruqi](https://github.com/almanalfaruq)
   1. Generating jpg files from inputstream for face detection
   2. Instagram photo stalk based on username
+* [Bayu Adin Hartomo](https://www.linkedin.com/in/bayu-adin/)
+  1. VPS yang diberikan secara cuma-cuma
+  2. Kunjungi [Daiserver](www.daiserver.com) untuk melihat lapaknya
