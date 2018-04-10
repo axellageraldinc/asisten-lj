@@ -2,10 +2,14 @@ package com.lj.asistenlj.service.fitur.implementation;
 
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.TextMessage;
+import com.lj.asistenlj.helper.Feature;
 import com.lj.asistenlj.helper.Helper;
 import com.lj.asistenlj.model.GroupMember;
 import com.lj.asistenlj.repository.GroupMemberRepository;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.SiapakahService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,10 @@ import java.util.List;
 @Service
 public class SiapakahServiceImpl implements SiapakahService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SiapakahServiceImpl.class);
+
+    @Autowired
+    private FeatureDataService featureDataService;
     @Autowired
     private Helper helper;
     @Autowired
@@ -21,11 +29,16 @@ public class SiapakahServiceImpl implements SiapakahService {
 
     @Override
     public TextMessage getResult(String pesan, Source source) {
+        featureDataService.saveFeatureData(Feature.SIAPAKAH);
         String[] pesanSplit = pesan.split(" ");
         TextMessage textMessage = null;
 
         String groupId = helper.getId(source);
         List<GroupMember> groupMemberList = getAllMemberOfGroup(groupId);
+//        for (GroupMember item:groupMemberList){
+//            LOGGER.info("Siapakah fitur get all member list\n" + item.getGroupId() + "\n" +
+//                    item.getMemberId());
+//        }
         int randInt = getRandomInt(groupMemberList);
 
         if(pesanSplit[1].equals("YANG")){

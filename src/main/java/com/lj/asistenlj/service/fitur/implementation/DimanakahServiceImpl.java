@@ -2,9 +2,11 @@ package com.lj.asistenlj.service.fitur.implementation;
 
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.TextMessage;
+import com.lj.asistenlj.helper.Feature;
 import com.lj.asistenlj.helper.Helper;
 import com.lj.asistenlj.model.GroupMember;
 import com.lj.asistenlj.repository.GroupMemberRepository;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.DimanakahService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,12 @@ public class DimanakahServiceImpl implements DimanakahService {
     private Helper helper;
     @Autowired
     private GroupMemberRepository groupMemberRepository;
+    @Autowired
+    private FeatureDataService featureDataService;
 
     @Override
     public TextMessage getResult(Source source) {
+        featureDataService.saveFeatureData(Feature.DIMANAKAH);
         String groupId = helper.getId(source);
         String senderId = source.getSenderId();
         String type  = helper.getType(source);

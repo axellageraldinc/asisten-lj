@@ -9,26 +9,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
-@Table(name = "group_member")
+@Table(name = "feature_data")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupMember {
+public class FeatureData {
 
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "group_id")
-    private String groupId;
+    @Column(name = "feature_name")
+    private String featureName;
 
-    @Column(name = "member_id")
-    private String memberId;
-
-    @Column(name = "member_name")
-    private String memberName;
+    @Column(name = "date")
+    private Date date;
 
 }

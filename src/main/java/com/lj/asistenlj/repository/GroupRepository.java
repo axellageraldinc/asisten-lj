@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, String> {
-    @Query("SELECT count(g.groupId) from Group g where g.groupId = :groupId")
-    int isGroupExists(@Param("groupId") String groupId);
+//    @Query("SELECT count(g.groupId) from Group g where g.groupId = :groupId")
+//    int isGroupExists(String groupId);
 
     @Query("SELECT g.imageDetectStatus from Group g where g.groupId= :groupId")
     boolean findImageDetectStatusByGroupId(String groupId);
+
+    Group findByGroupId(String groupId);
 
     @Modifying(clearAutomatically = true)
     @Transactional
