@@ -34,7 +34,7 @@ public class HiburanBean {
                                 new PostbackAction("How to LJ Ajaib v3",
                                         "/CARA-PAKAI-CINTA")
                         )),
-                        new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Instagram", Arrays.asList(
+                        new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib InstagramService", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v4",
                                         "/CARA-PAKAI-INSTAGRAM")
                         ))
