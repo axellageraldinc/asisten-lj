@@ -27,4 +27,8 @@ public class GroupMember {
 
     @Column(name = "member_id")
     private String memberId;
+
+    @Column(name = "member_name")
+    private String memberName;
+
 }

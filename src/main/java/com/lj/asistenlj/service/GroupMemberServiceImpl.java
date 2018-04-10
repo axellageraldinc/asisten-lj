@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,10 +24,14 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
     @Override
     public GroupMember buildGroupMember(Source source) {
+        String type = helper.getType(source);
+        String senderId = source.getSenderId();
+        String userId = source.getUserId();
         return GroupMember.builder()
                 .id(UUID.randomUUID().toString())
                 .groupId(helper.getId(source))
-                .memberId(source.getUserId())
+                .memberId(userId)
+                .memberName(helper.getGroupMemberName(type, senderId, userId))
                 .build();
     }
 
@@ -43,5 +48,10 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 //        } else {
 //            groupMemberRepository.save(groupMember);
 //        }
+    }
+
+    @Override
+    public List<GroupMember> findAllGroupMembersByGroupId(String groupId) {
+        return groupMemberRepository.findAllByGroupId(groupId);
     }
 }
