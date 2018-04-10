@@ -2,7 +2,9 @@ package com.lj.asistenlj.service.fitur.implementation;
 
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.TextMessage;
+import com.lj.asistenlj.helper.Feature;
 import com.lj.asistenlj.helper.Helper;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.KapankahService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,12 @@ public class KapankahServiceImpl implements KapankahService {
 
     @Autowired
     private Helper helper;
+    @Autowired
+    private FeatureDataService featureDataService;
 
     @Override
     public TextMessage getResult(Source source, String pesan) {
+        featureDataService.saveFeatureData(Feature.KAPANKAH);
         int randInt = new Random().nextInt((3 - 1) + 1) + 1;
         String[] pesanSplit = pesan.split(" ");
         String kataTerakhirTanpaTandaTanya = helper.generateKataTerakhirTanpaTandaTanya(pesan, pesanSplit);

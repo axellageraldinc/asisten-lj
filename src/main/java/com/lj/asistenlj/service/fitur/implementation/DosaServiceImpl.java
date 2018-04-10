@@ -1,7 +1,10 @@
 package com.lj.asistenlj.service.fitur.implementation;
 
 import com.linecorp.bot.model.message.TextMessage;
+import com.lj.asistenlj.helper.Feature;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.DosaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -9,8 +12,12 @@ import java.util.Random;
 @Service
 public class DosaServiceImpl implements DosaService {
 
+    @Autowired
+    private FeatureDataService featureDataService;
+
     @Override
     public TextMessage getDosaResult(String pesan) {
+        featureDataService.saveFeatureData(Feature.DOSA);
         String[] pesanSplit = pesan.split(" ");
         String name = buildName(pesanSplit);
         String dosa = getDosa(name);

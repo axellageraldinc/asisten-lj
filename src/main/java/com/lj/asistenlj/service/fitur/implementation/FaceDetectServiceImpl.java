@@ -2,9 +2,11 @@ package com.lj.asistenlj.service.fitur.implementation;
 
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.TextMessage;
+import com.lj.asistenlj.helper.Feature;
 import com.lj.asistenlj.helper.Helper;
 import com.lj.asistenlj.model.Group;
 import com.lj.asistenlj.repository.GroupRepository;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.FaceDetectService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,6 +38,8 @@ public class FaceDetectServiceImpl implements FaceDetectService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FaceDetectServiceImpl.class);
 
     @Autowired
+    private FeatureDataService featureDataService;
+    @Autowired
     private GroupRepository groupRepository;
     @Autowired
     private Helper helper;
@@ -47,6 +51,7 @@ public class FaceDetectServiceImpl implements FaceDetectService {
 
     @Override
     public TextMessage getResult(Source source, String id) {
+        featureDataService.saveFeatureData(Feature.FACE_DETECT);
         String groupId = helper.getId(source);
         TextMessage textMessage=null;
         String filepath = new File("/opt/tomcat/webapps/ROOT/downloaded.jpg").getAbsolutePath();
