@@ -115,7 +115,7 @@ public class TextEventHandler {
         } else if("/DOSA".equals(pesanSplit[0])){
             chatService.sendResponseMessage(replyToken, dosaService.getDosaResult(pesan));
         } else if("/STALK".equals(pesanSplit[0])){
-            chatService.sendResponseMessage(replyToken, instagramService.getLinkAndPreview(pesan));
+//            chatService.sendResponseMessage(replyToken, instagramService.getLinkAndPreview(pesan));
         } else if("/FACE-DETECT".equals(pesanSplit[0])){
             chatService.sendResponseMessage(replyToken, faceDetectService.responseMessage(source, "face-detect"));
         } else if("/STOP".equals(pesanSplit[0])){

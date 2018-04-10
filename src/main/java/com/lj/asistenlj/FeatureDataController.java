@@ -1,4 +1,4 @@
-package com.lj.asistenlj.controller;
+package com.lj.asistenlj;
 
 import com.lj.asistenlj.model.FeatureData;
 import com.lj.asistenlj.model.FeatureDataResult;

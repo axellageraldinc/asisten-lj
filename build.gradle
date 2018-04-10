@@ -45,6 +45,7 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20180130'
     implementation group: 'com.github.igor-suhorukov', name: 'instagramscraper', version: '2.2'
 
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
