@@ -41,11 +41,23 @@ public class SiapakahServiceImpl implements SiapakahService {
 //        }
         int randInt = getRandomInt(groupMemberList);
 
-        if(pesanSplit[1].equals("YANG")){
+        if(!pesanSplit[1].equals("YANG") &&
+                !pesanSplit[1].equals("ANTARA") &&
+                !pesanSplit[2].equals("ANTARA") &&
+                !pesanSplit[1].equals("DIANTARA")){
+            textMessage = new TextMessage("Salah format woy\n" +
+                    "Yang bener itu siapakah yang... atau siapakah diantara ...dan...yang...");
+        } else if(pesanSplit[1].equals("YANG")){
             GroupMember groupMemberBeruntung = groupMemberList.get(randInt);
             String type = helper.getType(source);
             String senderId = source.getSenderId();
-            String usernameBeruntung = helper.getGroupMemberName(type, senderId, groupMemberBeruntung.getMemberId());
+            String memberId = groupMemberBeruntung.getMemberId();
+            String usernameBeruntung;
+            if(memberId == null){
+                usernameBeruntung = "Tidak ada";
+            } else {
+                usernameBeruntung = helper.getGroupMemberName(type, senderId, memberId);
+            }
             String kalimatYangPaling = generateKalimatYangPaling(pesanSplit, 1);
             String kataTerakhirTanpaTandaTanya = helper.generateKataTerakhirTanpaTandaTanya(pesan, pesanSplit);
             textMessage = new TextMessage(usernameBeruntung + " " + String.valueOf(kalimatYangPaling).toLowerCase() + String.valueOf(kataTerakhirTanpaTandaTanya).toLowerCase());

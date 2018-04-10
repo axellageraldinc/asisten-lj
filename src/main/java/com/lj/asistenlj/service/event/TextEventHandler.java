@@ -64,8 +64,6 @@ public class TextEventHandler {
     @Autowired
     private DosaService dosaService;
     @Autowired
-    private InstagramService instagramService;
-    @Autowired
     private FaceDetectService faceDetectService;
     @Autowired
     private DimanakahService dimanakahService;
@@ -114,8 +112,6 @@ public class TextEventHandler {
             chatService.sendResponseMessage(replyToken, loveService.getLoveCalculatorResult(pesan));
         } else if("/DOSA".equals(pesanSplit[0])){
             chatService.sendResponseMessage(replyToken, dosaService.getDosaResult(pesan));
-        } else if("/STALK".equals(pesanSplit[0])){
-//            chatService.sendResponseMessage(replyToken, instagramService.getLinkAndPreview(pesan));
         } else if("/FACE-DETECT".equals(pesanSplit[0])){
             chatService.sendResponseMessage(replyToken, faceDetectService.responseMessage(source, "face-detect"));
         } else if("/STOP".equals(pesanSplit[0])){

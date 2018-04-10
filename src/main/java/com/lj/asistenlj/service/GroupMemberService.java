@@ -9,4 +9,5 @@ public interface GroupMemberService {
     GroupMember buildGroupMember(Source source);
     void saveGroupMemberToDatabase(GroupMember groupMember);
     List<GroupMember> findAllGroupMembersByGroupId(String groupId);
+    GroupMember findByMemberNameLike(String memberName);
 }

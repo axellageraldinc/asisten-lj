@@ -27,4 +27,13 @@ public class GroupMemberDataController {
         return groupMemberService.findAllGroupMembersByGroupId(groupId);
     }
 
+    @RequestMapping(
+            value = "/{memberName}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public GroupMember findByMemberNameLike(@PathVariable("memberName") String memberName){
+        return groupMemberService.findByMemberNameLike(memberName);
+    }
+
 }

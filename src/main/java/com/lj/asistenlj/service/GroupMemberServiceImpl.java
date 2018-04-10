@@ -54,4 +54,9 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     public List<GroupMember> findAllGroupMembersByGroupId(String groupId) {
         return groupMemberRepository.findAllByGroupId(groupId);
     }
+
+    @Override
+    public GroupMember findByMemberNameLike(String memberName) {
+        return groupMemberRepository.findByMemberNameLike(memberName);
+    }
 }
