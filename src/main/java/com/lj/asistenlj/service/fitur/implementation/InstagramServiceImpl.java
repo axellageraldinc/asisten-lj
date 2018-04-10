@@ -11,14 +11,11 @@ import me.postaddict.instagram.scraper.cookie.DefaultCookieJar;
 import me.postaddict.instagram.scraper.interceptor.ErrorInterceptor;
 import me.postaddict.instagram.scraper.model.Account;
 import me.postaddict.instagram.scraper.model.Media;
-import me.postaddict.instagram.scraper.model.MediaType;
-import me.postaddict.instagram.scraper.model.PageObject;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -70,13 +67,16 @@ public class InstagramServiceImpl implements InstagramService {
     private List<Message> getMessage(Media media) {
         switch (media.getMediaType()) {
             case GraphImage:
-                textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
+                textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " +
+                        INSTAGRAM_URL + "/p/" + media.getShortcode());
                 return createImageOrSidecarMessage(media);
             case GraphSidecar:
-                textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
+                textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " +
+                        INSTAGRAM_URL + "/p/" + media.getShortcode());
                 return createImageOrSidecarMessage(media);
             case GraphVideo:
-                TextMessage textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
+                textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " +
+                        INSTAGRAM_URL + "/p/" + media.getShortcode());
                 return createVideoMessage(media);
             default:
                 return null;
@@ -85,14 +85,16 @@ public class InstagramServiceImpl implements InstagramService {
 
 
     private List<Message> createImageOrSidecarMessage(Media media) {
-        ImageMessage imageMessage = new ImageMessage(media.getDisplayUrl(), media.getDisplayUrl());
+        ImageMessage imageMessage = new ImageMessage(media.getDisplayUrl(),
+                media.getDisplayUrl());
         messages.add(imageMessage);
         messages.add(textMessage);
         return messages;
     }
 
     private List<Message> createVideoMessage(Media media) {
-        VideoMessage videoMessage = new VideoMessage(media.getVideoUrl(), media.getDisplayUrl());
+        VideoMessage videoMessage = new VideoMessage(media.getVideoUrl(),
+                media.getDisplayUrl());
         messages.add(videoMessage);
         messages.add(textMessage);
         return messages;
