@@ -40,7 +40,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         if(groupMemberRepository.findByGroupIdAndMemberId(groupMember.getGroupId(), groupMember.getMemberId()) == null){
             groupMemberRepository.save(groupMember);
         } else{
-            LOGGER.info("Member " + groupMember.getMemberId() + " sudah ada");
+//            LOGGER.info("Member " + groupMember.getMemberId() + " sudah ada");
         }
 //        int isExists = groupMemberRepository.isGroupMemberExists(groupMember.getGroupId(), groupMember.getMemberId());
 //        if(isExists>0){

@@ -23,11 +23,17 @@ public class StickerEventHandler {
     private static final String PACKAGE_ID_STICKER_DAMAS_PIKIR = "3237943";
     private static final String STICKER_ID_STICKER_DAMAS_PIKIR = "35638478";
 
+    private static final String PACKAGE_ID_STICKER_HERA_GUE_LIATIN = "3200101";
+    private static final String STICKER_ID_STICKER_HERA_GUE_LIATIN = "34638417";
+
+    private static final String PACKAGE_ID_STICKER_DEDY_SINI_KALO_BERANI = "3237943";
+    private static final String STICKER_ID_STICKER_DEDY_SINI_KALO_BERANI = "35638482";
+
     @Autowired
     private ChatService chatService;
 
     @EventMapping
-    public void stickerEvent(MessageEvent<StickerMessageContent> messageEvent){
+    public void stickerEvent(MessageEvent<StickerMessageContent> messageEvent) {
         String packageId = messageEvent.getMessage().getPackageId();
         String stickerId = messageEvent.getMessage().getStickerId();
         LOGGER.info("Ada message sticker\n" +
@@ -36,17 +42,20 @@ public class StickerEventHandler {
         int randInt = new Random().nextInt(10);
         String replyToken = messageEvent.getReplyToken();
         TextMessage textMessage;
-        if(packageId.equals(PACKAGE_ID_STICKER_DEDY_KAMU_YAKIN) && stickerId.equals(STICKER_ID_STICKER_DEDY_KAMU_YAKIN)) {
-            if (randInt == 7) {
+        if (randInt == 7) {
+            if (packageId.equals(PACKAGE_ID_STICKER_DEDY_KAMU_YAKIN) && stickerId.equals(STICKER_ID_STICKER_DEDY_KAMU_YAKIN)) {
                 textMessage = new TextMessage("Iya yakinnnnnn");
                 chatService.sendResponseMessage(replyToken, textMessage);
-            }
-        } else if(packageId.equals(PACKAGE_ID_STICKER_DAMAS_PIKIR) && stickerId.equals(STICKER_ID_STICKER_DAMAS_PIKIR)){
-            if (randInt == 7) {
+            } else if (packageId.equals(PACKAGE_ID_STICKER_DAMAS_PIKIR) && stickerId.equals(STICKER_ID_STICKER_DAMAS_PIKIR)) {
                 textMessage = new TextMessage("Jangan lama-lama mikirnya");
+                chatService.sendResponseMessage(replyToken, textMessage);
+            } else if (packageId.equals(PACKAGE_ID_STICKER_HERA_GUE_LIATIN) && stickerId.equals(STICKER_ID_STICKER_HERA_GUE_LIATIN)) {
+                textMessage = new TextMessage("Jangan lupa kedip");
+                chatService.sendResponseMessage(replyToken, textMessage);
+            } else if (packageId.equals(PACKAGE_ID_STICKER_DEDY_SINI_KALO_BERANI) && stickerId.equals(STICKER_ID_STICKER_DEDY_SINI_KALO_BERANI)) {
+                textMessage = new TextMessage("Ampun bos");
                 chatService.sendResponseMessage(replyToken, textMessage);
             }
         }
     }
-
 }

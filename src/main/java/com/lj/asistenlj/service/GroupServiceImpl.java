@@ -35,7 +35,7 @@ public class GroupServiceImpl implements GroupService {
         if(groupRepository.findByGroupId(group.getGroupId()) == null){
             groupRepository.save(group);
         } else{
-            LOGGER.info("Group " + group.getGroupId() + " sudah ada");
+//            LOGGER.info("Group " + group.getGroupId() + " sudah ada");
         }
 //        int isExists = groupRepository.isGroupExists(group.getGroupId());
 //        if(isExists>0){

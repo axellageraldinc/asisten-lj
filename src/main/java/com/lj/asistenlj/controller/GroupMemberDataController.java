@@ -19,7 +19,7 @@ public class GroupMemberDataController {
     private GroupMemberService groupMemberService;
 
     @RequestMapping(
-            value = "/{groupId}",
+            value = "group/{groupId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
