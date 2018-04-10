@@ -57,13 +57,17 @@ public class InstagramServiceImpl implements InstagramService {
         Media media;
         try {
             Account account = instagram.getAccountByUsername(username);
-            int randInt = new Random().nextInt(account.getMedia().getCount());
+            int randInt = new Random().nextInt(getRandomInt(account.getMedia().getCount()));
             media = account.getMedia().getNodes().get(randInt);
         } catch (IOException e) {
             e.printStackTrace();
             media = null;
         }
         return media;
+    }
+
+    private int getRandomInt(int totalPostCount){
+        return (int) (Math.random() * ((totalPostCount-1)-0));
     }
 
     private List<Message> getMessage(Media media) {
