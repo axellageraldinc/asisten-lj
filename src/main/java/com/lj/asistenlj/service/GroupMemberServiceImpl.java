@@ -32,7 +32,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
     @Override
     public void saveGroupMemberToDatabase(GroupMember groupMember) {
-        int isExists = groupMemberRepository.isGroupMemberExists(groupMember.getMemberId());
+        int isExists = groupMemberRepository.isGroupMemberExists(groupMember.getGroupId());
         if(isExists>0){
 
         } else {
