@@ -1,14 +1,21 @@
 package com.lj.asistenlj.service.fitur.implementation;
 
 import com.linecorp.bot.model.message.TextMessage;
+import com.lj.asistenlj.helper.Feature;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.LoveService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoveServiceImpl implements LoveService {
 
+    @Autowired
+    private FeatureDataService featureDataService;
+
     @Override
     public TextMessage getLoveCalculatorResult(String pesan) {
+        featureDataService.saveFeatureData(Feature.LOVE);
         String[] pesanSplit = pesan.split(" ");
         TextMessage textMessage = null;
         if(pesanSplit.length<3){

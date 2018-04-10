@@ -5,7 +5,9 @@ import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.lj.asistenlj.helper.Feature;
 import com.lj.asistenlj.helper.Helper;
+import com.lj.asistenlj.service.FeatureDataService;
 import com.lj.asistenlj.service.fitur.LeaveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ public class LeaveServiceImpl implements LeaveService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LeaveServiceImpl.class);
 
+    @Autowired
+    private FeatureDataService featureDataService;
     @Autowired
     private Helper helper;
     @Autowired
@@ -48,9 +52,11 @@ public class LeaveServiceImpl implements LeaveService {
         List<Message> messageList = new ArrayList<>();
         TextMessage textMessage;
         if(getRandomInt()%2==0){
+            featureDataService.saveFeatureData(Feature.LEAVE_GAGAL);
             messageList.add(leaveMessageFail1);
             messageList.add(leaveMessageFail2);
         } else {
+            featureDataService.saveFeatureData(Feature.LEAVE_BERHASIL);
             textMessage = new TextMessage("Bye " + helper.getName(source.getUserId()) + " yang jelek");
             messageList.add(textMessage);
         }
