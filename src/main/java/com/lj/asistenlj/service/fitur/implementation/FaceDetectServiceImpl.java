@@ -91,6 +91,7 @@ public class FaceDetectServiceImpl implements FaceDetectService {
             }
         } catch (Exception ex){
             textMessage = new TextMessage("Coba lagi");
+            LOGGER.error("Error imageDetectStatus facedetectserviceImpl : " + ex.toString());
         }
         return textMessage;
     }

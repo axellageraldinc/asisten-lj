@@ -32,11 +32,16 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void saveGroupToDatabase(Group group) {
-        int isExists = groupRepository.isGroupExists(group.getGroupId());
-        if(isExists>0){
-
-        } else {
+        if(groupRepository.findByGroupId(group.getGroupId()) == null){
             groupRepository.save(group);
+        } else{
+            LOGGER.info("Group " + group.getGroupId() + " sudah ada");
         }
+//        int isExists = groupRepository.isGroupExists(group.getGroupId());
+//        if(isExists>0){
+//            LOGGER.info("Group " + group.getGroupId() + " sudah ada");
+//        } else {
+//            groupRepository.save(group);
+//        }
     }
 }

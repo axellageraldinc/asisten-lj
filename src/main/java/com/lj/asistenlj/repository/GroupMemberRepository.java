@@ -10,8 +10,10 @@ import java.util.List;
 
 @Repository
 public interface GroupMemberRepository extends JpaRepository<GroupMember, String> {
-    @Query("SELECT count(gm.memberId) from GroupMember gm where gm.memberId = :memberId")
-    int isGroupMemberExists(@Param("memberId") String memberId);
+//    @Query("SELECT count(gm.memberId) from GroupMember gm where gm.groupId= :groupId AND gm.memberId = :memberId")
+//    int isGroupMemberExists(String groupId, String memberId);
+
+    GroupMember findByGroupIdAndMemberId(String groupId, String memberId);
 
     List<GroupMember> findAllByGroupId(String groupId);
 }

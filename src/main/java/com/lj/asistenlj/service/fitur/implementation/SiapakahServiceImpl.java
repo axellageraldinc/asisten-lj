@@ -6,6 +6,8 @@ import com.lj.asistenlj.helper.Helper;
 import com.lj.asistenlj.model.GroupMember;
 import com.lj.asistenlj.repository.GroupMemberRepository;
 import com.lj.asistenlj.service.fitur.SiapakahService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class SiapakahServiceImpl implements SiapakahService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SiapakahServiceImpl.class);
 
     @Autowired
     private Helper helper;
@@ -26,6 +30,10 @@ public class SiapakahServiceImpl implements SiapakahService {
 
         String groupId = helper.getId(source);
         List<GroupMember> groupMemberList = getAllMemberOfGroup(groupId);
+//        for (GroupMember item:groupMemberList){
+//            LOGGER.info("Siapakah fitur get all member list\n" + item.getGroupId() + "\n" +
+//                    item.getMemberId());
+//        }
         int randInt = getRandomInt(groupMemberList);
 
         if(pesanSplit[1].equals("YANG")){
