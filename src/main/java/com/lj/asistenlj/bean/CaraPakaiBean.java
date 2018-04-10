@@ -34,13 +34,9 @@ public class CaraPakaiBean {
     // TODO : Uncomment the commented codes if the feature's already implemented
     @Bean
     public TextMessage caraPakaiInstagram(){
-//        return new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
-//                "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
-//                "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
-        return new TextMessage("Hallo!\n\n" +
-                "Maaf ya fitur stalk instagram masih dalam proses..\n" +
-                "Harap maklum ya kami juga gak dibayar untuk mengerjakan ini :(\n" +
-                "Cuma mau menghibur kalian aja..");
+        return new TextMessage("Cara Pakai LJ Ajaib v4\n\n" +
+                "Ketikkan command dengan format /stalk [spasi] [username instagram]\n" +
+                "Maka akan dibalas dengan foto yang dimiliki oleh akun instagram tersebut");
     }
     @Bean
     public TextMessage caraPakaiDosa(){

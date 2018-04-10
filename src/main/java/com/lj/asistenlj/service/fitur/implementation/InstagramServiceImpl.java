@@ -25,6 +25,8 @@ import java.util.Random;
 public class InstagramServiceImpl implements InstagramService {
 
     private static final String INSTAGRAM_URL = "https://www.instagram.com/";
+    private TextMessage textMessage = null;
+    private List<Message> messages = new ArrayList<>();
 
 
     @Override
@@ -66,33 +68,24 @@ public class InstagramServiceImpl implements InstagramService {
     }
 
     private List<Message> getMessage(Media media) {
-        List<Message> messages = null;
         switch (media.getMediaType()) {
             case GraphImage:
-                messages = createImageOrSidecarMessage(media);
-                break;
+                textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
+                return createImageOrSidecarMessage(media);
             case GraphSidecar:
-                messages = createImageOrSidecarMessage(media);
-                break;
+                textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
+                return createImageOrSidecarMessage(media);
             case GraphVideo:
-                messages = createVideoMessage(media);
-                break;
+                TextMessage textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
+                return createVideoMessage(media);
             default:
-                messages = null;
+                return null;
         }
-        return messages;
     }
 
 
     private List<Message> createImageOrSidecarMessage(Media media) {
         ImageMessage imageMessage = new ImageMessage(media.getDisplayUrl(), media.getDisplayUrl());
-        TextMessage textMessage = null;
-        if (media.getMediaType() == MediaType.GraphImage) {
-            textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
-        } else {
-            textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
-        }
-        List<Message> messages = new ArrayList<>();
         messages.add(imageMessage);
         messages.add(textMessage);
         return messages;
@@ -100,8 +93,6 @@ public class InstagramServiceImpl implements InstagramService {
 
     private List<Message> createVideoMessage(Media media) {
         VideoMessage videoMessage = new VideoMessage(media.getVideoUrl(), media.getDisplayUrl());
-        TextMessage textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " + INSTAGRAM_URL + "/p/" + media.getShortcode());
-        List<Message> messages = new ArrayList<>();
         messages.add(videoMessage);
         messages.add(textMessage);
         return messages;
