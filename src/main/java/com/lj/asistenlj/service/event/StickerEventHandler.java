@@ -19,7 +19,9 @@ public class StickerEventHandler {
 
     @EventMapping
     public void stickerEvent(MessageEvent<StickerMessageContent> messageEvent){
-        LOGGER.info("Ada message sticker");
+        LOGGER.info("Ada message sticker\n" +
+                "packageId : " + messageEvent.getMessage().getPackageId() + "\n" +
+                "stickerId : " + messageEvent.getMessage().getStickerId());
     }
 
 }
