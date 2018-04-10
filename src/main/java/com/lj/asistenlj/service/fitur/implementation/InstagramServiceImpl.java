@@ -13,15 +13,16 @@ import me.postaddict.instagram.scraper.model.Account;
 import me.postaddict.instagram.scraper.model.Media;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Service
 public class InstagramServiceImpl implements InstagramService {
 
-    private static final String INSTAGRAM_URL = "https://www.instagram.com/";
     private TextMessage textMessage = null;
     private List<Message> messages = new ArrayList<>();
 
@@ -68,15 +69,15 @@ public class InstagramServiceImpl implements InstagramService {
         switch (media.getMediaType()) {
             case GraphImage:
                 textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " +
-                        INSTAGRAM_URL + "/p/" + media.getShortcode());
+                        InstagramService.INSTAGRAM_URL + "/p/" + media.getShortcode());
                 return createImageOrSidecarMessage(media);
             case GraphSidecar:
                 textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " +
-                        INSTAGRAM_URL + "/p/" + media.getShortcode());
+                        InstagramService.INSTAGRAM_URL + "/p/" + media.getShortcode());
                 return createImageOrSidecarMessage(media);
             case GraphVideo:
                 textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " +
-                        INSTAGRAM_URL + "/p/" + media.getShortcode());
+                        InstagramService.INSTAGRAM_URL + "/p/" + media.getShortcode());
                 return createVideoMessage(media);
             default:
                 return null;
