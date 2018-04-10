@@ -23,6 +23,7 @@ import java.util.Random;
 @Service
 public class InstagramServiceImpl implements InstagramService {
 
+    private String INSTAGRAM_URL = "https://www.instagram.com/";
     private TextMessage textMessage = null;
     private List<Message> messages = new ArrayList<>();
 
@@ -60,27 +61,31 @@ public class InstagramServiceImpl implements InstagramService {
             media = account.getMedia().getNodes().get(randInt);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            media = null;
         }
         return media;
     }
 
     private List<Message> getMessage(Media media) {
-        switch (media.getMediaType()) {
-            case GraphImage:
-                textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " +
-                        InstagramService.INSTAGRAM_URL + "/p/" + media.getShortcode());
-                return createImageOrSidecarMessage(media);
-            case GraphSidecar:
-                textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " +
-                        InstagramService.INSTAGRAM_URL + "/p/" + media.getShortcode());
-                return createImageOrSidecarMessage(media);
-            case GraphVideo:
-                textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " +
-                        InstagramService.INSTAGRAM_URL + "/p/" + media.getShortcode());
-                return createVideoMessage(media);
-            default:
-                return null;
+        if (media != null) {
+            switch (media.getMediaType()) {
+                case GraphImage:
+                    textMessage = new TextMessage("Tipe: [GAMBAR]\nLink: " +
+                            INSTAGRAM_URL + "/p/" + media.getShortcode());
+                    return createImageOrSidecarMessage(media);
+                case GraphSidecar:
+                    textMessage = new TextMessage("Tipe: [CAROUSEL]\nLink: " +
+                            INSTAGRAM_URL + "/p/" + media.getShortcode());
+                    return createImageOrSidecarMessage(media);
+                case GraphVideo:
+                    textMessage = new TextMessage("Tipe: [VIDEO]\nLink: " +
+                            INSTAGRAM_URL + "/p/" + media.getShortcode());
+                    return createVideoMessage(media);
+                default:
+                    return createNotFoundMessage();
+            }
+        } else {
+            return createNotFoundMessage();
         }
     }
 
@@ -97,6 +102,12 @@ public class InstagramServiceImpl implements InstagramService {
         VideoMessage videoMessage = new VideoMessage(media.getVideoUrl(),
                 media.getDisplayUrl());
         messages.add(videoMessage);
+        messages.add(textMessage);
+        return messages;
+    }
+
+    private List<Message> createNotFoundMessage() {
+        textMessage = new TextMessage("Username tidak ditemukan atau private");
         messages.add(textMessage);
         return messages;
     }
