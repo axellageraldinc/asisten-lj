@@ -1,4 +1,4 @@
-package com.lj.asistenlj;
+package com.lj.asistenlj.controller;
 
 import com.lj.asistenlj.model.GroupMember;
 import com.lj.asistenlj.service.GroupMemberService;
