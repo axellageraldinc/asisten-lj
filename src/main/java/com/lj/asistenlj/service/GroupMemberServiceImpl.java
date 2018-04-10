@@ -32,11 +32,16 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
     @Override
     public void saveGroupMemberToDatabase(GroupMember groupMember) {
-        int isExists = groupMemberRepository.isGroupMemberExists(groupMember.getMemberId());
-        if(isExists>0){
-
-        } else {
+        if(groupMemberRepository.findByGroupIdAndMemberId(groupMember.getGroupId(), groupMember.getMemberId()) == null){
             groupMemberRepository.save(groupMember);
+        } else{
+            LOGGER.info("Member " + groupMember.getMemberId() + " sudah ada");
         }
+//        int isExists = groupMemberRepository.isGroupMemberExists(groupMember.getGroupId(), groupMember.getMemberId());
+//        if(isExists>0){
+//            LOGGER.info("Member " + groupMember.getMemberId() + " sudah ada");
+//        } else {
+//            groupMemberRepository.save(groupMember);
+//        }
     }
 }
