@@ -1,7 +1,6 @@
 package com.lj.asistenlj.service.event;
 
 import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.*;
 import com.linecorp.bot.model.event.message.*;
 import com.linecorp.bot.model.event.source.Source;
@@ -20,9 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @LineMessageHandler
 public class TextEventHandler {
@@ -63,6 +60,8 @@ public class TextEventHandler {
     private LoveService loveService;
     @Autowired
     private DosaService dosaService;
+    @Autowired
+    private CekOngkirService cekOngkirService;
     @Autowired
     private FaceDetectService faceDetectService;
     @Autowired
@@ -120,6 +119,8 @@ public class TextEventHandler {
             chatService.sendResponseMessage(replyToken, dimanakahService.getResult(source));
         } else if("KAPANKAH".equals(pesanSplit[0])) {
             chatService.sendResponseMessage(replyToken, kapankahService.getResult(source, pesan));
+        } else if("/ONGKIR".equals(pesanSplit[0])){
+            cekOngkirService.sendResult(replyToken, pesan);
         } else if("SAYA PERCAYA BAHWA SAYA ADALAH ORANG YANG JELEK".equals(pesan)){
             messageList = leaveService.getReplyMessages(source);
             chatService.sendResponseMessage(replyToken, messageList);
