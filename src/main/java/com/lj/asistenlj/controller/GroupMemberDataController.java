@@ -33,7 +33,7 @@ public class GroupMemberDataController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public GroupMember findByMemberNameLike(@PathVariable("memberName") String memberName){
-        return groupMemberService.findByMemberNameLike(memberName);
+        return groupMemberService.findByMemberNameContaining(memberName);
     }
 
 }
