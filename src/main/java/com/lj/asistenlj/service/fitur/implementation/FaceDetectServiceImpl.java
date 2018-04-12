@@ -224,52 +224,57 @@ public class FaceDetectServiceImpl implements FaceDetectService {
             } else if(jsonArraySize==0) {
                 textMessage = new TextMessage("Wajah tidak terdeteksi");
             } else{
-                JSONObject array_content = jsonArray.getJSONObject(0); //index ke-1 adalah face_attributes
-                JSONObject face_attributes = array_content.getJSONObject("attributes");
-                JSONObject gender = face_attributes.getJSONObject("gender");
-                String gender_value = gender.getString("value");
-                JSONObject age = face_attributes.getJSONObject("age");
-                int age_value = age.getInt("value");
-                JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
-                String ethnic_value = ethnic.getString("value");
-                JSONObject emotion = face_attributes.getJSONObject("emotion");
-                double sadness = emotion.getDouble("sadness");
-                double neutral = emotion.getDouble("neutral");
-                double disgust = emotion.getDouble("disgust");
-                double anger = emotion.getDouble("anger");
-                double surprise = emotion.getDouble("surprise");
-                double fear = emotion.getDouble("fear");
-                double happiness = emotion.getDouble("happiness");
-                Map<String, Double> emotionMap = new HashMap<>();
-                emotionMap.put("Kesedihan", sadness); emotionMap.put("Netral", neutral); emotionMap.put("Jijik", disgust);
-                emotionMap.put("Marah", anger); emotionMap.put("Terkejut", surprise); emotionMap.put("Takut", fear); emotionMap.put("Bahagia", happiness);
-                JSONObject beauty = face_attributes.getJSONObject("beauty");
-                double beauty_value=0;
-                if (gender_value.toUpperCase().equals("MALE"))
-                    beauty_value = beauty.getDouble("male_score");
-                else
-                    beauty_value = beauty.getDouble("female_score");
-                double largestEmotion=0;
-                String rautWajah=null;
-                for (Map.Entry<String, Double> entry:emotionMap.entrySet()
-                        ) {
-                    if(entry.getValue()>largestEmotion){
-                        largestEmotion = entry.getValue();
-                        rautWajah = entry.getKey();
+                int random = new Random().nextInt(10);
+                if(random==5){
+                    textMessage = new TextMessage("Ew mukanya jelek, males banget harus detect");
+                } else{
+                    JSONObject array_content = jsonArray.getJSONObject(0); //index ke-1 adalah face_attributes
+                    JSONObject face_attributes = array_content.getJSONObject("attributes");
+                    JSONObject gender = face_attributes.getJSONObject("gender");
+                    String gender_value = gender.getString("value");
+                    JSONObject age = face_attributes.getJSONObject("age");
+                    int age_value = age.getInt("value");
+                    JSONObject ethnic = face_attributes.getJSONObject("ethnicity");
+                    String ethnic_value = ethnic.getString("value");
+                    JSONObject emotion = face_attributes.getJSONObject("emotion");
+                    double sadness = emotion.getDouble("sadness");
+                    double neutral = emotion.getDouble("neutral");
+                    double disgust = emotion.getDouble("disgust");
+                    double anger = emotion.getDouble("anger");
+                    double surprise = emotion.getDouble("surprise");
+                    double fear = emotion.getDouble("fear");
+                    double happiness = emotion.getDouble("happiness");
+                    Map<String, Double> emotionMap = new HashMap<>();
+                    emotionMap.put("Kesedihan", sadness); emotionMap.put("Netral", neutral); emotionMap.put("Jijik", disgust);
+                    emotionMap.put("Marah", anger); emotionMap.put("Terkejut", surprise); emotionMap.put("Takut", fear); emotionMap.put("Bahagia", happiness);
+                    JSONObject beauty = face_attributes.getJSONObject("beauty");
+                    double beauty_value=0;
+                    if (gender_value.toUpperCase().equals("MALE"))
+                        beauty_value = beauty.getDouble("male_score");
+                    else
+                        beauty_value = beauty.getDouble("female_score");
+                    double largestEmotion=0;
+                    String rautWajah=null;
+                    for (Map.Entry<String, Double> entry:emotionMap.entrySet()
+                            ) {
+                        if(entry.getValue()>largestEmotion){
+                            largestEmotion = entry.getValue();
+                            rautWajah = entry.getKey();
+                        }
                     }
+                    String tampanCantik=null;
+                    if (gender_value.toUpperCase().equals("MALE"))
+                        tampanCantik = "ketampanan";
+                    else
+                        tampanCantik = "kecantikan";
+                    textMessage = new TextMessage(
+                            "Gender : " + gender_value + "\n" +
+                                    "Umur : " + age_value + " tahun\n" +
+                                    "Kebangsaan : " + ethnic_value + "\n" +
+                                    "Raut wajah yang paling terpancar : " + rautWajah + "\n" +
+                                    "Tingkat " + tampanCantik + " : " + String.format("%.2f", beauty_value) + "%"
+                    );
                 }
-                String tampanCantik=null;
-                if (gender_value.toUpperCase().equals("MALE"))
-                    tampanCantik = "ketampanan";
-                else
-                    tampanCantik = "kecantikan";
-                textMessage = new TextMessage(
-                        "Gender : " + gender_value + "\n" +
-                                "Umur : " + age_value + " tahun\n" +
-                                "Kebangsaan : " + ethnic_value + "\n" +
-                                "Raut wajah yang paling terpancar : " + rautWajah + "\n" +
-                                "Tingkat " + tampanCantik + " : " + String.format("%.2f", beauty_value) + "%"
-                );
             }
         } catch (Exception ex){
             LOGGER.error("Error face detect : " + ex.toString());
