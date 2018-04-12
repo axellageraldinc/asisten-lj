@@ -56,7 +56,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     }
 
     @Override
-    public GroupMember findByMemberNameLike(String memberName) {
-        return groupMemberRepository.findByMemberNameLike(memberName);
+    public GroupMember findByMemberNameContaining(String memberName) {
+        return groupMemberRepository.findByMemberNameContaining(memberName);
     }
 }
