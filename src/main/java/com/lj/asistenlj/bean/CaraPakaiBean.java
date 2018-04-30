@@ -9,7 +9,7 @@ public class CaraPakaiBean {
 
     @Bean
     public TextMessage caraPakaiSiapakah(){
-        return new TextMessage("Cara Pakai LJ Ajaib v1\n\n" +
+        return new TextMessage("Cara Pakai LJ Ajaib Siapakah\n\n" +
                 "Ketikkan command dengan format :\n" +
                 "Siapakah diantara [nama 1] dan [nama 2] yang ......\n" +
                 "Contoh : Siapakah diantara Dedy dan Kepok yang paling tampan?\n" +
@@ -19,7 +19,7 @@ public class CaraPakaiBean {
     }
     @Bean
     public TextMessage caraPakaiWajah(){
-        return new TextMessage("Cara Pakai LJ Ajaib v2\n\n" +
+        return new TextMessage("Cara Pakai LJ Ajaib Face Detection\n\n" +
                 "Ketikkan command /FACE-DETECT lalu tunggu sampai Asisten LJ membalas 'MULAI'.\n" +
                 "Setelah itu, kirimlah foto dengan 1 wajah didalamnya untuk dideteksi oleh Asisten LJ.\n\n" +
                 "Jika sudah selesai bermain-main, ketikkan command /STOP");
@@ -44,14 +44,14 @@ public class CaraPakaiBean {
     }
     @Bean
     public TextMessage caraPakaiDosa(){
-        return new TextMessage("Cara Pakai LJ Ajaib v5\n\n" +
+        return new TextMessage("Cara Pakai LJ Ajaib Kalkulator Dosa\n\n" +
                 "Ketikkan command dengan format /dosa [spasi] [nama orang]\n" +
                 "Contoh : /dosa saya\n" +
                 "*ingat, ini cuma bercandaan doang yaaaa");
     }
     @Bean
     public TextMessage caraPakaiKapankah(){
-        return new TextMessage("Cara Pakai LJ Ajaib v6\n\n" +
+        return new TextMessage("Cara Pakai LJ Ajaib Kapankah\n\n" +
                 "Ketikkan command dengan format : \n" +
                 "Kapankah [nama] .....\n" +
                 "Contoh : Kapankah dedy lulus?");
@@ -71,10 +71,39 @@ public class CaraPakaiBean {
     }
     @Bean
     public TextMessage caraPakaiDimanakah(){
-        return new TextMessage("Cara Pakai LJ Ajaib v7\n\n" +
+        return new TextMessage("Cara Pakai LJ Ajaib Dimanakah\n\n" +
                 "Ketikkan command dengan format : \n" +
                 "Dimanakah [nama] berada?\n" +
                 "Contoh : Dimanakah dio berada?");
+    }
+
+    @Bean
+    public TextMessage caraPakaiTambahTempatMakanDimanaYa(){
+        return new TextMessage("Cara pakai LJ Ajaib Makan Dimana Ya\n\n" +
+                "1. Menambah database tempat makan :\n" +
+                "   Ketikkan command dengan format : \n" +
+                "   /makan-baru [spasi] [nama tempat makan], [lokasi tempat makan]\n" +
+                "   Contoh : /makan-baru pizza hut, Jl. Jend. Sudirman\n" +
+                "   *NB : Harap perhatikan penggunaan command, harus sama seperti itu.\n" +
+                "         Jika berbeda, maka tempat makan akan gagal disimpan");
+    }
+
+    @Bean
+    public TextMessage caraPakaiLihatSemuaDatabaseMakanDimanaYa(){
+        return new TextMessage("Cara pakai LJ Ajaib Makan Dimana Ya\n\n" +
+                "2. Melihat semua daftar tempat makan yang tersimpan :\n" +
+                "   Ketikkan command dengan format : \n" +
+                "   /list-tempat-makan\n" +
+                "   Maka nanti akan keluar list tempat makan yang terdaftar di group/multichat tersebut");
+    }
+
+    @Bean
+    public TextMessage caraPakaiMakanDimanaYa(){
+        return new TextMessage("Cara pakai LJ Ajaib Makan Dimana Ya\n\n" +
+                "3. Meminta rekomendasi tempat makan dari Asisten LJ:\n" +
+                "   Ketikkan command dengan format : \n" +
+                "   makan dimana ya enaknya?\n" +
+                "   Maka Asisten LJ akan memberikan rekomendasi tempat makan berdasarkan database yang sudah disimpan");
     }
 
 }

@@ -37,6 +37,10 @@ public class HiburanBean {
                         new CarouselColumn(null, "LJ AJAIB v4", "LJ Ajaib Instagram", Arrays.asList(
                                 new PostbackAction("How to LJ Ajaib v4",
                                         "/CARA-PAKAI-INSTAGRAM")
+                        )),
+                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Makan Dimana Ya", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v5",
+                                        "/CARA-PAKAI-MAKAN-DIMANA-YA")
                         ))
                 ));
     }
@@ -45,16 +49,16 @@ public class HiburanBean {
     public CarouselTemplate carouselTemplateHiburan2(){
         return new CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn(null, "LJ AJAIB v5", "LJ Ajaib Dosa", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v5",
+                        new CarouselColumn(null, "LJ AJAIB v6", "LJ Ajaib Dosa", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v6",
                                         "/CARA-PAKAI-DOSA")
                         )),
-                        new CarouselColumn(null, "LJ AJAIB v6", "LJ Ajaib Kapankah", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v6",
+                        new CarouselColumn(null, "LJ AJAIB v7", "LJ Ajaib Kapankah", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib v7",
                                         "/CARA-PAKAI-KAPANKAH")
                         )),
-                        new CarouselColumn(null, "LJ Ajaib v7", "LJ Ajaib Dimanakah", Arrays.asList(
-                                new PostbackAction("How to LJ Ajaib v7",
+                        new CarouselColumn(null, "LJ Ajaib v8", "LJ Ajaib Dimanakah", Arrays.asList(
+                                new PostbackAction("How to LJ Ajaib 8",
                                         "/CARA-PAKAI-DIMANAKAH")
                         )),
                         new CarouselColumn(null, "LJ ISLAMI", "LJ ISLAMI", Arrays.asList(
