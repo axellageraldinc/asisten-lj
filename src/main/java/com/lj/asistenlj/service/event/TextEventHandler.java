@@ -1,7 +1,6 @@
 package com.lj.asistenlj.service.event;
 
 import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.*;
 import com.linecorp.bot.model.event.message.*;
 import com.linecorp.bot.model.event.source.Source;
@@ -20,9 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @LineMessageHandler
 public class TextEventHandler {
@@ -70,9 +67,17 @@ public class TextEventHandler {
     @Autowired
     private KapankahService kapankahService;
     @Autowired
+    private MakanDimanaYaService makanDimanaYaService;
+    @Autowired
     private LeaveService leaveService;
     @Autowired
     private TextMessage leaveMessageFail1;
+    @Autowired
+    private TextMessage caraPakaiTambahTempatMakanDimanaYa;
+    @Autowired
+    private TextMessage caraPakaiMakanDimanaYa;
+    @Autowired
+    private TextMessage caraPakaiLihatSemuaDatabaseMakanDimanaYa;
 
     @EventMapping
     public void textEvent(MessageEvent<TextMessageContent> messageEvent){
@@ -126,6 +131,18 @@ public class TextEventHandler {
             if(!messageList.contains(leaveMessageFail1)) {
                 leaveService.leave(source);
             }
+        } else if("/CARA-PAKAI-MAKAN-DIMANA-YA".equals(pesan)){
+            chatService.sendResponseMessage(replyToken, new ArrayList<Message>(){{
+                add(caraPakaiTambahTempatMakanDimanaYa);
+                add(caraPakaiLihatSemuaDatabaseMakanDimanaYa);
+                add(caraPakaiMakanDimanaYa);
+            }});
+        } else if("/MAKAN-BARU".equals(pesanSplit[0])){
+            chatService.sendResponseMessage(replyToken, makanDimanaYaService.saveTempatMakan(source, pesan));
+        } else if("/LIST-TEMPAT-MAKAN".equals(pesanSplit[0])){
+            chatService.sendResponseMessage(replyToken, makanDimanaYaService.getAllTempatMakan(source));
+        } else if("MAKAN DIMANA YA ENAKNYA?".equals(pesan)){
+            chatService.sendResponseMessage(replyToken, makanDimanaYaService.getResult(source));
         }
     }
 

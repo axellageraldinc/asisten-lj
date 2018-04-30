@@ -13,7 +13,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, String
 //    @Query("SELECT count(gm.memberId) from GroupMember gm where gm.groupId= :groupId AND gm.memberId = :memberId")
 //    int isGroupMemberExists(String groupId, String memberId);
 
-    GroupMember findByMemberNameLike(String memberName);
+    GroupMember findByMemberNameContaining(String memberName);
 
     GroupMember findByGroupIdAndMemberId(String groupId, String memberId);
 

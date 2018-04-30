@@ -1,11 +1,14 @@
 package com.lj.asistenlj.service.event;
 
 import com.linecorp.bot.model.event.PostbackEvent;
+import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import com.lj.asistenlj.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
 
 @LineMessageHandler
 public class PostbackEventHandler {
@@ -28,6 +31,12 @@ public class PostbackEventHandler {
     private TextMessage caraPakaiIslami;
     @Autowired
     private TextMessage caraPakaiDimanakah;
+    @Autowired
+    private TextMessage caraPakaiTambahTempatMakanDimanaYa;
+    @Autowired
+    private TextMessage caraPakaiMakanDimanaYa;
+    @Autowired
+    private TextMessage caraPakaiLihatSemuaDatabaseMakanDimanaYa;
 
     @EventMapping
     public void postbackEvent(PostbackEvent postbackEvent){
@@ -57,6 +66,13 @@ public class PostbackEventHandler {
                 break;
             case "/CARA-PAKAI-DIMANAKAH":
                 chatService.sendResponseMessage(replyToken, caraPakaiDimanakah);
+                break;
+            case "/CARA-PAKAI-MAKAN-DIMANA-YA":
+                chatService.sendResponseMessage(replyToken, new ArrayList<Message>(){{
+                    add(caraPakaiTambahTempatMakanDimanaYa);
+                    add(caraPakaiLihatSemuaDatabaseMakanDimanaYa);
+                    add(caraPakaiMakanDimanaYa);
+                }});
                 break;
         }
     }

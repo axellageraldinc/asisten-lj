@@ -11,4 +11,5 @@ public class Feature {
     public static final String LEAVE_BERHASIL="leave_berhasil";
     public static final String LEAVE_GAGAL="leave_gagal";
     public static final String STALK_INSTAGRAM="stalk";
+    public static final String MAKAN_DIMANA_YA="makan_dimana_ya";
 }
